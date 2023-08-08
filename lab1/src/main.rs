@@ -44,7 +44,7 @@ fn capitalize(s: &str) -> String{
             results += &c.to_string();
         }
     }
-
+    let x = 1;
     results
 }
 
