@@ -3,11 +3,9 @@ use std::fmt;
 use rand::{thread_rng, Rng};
 use std::sync::mpsc;
 
-// use neuron::Connection;
-// use neuron::Neuron;
-mod neuron;
+use crate::neuron::{Neuron, Connection};
 
-struct Network{
+pub struct Network{
     n_neurons : i32,
     n_input : i32,
     n_output : i32,

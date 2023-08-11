@@ -3,10 +3,8 @@ use std::fmt;
 use rand::{thread_rng, Rng};
 use std::sync::mpsc;
 
-
-
 #[derive(Debug)]
-struct Connection {
+pub struct Connection {
     id_input: i32,
     weight: f64
 }
@@ -22,7 +20,7 @@ impl Connection {
 }
 
 #[derive(Debug)]
-struct Neuron {
+pub struct Neuron {
     id: i32,
     v_threshold: f64,
     v_rest: f64,

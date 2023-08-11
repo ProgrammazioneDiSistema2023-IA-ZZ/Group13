@@ -3,14 +3,10 @@ use std::fmt;
 use rand::{thread_rng, Rng};
 use std::sync::mpsc;
 
-// use crate::network;
 mod network;
+mod neuron;
 
-// use neuron::Connection;
-// use neuron::Neuron;
-// mod neuron;
-
-
+use network::Network;
 
 fn main() {
     let network = Network::new( vec![3, 2, 2] );
