@@ -21,7 +21,7 @@ impl Network{
         let mut neurons = Vec::new();
 
         let mut vec_id_in_layers = Vec::new();
-        for i in vec_neurons{
+        for i in vec_neurons.clone(){
             let mut id_in_layer = Vec::new();
             for _ in 1..=i{
                 id_in_layer.push(id);
@@ -31,8 +31,8 @@ impl Network{
         }
 
         let n_neurons = id;
-        let n_input = vec_neurons[0].clone();
-        let n_output = vec_neurons[vec_neurons.len()-1].clone();
+        let n_input = (&vec_neurons)[0];
+        let n_output = (&vec_neurons)[vec_neurons.len()-1];
 
         /*************************************************************/
 
@@ -70,25 +70,33 @@ impl Network{
                 let mut weights_prec = Vec::new();
                 let mut weights_same = Vec::new();
 
-                // let mut receiver_prec = Vec::new();
-                // let mut receiver_same = Vec::new();
+                let mut receiver_prec = Vec::new();
+                let mut receiver_same = Vec::new();
+                let mut sender_post = Vec::new();
 
                 if layer == 0{
 
                 }else {
-                    for prec_neuron in vec_id_in_layers[layer-1].clone(){
+                    for prec_neuron  in vec_id_in_layers[layer-1].clone(){
                         weights_prec.push(Connection::new(prec_neuron, rng.gen::<f64>()));
-                        // receiver_prec.push(receiver[prec_neuron]);
+                        receiver_prec.push(receiver[prec_neuron]);
                     }
-
                 }
 
                 for same_layer_neuron in vec_id_in_layers[layer].clone(){
                     if id != same_layer_neuron{
                         weights_same.push(Connection::new(same_layer_neuron, rng.gen::<f64>()));
-                        // receiver_same.push(receiver[same_layer_neuron]);
+                        receiver_same.push(receiver[same_layer_neuron] );
                     }
                 }
+
+                if layer < vec_id_in_layers.len()-1{
+                    for post_neuron in vec_id_in_layers[layer + 1].clone(){
+                        sender_post.push( sender[post_neuron].clone() );
+                    }
+                }
+
+
 
                 neurons[layer].push(
                     Neuron::new(id,1.0,1.0,1.0,1.0,weights_same,weights_prec)

@@ -19,9 +19,7 @@
     <select>
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="BRANCH:origin/main" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </select>
   </component>
@@ -33,10 +31,12 @@
       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
+  <component name="CargoProjects">
+    <cargoProject FILE="$PROJECT_DIR$/lab1/Cargo.toml" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="a89491a6-8373-40e6-ac83-9ebad8917449" name="Default Changelist" comment="">
+    <list default="true" id="a89491a6-8373-40e6-ac83-9ebad8917449" name="Default Changelist" comment="prova 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab1/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/lab1/src/main.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,11 +69,36 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/SNN" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
+    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command" nameIsGenerated="true">
+      <option name="command" value="run" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$/lab1" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="emulateTerminal" value="false" />
+      <option name="backtrace" value="SHORT" />
+      <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+    <option name="version" value="2" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -84,7 +109,22 @@
       <option name="presentableId" value="Default" />
       <updated>1691337166379</updated>
       <workItem from="1691337168249" duration="529000" />
+      <workItem from="1691479720583" duration="783000" />
+      <workItem from="1691480529565" duration="994000" />
+      <workItem from="1691482970327" duration="18000" />
+      <workItem from="1691501219418" duration="702000" />
+      <workItem from="1691568251126" duration="606000" />
+      <workItem from="1691761059358" duration="228000" />
+      <workItem from="1691761297263" duration="134000" />
     </task>
+    <task id="LOCAL-00001" summary="prova 2">
+      <created>1691479883376</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1691479883376</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -95,41 +135,67 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/main" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="prova 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="prova 2" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="137" y="14" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1691480535811">
+      <screen x="0" y="0" width="1366" height="720" />
+    </state>
+    <state x="137" y="14" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.720@0.0.1366.720" timestamp="1691480535811" />
     <state x="92" y="92" width="1182" height="536" key="DiffContextDialog" timestamp="1691337698683">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="92" y="92" width="1182" height="536" key="DiffContextDialog/0.0.1366.720@0.0.1366.720" timestamp="1691337698683" />
+    <state x="651" y="163" key="FileChooserDialogImpl" timestamp="1691761431253">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="463" y="114" key="FileChooserDialogImpl/0.0.1366.720@0.0.1366.720" timestamp="1691482987702" />
+    <state x="651" y="163" key="FileChooserDialogImpl/0.0.1920.1032@0.0.1920.1032" timestamp="1691761431253" />
+    <state width="741" height="455" key="GridCell.Tab.0.bottom" timestamp="1691481534694">
+      <screen x="0" y="0" width="1366" height="720" />
+    </state>
+    <state width="741" height="455" key="GridCell.Tab.0.bottom/0.0.1366.720@0.0.1366.720" timestamp="1691481534694" />
+    <state width="741" height="455" key="GridCell.Tab.0.center" timestamp="1691481534694">
+      <screen x="0" y="0" width="1366" height="720" />
+    </state>
+    <state width="741" height="455" key="GridCell.Tab.0.center/0.0.1366.720@0.0.1366.720" timestamp="1691481534694" />
+    <state width="741" height="455" key="GridCell.Tab.0.left" timestamp="1691481534693">
+      <screen x="0" y="0" width="1366" height="720" />
+    </state>
+    <state width="741" height="455" key="GridCell.Tab.0.left/0.0.1366.720@0.0.1366.720" timestamp="1691481534693" />
+    <state width="741" height="455" key="GridCell.Tab.0.right" timestamp="1691481534694">
+      <screen x="0" y="0" width="1366" height="720" />
+    </state>
+    <state width="741" height="455" key="GridCell.Tab.0.right/0.0.1366.720@0.0.1366.720" timestamp="1691481534694" />
+    <state x="590" y="269" key="MultipleFileMergeDialog" timestamp="1691761083655">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="590" y="269" key="MultipleFileMergeDialog/0.0.1920.1032@0.0.1920.1032" timestamp="1691761083655" />
     <state x="510" y="0" key="RollbackChangesDialog" timestamp="1691479422132">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
     <state x="510" y="0" key="RollbackChangesDialog/0.0.1366.720@0.0.1366.720" timestamp="1691479422132" />
-    <state x="184" y="4" key="SettingsEditor" timestamp="1691479205940">
+    <state x="184" y="4" key="SettingsEditor" timestamp="1691481168264">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="184" y="4" key="SettingsEditor/0.0.1366.720@0.0.1366.720" timestamp="1691479205940" />
-    <state x="500" y="269" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1691479452688">
+    <state x="184" y="4" key="SettingsEditor/0.0.1366.720@0.0.1366.720" timestamp="1691481168264" />
+    <state x="275" y="88" key="Vcs.Push.Dialog.v2" timestamp="1691479929966">
       <screen x="0" y="0" width="1366" height="720" />
     </state>
-    <state x="500" y="269" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.720@0.0.1366.720" timestamp="1691479452688" />
+    <state x="275" y="88" key="Vcs.Push.Dialog.v2/0.0.1366.720@0.0.1366.720" timestamp="1691479929966" />
+    <state x="703" y="386" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1691761321142">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="500" y="269" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.720@0.0.1366.720" timestamp="1691568253504" />
+    <state x="703" y="386" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1032@0.0.1920.1032" timestamp="1691761321142" />
   </component>
 </project>
