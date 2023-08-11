@@ -3,7 +3,7 @@ use std::fmt;
 use rand::{thread_rng, Rng};
 use std::sync::mpsc;
 
-use crate::neuron::{Neuron, Connection};
+//use crate::layer::{Layer};
 
 pub struct Network{
     n_neurons : i32,

@@ -5,6 +5,7 @@ use std::sync::mpsc;
 
 mod network;
 mod neuron;
+mod layer;
 
 use network::Network;
 
