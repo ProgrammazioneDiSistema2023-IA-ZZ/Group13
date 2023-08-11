@@ -1,7 +1,4 @@
-use crate::neuron::{Neuron, Connection};
-use std::sync::mpsc;
-use std::sync::mpsc::Receiver;
-use std::sync::mpsc::Sender;
+use crate::neuron::{Neuron};
 use rand::{thread_rng, Rng};
 
 pub struct Layer{
@@ -45,16 +42,5 @@ impl Layer{
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

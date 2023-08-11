@@ -3,7 +3,7 @@ use std::fmt;
 use rand::{thread_rng, Rng};
 use std::sync::mpsc;
 
-#[derive(Debug)]
+//#[derive(Debug)]
 // pub struct Connection {
 //     id_input: i32,
 //     weight: f64

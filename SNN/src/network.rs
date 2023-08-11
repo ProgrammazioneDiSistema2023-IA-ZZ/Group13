@@ -1,45 +1,45 @@
 extern crate rand;
-use std::fmt;
+use std::{fmt, thread::JoinHandle, vec};
 use rand::{thread_rng, Rng};
 use std::sync::mpsc;
+use std::sync::mpsc::Receiver;
+use std::sync::mpsc::Sender;
+use std::thread;
 
-//use crate::layer::{Layer};
+use crate::layer::{Layer};
 
 pub struct Network{
-    n_neurons : i32,
-    n_input : i32,
-    n_output : i32,
-    neurons: Vec<Vec<Neuron>>,
-    //matrix: Vec<Vec<f64>> //la matrice é unica x tutti i neuroni, la colonna j rappresenta i pesi entranti nel neurone j
+    layers: Vec<Layer>,
+    threads: Vec<JoinHandle<()>>,
+    senders : Vec<Sender<Vec<i32>>>,
+    receivers : Vec<Receiver<Vec<i32>>>,
 }
 
 impl Network{
 
     pub fn new(vec_neurons:Vec<i32>) -> Self{ //vettore in lunghezza indica numero layer ed il singolo valore indica quanti neuroni a lvl
-        let mut rng = thread_rng();
-        let mut id = 0;
-        let mut neurons = Vec::new();
-
-        let mut vec_id_in_layers = Vec::new();
-        for i in vec_neurons.clone(){
-            let mut id_in_layer = Vec::new();
-            for _ in 1..=i{
-                id_in_layer.push(id);
-                id+=1;
-            }
-            vec_id_in_layers.push(id_in_layer);
-        }
-
-        let n_neurons = id;
+        let mut layers = Vec::<Layer>::new();
         let n_input = (&vec_neurons)[0];
         let n_output = (&vec_neurons)[vec_neurons.len()-1];
+        let mut senders = Vec::new();
+        let mut receivers = Vec::new();
+
+        //chiama la funzione in layer che genera i layer con i neuroni
+        for i in 0..vec_neurons.len() {
+            //chiamata funzione
+            if i == 0 {
+                layers.push(Layer::new(vec_neurons[i], -1));
+            } else {
+                layers.push(Layer::new(vec_neurons[i], vec_neurons[i-1]));
+            }
+        }
 
         /*************************************************************/
 
         let mut sender = Vec::new();
         let mut receiver = Vec::new();
-        for id in 0..n_neurons{
-            let (s, r) = mpsc::channel::<i32>();
+        for id in 0..vec_neurons.len() {
+            let (s, r) = mpsc::channel::<Vec<i32>>();
             sender.push(s);
             receiver.push(r);
         }
@@ -47,7 +47,7 @@ impl Network{
         let mut sender_input = Vec::new();
         let mut receiver_input = Vec::new();
         for id in 0..n_input{
-            let (s, r) = mpsc::channel::<i32>();
+            let (s, r) = mpsc::channel::<Vec<i32>>();
             sender_input.push(s);
             receiver_input.push(r);
         }
@@ -55,64 +55,32 @@ impl Network{
         let mut sender_output = Vec::new();
         let mut receiver_output = Vec::new();
         for id in 0..n_output{
-            let (s, r) = mpsc::channel::<i32>();
+            let (s, r) = mpsc::channel::<Vec<i32>>();
             sender_output.push(s);
             receiver_output.push(r);
         }
 
         /*************************************************************/
 
-        for layer  in 0..vec_id_in_layers.len(){
-            neurons.push(Vec::new());
-
-            for id in vec_id_in_layers[layer].clone() {
-
-                let mut weights_prec = Vec::new();
-                let mut weights_same = Vec::new();
-
-                let mut receiver_prec = Vec::new();
-                let mut receiver_same = Vec::new();
-                let mut sender_post = Vec::new();
-
-                if layer == 0{
-
-                }else {
-                    for prec_neuron  in vec_id_in_layers[layer-1].clone(){
-                        weights_prec.push(Connection::new(prec_neuron, rng.gen::<f64>()));
-                        receiver_prec.push(receiver[prec_neuron]);
-                    }
-                }
-
-                for same_layer_neuron in vec_id_in_layers[layer].clone(){
-                    if id != same_layer_neuron{
-                        weights_same.push(Connection::new(same_layer_neuron, rng.gen::<f64>()));
-                        receiver_same.push(receiver[same_layer_neuron] );
-                    }
-                }
-
-                if layer < vec_id_in_layers.len()-1{
-                    for post_neuron in vec_id_in_layers[layer + 1].clone(){
-                        sender_post.push( sender[post_neuron].clone() );
-                    }
-                }
-
-
-
-                neurons[layer].push(
-                    Neuron::new(id,1.0,1.0,1.0,1.0,weights_same,weights_prec)
-                );
-            }
+        // vettore di thread (1 per layer)
+        let mut threads = vec![];
+        for i in 0..vec_neurons.len() {
+            let handle = thread::spawn(move || {
+                //passi la funzione che deve gestire il calcolo per ogni layer e, di conseguenza, ogni neurone
+                println!("OTOTOTOTOTOTOO");
+            });
+            threads.push(handle);
         }
-
+        
         Network{
-            n_neurons,
-            n_input,
-            n_output,
-            neurons
+            layers,
+            threads,
+            senders,
+            receivers,
         }
     }
 
-    pub fn print_network(&self){
+    /*pub fn print_network(&self){
         println!("Network :");
         for layer in &self.neurons{
             println!("  Layer :");
@@ -120,7 +88,7 @@ impl Network{
                 println!("    {:?}", neuron);
             }
         }
-    }
+    }*/
 }
 
 

@@ -11,7 +11,7 @@ use network::Network;
 
 fn main() {
     let network = Network::new( vec![3, 2, 2] );
-    network.print_network();
+    //network.print_network();
 
 }
 
