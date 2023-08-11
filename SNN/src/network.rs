@@ -122,3 +122,50 @@ impl Network{
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+//
+// for layer{
+//
+//     new layer(n_neurons, n_neurons_pre )
+//
+// }
+//
+// for layer_index 0..n_layer-1 {
+//
+//     (sender, receiver) = new channel
+//
+//     layers[layer_index].addSender( sender )
+//     layers[layer_index+1].addReceiver( receiver )
+//
+// }
+//
+// for layer_index 0..n_layer-1 {
+//     for neuron in neurons[layer_index]
+//     (sender, receiver) = new channel
+//
+//     layers[layer_index].addSender( sender )
+//     layers[layer_index+1].addReceiver( receiver )
+//
+// }
+//
+//
+// new thread { move || fn(layer[i], sender, receiver)
+//
+//
+// }
+//
+//
+
+
+
+

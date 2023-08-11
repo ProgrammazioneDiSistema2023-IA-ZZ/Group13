@@ -30,11 +30,11 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a1e5f37-387d-4765-b1a7-d625a447373d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/layer.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="1a1e5f37-387d-4765-b1a7-d625a447373d" name="Default Changelist" comment="matteo2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layer.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/layer.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/network.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/network.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/neuron.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/neuron.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,8 +108,16 @@
       <updated>1691761432102</updated>
       <workItem from="1691761433168" duration="127000" />
       <workItem from="1691761569966" duration="4336000" />
-      <workItem from="1691768599102" duration="438000" />
+      <workItem from="1691768599102" duration="3451000" />
     </task>
+    <task id="LOCAL-00001" summary="matteo2">
+      <created>1691769064064</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1691769064064</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,6 +134,10 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="matteo2" />
+    <option name="LAST_COMMIT_MESSAGE" value="matteo2" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="170" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1691761484741">
@@ -152,10 +164,14 @@
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
     <state x="184" y="85" key="MergeDialog/0.0.1920.1032@0.0.1920.1032" timestamp="1691764889634" />
-    <state x="777" y="425" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1691764853102">
+    <state x="552" y="244" key="Vcs.Push.Dialog.v2" timestamp="1691769078261">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
-    <state x="777" y="425" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1032@0.0.1920.1032" timestamp="1691764853102" />
+    <state x="552" y="244" key="Vcs.Push.Dialog.v2/0.0.1920.1032@0.0.1920.1032" timestamp="1691769078261" />
+    <state x="777" y="425" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1691770147356">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="777" y="425" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1032@0.0.1920.1032" timestamp="1691770147356" />
     <state x="623" y="223" width="672" height="678" key="search.everywhere.popup" timestamp="1691761672559">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
