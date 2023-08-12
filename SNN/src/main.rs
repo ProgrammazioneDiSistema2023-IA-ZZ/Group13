@@ -10,8 +10,8 @@ mod layer;
 use network::Network;
 
 fn main() {
-    let network = Network::new( vec![3, 2, 2] );
-    //network.print_network();
+    let network = Network::new( vec![3, 2, 2] , 10);
+    network.print_network();
 
 }
 

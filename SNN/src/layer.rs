@@ -2,7 +2,7 @@ use crate::neuron::{Neuron};
 use rand::{thread_rng, Rng};
 
 pub struct Layer{
-    neurons : Vec<Neuron>,
+    pub neurons : Vec<Neuron>,
     input : Vec<i32>,
     output : Vec<i32>,
     output_prec : Vec<i32>,
@@ -42,5 +42,16 @@ impl Layer{
         }
 
     }
+
+    pub fn compute_output(&mut self, inputs_prec_layer : &Vec<i32>, inputs_same_layer : &Vec<i32>) -> Vec<i32>{
+        let mut output = Vec::new();
+        for mut n in self.neurons{
+            output.push(n.compute_output(&inputs_prec_layer, inputs_same_layer) );
+        }
+        output
+    }
+
+
+
 
 }
