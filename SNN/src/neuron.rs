@@ -20,9 +20,9 @@ use std::ops::Add;
 //     }
 // }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Neuron {
-    // id: i32,
+    id: i32,
     v_threshold: f64,
     v_rest: f64,
     v_mem: f64, //la struct dovrà essere mutabile cosicchè ogni volta v_mem cambia in base al t
@@ -33,11 +33,12 @@ pub struct Neuron {
 
 impl Neuron{
 
-    pub fn new( v_threshold:f64, v_rest:f64, v_mem:f64, v_reset:f64, connections_same_layer: Vec<f64>,connections_prec_layer: Vec<f64>) -> Self{
+    pub fn new( id : i32, v_threshold:f64, v_rest:f64, v_mem:f64, v_reset:f64, connections_same_layer: Vec<f64>,connections_prec_layer: Vec<f64>) -> Self{
+
         Neuron {
-            // id,
-            v_rest,
+            id,
             v_threshold,
+            v_rest,
             v_mem, //valore t0
             v_reset,
             connections_same_layer,
@@ -48,14 +49,19 @@ impl Neuron{
     pub fn compute_output(&mut self, inputs_prec_layer : &Vec<i32>, inputs_same_layer : &Vec<i32>) -> i32{ //sarà chiamata dalla rete grande
         self.v_mem = self.v_rest + (self.v_mem - self.v_rest)*f64::exp(-1.0/0.1);
 
+        let v_m = self.v_mem.clone();
+
         for i in 0..inputs_prec_layer.len(){
             self.v_mem += inputs_prec_layer[i] as f64 * self.connections_prec_layer[i];
+
         }
 
        for i in 0..inputs_same_layer.len(){
-            self.v_mem += inputs_same_layer[i] as f64 * self.connections_same_layer[i];
+           self.v_mem += inputs_same_layer[i] as f64 * self.connections_same_layer[i];
         }
 
+
+        // println!("id : {}, v_mem : {} -> {}", self.id, v_m, self.v_mem);
         if self.v_mem > self.v_threshold{
             self.v_mem = self.v_reset;
             return 1;
@@ -97,8 +103,13 @@ impl fmt::Display for Neuron {
         s2 = s2 + " ]";
 
 
-        write!(f, "Neuron :   v_rest : {}, v_threshold : {}, v_mem  : {}, v_reset : {}, connections_same_layer : {}, connections_prec_layer : {}",
-               self.v_rest, self.v_threshold, self.v_mem, self.v_reset, s1, s2)
+        write!(f, "Neuron : id : {}, v_rest : {}, v_threshold : {}, v_mem  : {}, v_reset : {}, connections_same_layer : {}, connections_prec_layer : {}",
+               self.id,
+               round_f64(self.v_rest),
+               round_f64(self.v_threshold),
+               round_f64(self.v_mem),
+               round_f64(self.v_reset),
+                s1, s2)
     }
 }
 
@@ -109,3 +120,4 @@ impl fmt::Display for Neuron {
 fn round_f64(n : f64) -> f64{
     (n * 100.0).round() / 100.0
 }
+
