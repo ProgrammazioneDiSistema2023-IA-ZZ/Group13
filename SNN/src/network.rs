@@ -89,7 +89,7 @@ impl Network{
 
                     let output= layer_copy.compute_output(&input_prec_layer,&input_same_layer);
 
-                    println!("thread {}, j : {}, input_same_layer : {:?}, input_prec_layer : {:?}, o : {:?}", layer, j, input_same_layer, input_prec_layer, output);
+                    println!("thread {}, time : {}, input_same_layer : {:?}, input_prec_layer : {:?}, output : {:?}", layer, j, input_same_layer, input_prec_layer, output);
                     input_same_layer = output.clone();
                     send.send(output).unwrap();
                 }

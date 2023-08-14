@@ -15,26 +15,27 @@ impl Layer{
         let mut rng = thread_rng();
         let mut neurons = Vec::new();
         let mut id = start_id;
+        let mult = 15.0;
 
         for _ in 0..n_neurons{
             let mut weights_same = Vec::new();
             for _ in 0..n_neurons-1{
-                weights_same.push(  rng.gen::<f64>() );
+                weights_same.push(  rng.gen::<f64>()*mult );
             }
 
             let mut weights_prec = Vec::new();
             if n_neurons_pre == -1{
                 for j in 0..n_neurons{
-                    weights_prec.push(   if j == id { rng.gen::<f64>() }else{ 0.0 });
+                    weights_prec.push(   if j == id { rng.gen::<f64>()*mult }else{ 0.0 });
                 }
             }
             else {
                 for _ in 0..n_neurons_pre{
-                    weights_prec.push( rng.gen::<f64>() );
+                    weights_prec.push( rng.gen::<f64>()*mult );
                 }
             }
 
-            neurons.push( Neuron::new(id,1.0,1.0,1.0,1.0,weights_same, weights_prec) );
+            neurons.push( Neuron::new(id,-52.0,-65.0,-65.0,-60.0,weights_same, weights_prec) );
             id = id + 1;
         }
 
