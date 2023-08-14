@@ -5,11 +5,48 @@ use std::thread;
 
 use crate::layer::Layer;
 
-pub enum ErrorFlag {
+#[derive(Debug, Clone)]
+pub enum ErrorComponent {
     NoErr,
     Threshold,
     VMem,
     Weights
+}
+
+#[derive(Debug, Clone)]
+pub enum Type {
+    None,
+    Stuck0,
+    Stuck1,
+    BitFlip
+}
+
+#[derive(Debug, Clone)]
+pub struct ConfErr {
+    id_neuron: i32,
+    id_layer: i32,
+    t_start: i32,
+    duration: i32,
+    counter_duration: i32,
+    n_bit: i32,
+    err_type: Type,
+    err_comp: ErrorComponent,
+}
+
+impl ConfErr{
+
+    pub fn new(id_neuron: i32, id_layer:i32, t_start:i32, duration:i32, counter_duration: i32, n_bit:i32, err_type: Type, err_comp: ErrorComponent) -> Self{
+        ConfErr{
+            id_neuron,
+            id_layer,
+            t_start,
+            duration,
+            counter_duration,
+            n_bit,
+            err_type,
+            err_comp
+        }
+    }
 }
 
 pub struct Network {
@@ -50,7 +87,7 @@ impl Network{
 
 /***********************************************************************************************/
 
-    pub fn create_thread(&mut self, inputs: Vec<Vec<i32>>, flag: i32) -> Vec<Vec<i32>> {
+    pub fn create_thread(&mut self, inputs: Vec<Vec<i32>>, errors: Vec<ConfErr>) -> Vec<Vec<i32>> {
 
         let length_input = inputs.len();
         let n_layers = self.vec_neurons.len();
@@ -85,6 +122,12 @@ impl Network{
 
             let n_neurons_in_layer = self.vec_neurons[layer];
             let mut layer_copy = self.layers[layer].clone();
+            let mut errors_layer = Vec::new();
+            for c in &errors{
+                if c.id_layer == layer as i32{
+                    errors_layer.push(*c.clone());
+                }
+            }
             // println!("copy {:?}", layer_copy);
 
             let handle = thread::spawn(move || {
@@ -94,7 +137,7 @@ impl Network{
 
                     // let output = vec![input_prec_layer[0]+input_same_layer[0];input_prec_layer.len()];
 
-                    let output= layer_copy.compute_output(&input_prec_layer,&input_same_layer);
+                    let output= layer_copy.compute_output(&input_prec_layer,&input_same_layer, errors_layer);
 
                     println!("thread {}, time : {}, input_same_layer : {:?}, input_prec_layer : {:?}, output : {:?}", layer, j, input_same_layer, input_prec_layer, output);
                     input_same_layer = output.clone();
@@ -116,20 +159,7 @@ impl Network{
         for t in threads {
             layers.push(t.join().unwrap() );
         }
-        self.layers = layers;
-        outputs
-    }
-
-/***********************************************************************************************/
-
-    pub fn start_simulation(&mut self, inputs : Vec<Vec<i32>>, flag: ErrorFlag) -> Vec<Vec<i32>> {
-        let outputs;
-        match flag {
-            ErrorFlag::NoErr => {outputs = self.create_thread(inputs, 0);},
-            ErrorFlag::Threshold => {outputs = self.create_thread(inputs, 1);},
-            ErrorFlag::VMem => {outputs = self.create_thread(inputs, 2);},
-            ErrorFlag::Weights => {outputs = self.create_thread(inputs, 3);}
-        }
+        //self.layers = layers;
         outputs
     }
 

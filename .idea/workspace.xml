@@ -41,8 +41,9 @@
     <cargoProject FILE="$PROJECT_DIR$/lab1/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a89491a6-8373-40e6-ac83-9ebad8917449" name="Default Changelist" comment="some fixes">
+    <list default="true" id="a89491a6-8373-40e6-ac83-9ebad8917449" name="Default Changelist" comment="first version for error">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SNN/src/layer.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/layer.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SNN/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/main.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SNN/src/network.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/network.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SNN/src/neuron.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/neuron.rs" afterDir="false" />
@@ -138,7 +139,7 @@
       <workItem from="1691761059358" duration="228000" />
       <workItem from="1691761297263" duration="134000" />
       <workItem from="1691769417768" duration="2188000" />
-      <workItem from="1691836879881" duration="15681000" />
+      <workItem from="1691836879881" duration="22227000" />
     </task>
     <task id="LOCAL-00001" summary="prova 2">
       <created>1691479883376</created>
@@ -161,7 +162,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692020399059</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="first version for error">
+      <created>1692024707281</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1692024707281</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,6 +189,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="prova 2" />
     <MESSAGE value="some fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="some fixes" />
+    <MESSAGE value="first version for error" />
+    <option name="LAST_COMMIT_MESSAGE" value="first version for error" />
   </component>
 </project>

@@ -1,5 +1,8 @@
 extern crate rand;
 use std::fmt;
+use crate::network::ConfErr;
+use crate::network::ErrorComponent;
+use crate::network::Type;
 
 //#[derive(Debug)]
 // pub struct Connection {
