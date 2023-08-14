@@ -1,13 +1,9 @@
 extern crate rand;
-use std::{fmt, thread::JoinHandle, vec};
-use rand::{thread_rng, Rng};
-use std::sync::{mpsc, Arc};
-use std::sync::mpsc::Receiver;
-use std::sync::mpsc::Sender;
+use std::vec;
+use std::sync::mpsc;
 use std::thread;
 
-use crate::layer::{Layer};
-use std::ops::Deref;
+use crate::layer::Layer;
 
 pub struct Network {
     layers: Vec<Layer>,
@@ -64,7 +60,7 @@ impl Network{
         /*************************************************************/
 
         for i in 0..length_input{
-            sender[0].send(inputs[i].clone());
+            sender[0].send(inputs[i].clone()).unwrap();
             println!("input {} : {:?}", i, inputs[i]);
         }
 
@@ -72,7 +68,7 @@ impl Network{
 
         let mut threads = Vec::new();
         for (layer, rec) in receiver.into_iter().enumerate() {
-            let mut send;
+            let send;
             if layer == n_layers - 1 { //ultimo layer
                 send = sender_output.clone();
             } else {
@@ -95,7 +91,7 @@ impl Network{
 
                     println!("thread {}, j : {}, input_same_layer : {:?}, input_prec_layer : {:?}, o : {:?}", layer, j, input_same_layer, input_prec_layer, output);
                     input_same_layer = output.clone();
-                    send.send(output);
+                    send.send(output).unwrap();
                 }
                 layer_copy
             });
@@ -129,10 +125,10 @@ impl Network{
         }
     }
 
-    pub fn print_a_neuron(&self){
+    /*pub fn print_a_neuron(&self){
         println!("n : {}", self.layers[0].clone_neuron());
 
-    }
+    }*/
 
     // pub fn thread_join(&self){
     //     let mut x = 0;

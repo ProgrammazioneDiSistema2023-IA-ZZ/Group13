@@ -1,8 +1,5 @@
 extern crate rand;
 use std::fmt;
-use rand::{thread_rng, Rng};
-use std::sync::mpsc;
-use std::ops::Add;
 
 //#[derive(Debug)]
 // pub struct Connection {
@@ -49,7 +46,7 @@ impl Neuron{
     pub fn compute_output(&mut self, inputs_prec_layer : &Vec<i32>, inputs_same_layer : &Vec<i32>) -> i32{ //sarà chiamata dalla rete grande
         self.v_mem = self.v_rest + (self.v_mem - self.v_rest)*f64::exp(-1.0/0.1);
 
-        let v_m = self.v_mem.clone();
+        let _v_m = self.v_mem.clone();
 
         for i in 0..inputs_prec_layer.len(){
             self.v_mem += inputs_prec_layer[i] as f64 * self.connections_prec_layer[i];

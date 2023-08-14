@@ -1,7 +1,4 @@
 extern crate rand;
-use std::fmt;
-use rand::{thread_rng, Rng};
-use std::sync::mpsc;
 
 mod network;
 mod neuron;
