@@ -5,6 +5,13 @@ use std::thread;
 
 use crate::layer::Layer;
 
+pub enum ErrorFlag {
+    NoErr,
+    Threshold,
+    VMem,
+    Weights
+}
+
 pub struct Network {
     layers: Vec<Layer>,
     vec_neurons : Vec<i32>
@@ -43,7 +50,7 @@ impl Network{
 
 /***********************************************************************************************/
 
-    pub fn create_thread(&mut self, inputs : Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+    pub fn create_thread(&mut self, inputs: Vec<Vec<i32>>, flag: i32) -> Vec<Vec<i32>> {
 
         let length_input = inputs.len();
         let n_layers = self.vec_neurons.len();
@@ -110,6 +117,19 @@ impl Network{
             layers.push(t.join().unwrap() );
         }
         self.layers = layers;
+        outputs
+    }
+
+/***********************************************************************************************/
+
+    pub fn start_simulation(&mut self, inputs : Vec<Vec<i32>>, flag: ErrorFlag) -> Vec<Vec<i32>> {
+        let outputs;
+        match flag {
+            ErrorFlag::NoErr => {outputs = self.create_thread(inputs, 0);},
+            ErrorFlag::Threshold => {outputs = self.create_thread(inputs, 1);},
+            ErrorFlag::VMem => {outputs = self.create_thread(inputs, 2);},
+            ErrorFlag::Weights => {outputs = self.create_thread(inputs, 3);}
+        }
         outputs
     }
 

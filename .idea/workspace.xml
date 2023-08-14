@@ -41,12 +41,11 @@
     <cargoProject FILE="$PROJECT_DIR$/lab1/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a89491a6-8373-40e6-ac83-9ebad8917449" name="Default Changelist" comment="prova 2">
+    <list default="true" id="a89491a6-8373-40e6-ac83-9ebad8917449" name="Default Changelist" comment="some fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SNN/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SNN/src/layer.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/layer.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SNN/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/main.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SNN/src/network.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/network.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SNN/src/neuron.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/neuron.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +83,7 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/ricca.LAPTOP-P9JKHG7N/rustlings",
+    "last_opened_file_path": "C:/Users/ricca.LAPTOP-P9JKHG7N/Desktop/PDS/lab1",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -139,7 +138,7 @@
       <workItem from="1691761059358" duration="228000" />
       <workItem from="1691761297263" duration="134000" />
       <workItem from="1691769417768" duration="2188000" />
-      <workItem from="1691836879881" duration="12912000" />
+      <workItem from="1691836879881" duration="15681000" />
     </task>
     <task id="LOCAL-00001" summary="prova 2">
       <created>1691479883376</created>
@@ -148,7 +147,21 @@
       <option name="project" value="LOCAL" />
       <updated>1691479883376</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="some fixes">
+      <created>1692020326880</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1692020326880</updated>
+    </task>
+    <task id="LOCAL-00003" summary="some fixes">
+      <created>1692020399059</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1692020399059</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,6 +180,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="prova 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="prova 2" />
+    <MESSAGE value="some fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="some fixes" />
   </component>
 </project>

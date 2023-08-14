@@ -65,6 +65,15 @@ impl Neuron{
         }
         0
     }
+
+    pub fn error_in_thresh(&mut self, flag: i32){
+        match flag {
+            1 => {
+
+            }
+            _ => {println!("Errore");}
+        }
+    }
 }
 
 impl fmt::Display for Neuron {
