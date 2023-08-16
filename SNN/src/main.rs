@@ -5,9 +5,9 @@ mod neuron;
 mod layer;
 
 use network::Network;
-use network::ConfErr;
-use crate::network::ErrorComponent;
-use crate::network::Type;
+use neuron::ConfErr;
+use crate::neuron::ErrorComponent;
+use crate::neuron::Type;
 
 
 fn main() {
@@ -20,16 +20,16 @@ fn main() {
     let mut inputs = Vec::new();
     inputs.push(vec![1;10]);
     inputs.push(vec![1;10]);
-    let mut outputs = network.create_thread(inputs.clone(), vec![]);
+    let mut outputs;// = network.create_thread(inputs.clone(), Type::None, 0);
 
-    for i in 0..outputs.len(){
-        println!("output {} : {:?}", i, outputs[i]);
-    }
+   // for i in 0..outputs.len(){
+        //println!("output {} : {:?}", i, outputs[i]);
+    //}
 
     println!("\n*********************************************\n");
 
     network.print_network();
 
-    let mut error = ConfErr::new(2,1,0,2,0,16,Type::Stuck0,ErrorComponent::Threshold);
-    outputs = network.create_thread(inputs, vec![error]);
+    //let mut error = ConfErr::new(2,1,0,2,0,16,Type::Stuck0,ErrorComponent::Threshold);
+    outputs = network.create_thread(inputs, Type::Stuck0, 20);
 }

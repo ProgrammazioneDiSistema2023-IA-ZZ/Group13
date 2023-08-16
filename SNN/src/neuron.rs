@@ -1,8 +1,5 @@
-extern crate rand;
+use rand::{thread_rng, Rng};
 use std::fmt;
-use crate::network::ConfErr;
-use crate::network::ErrorComponent;
-use crate::network::Type;
 
 //#[derive(Debug)]
 // pub struct Connection {
@@ -19,6 +16,48 @@ use crate::network::Type;
 //         }
 //     }
 // }
+
+#[derive(Debug, Clone, Copy)]
+pub enum ErrorComponent {
+    NoErr,
+    Threshold,
+    VMem,
+    Weights
+}
+
+#[derive(Debug, Clone, Copy)]
+pub enum Type {
+    None,
+    Stuck0,
+    Stuck1,
+    BitFlip
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct ConfErr {
+    id_neuron: i32,
+    t_start: i32,
+    duration: i32, //valutare se aggiungere t_end cosi da avere sempre vincolo dentro boundaries (generi da t_start+1 a input.len())
+    //counter_duration: i32,
+    n_bit: i32,
+    err_type: Type,
+    err_comp: ErrorComponent,
+}
+
+impl ConfErr{
+
+    pub fn new(id_neuron: i32, t_start:i32, duration:i32, /*counter_duration: i32,*/ n_bit:i32, err_type: Type, err_comp: ErrorComponent) -> Self{
+        ConfErr{
+            id_neuron,
+            t_start,
+            duration,
+            //counter_duration,
+            n_bit,
+            err_type,
+            err_comp
+        }
+    }
+}
 
 #[derive(Debug, Clone)]
 pub struct Neuron {
@@ -46,10 +85,16 @@ impl Neuron{
         }
     }
 
-    pub fn compute_output(&mut self, inputs_prec_layer : &Vec<i32>, inputs_same_layer : &Vec<i32>) -> i32{ //sarà chiamata dalla rete grande
+    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, errors_vec: Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande
+        for error in errors_vec{
+            if error.id_neuron == self.id && error.t_start <= time && error.t_start+error.duration > time {
+                println!("before error: {}",self.v_threshold);
+                self.create_error(error);
+                println!("after error: {}",self.v_threshold);
+            }
+        }
         self.v_mem = self.v_rest + (self.v_mem - self.v_rest)*f64::exp(-1.0/0.1);
-
-        let _v_m = self.v_mem.clone();
+        //let _v_m = self.v_mem.clone();
 
         for i in 0..inputs_prec_layer.len(){
             self.v_mem += inputs_prec_layer[i] as f64 * self.connections_prec_layer[i];
@@ -69,12 +114,40 @@ impl Neuron{
         0
     }
 
-    pub fn error_in_thresh(&mut self, flag: i32){
-        match flag {
-            1 => {
+    fn create_error(&mut self, error: ConfErr){
+        let mut number: f64 = 0.0;
+        let bit_position = error.n_bit; // Posizione del bit da modificare
 
-            }
-            _ => {println!("Errore");}
+        // Converte il numero in un intero e modifica il bit alla posizione desiderata
+        match error.err_comp {
+            ErrorComponent::Threshold => { number = self.v_threshold; },
+            ErrorComponent::VMem => { number = self.v_mem; },
+            _ => {println!("codione sempre prob")},
+        }
+        let mut bits: u64 = number.to_bits();
+        match error.err_type {
+            Type::Stuck0 => {
+                let mask = !(1 << bit_position);
+                bits &= mask;// stuck ad 0
+            },
+            Type::Stuck1 => {
+                let mask = 1 << bit_position;
+                bits &= mask;// stuck ad 1
+            },
+            Type::BitFlip => {
+                bits ^= 1 << bit_position; // Esegue un XOR per invertire il bit
+            },
+            _ => {println!("greve")}
+        }
+
+        // Converte nuovamente gli "bits di floating point" in un f64 modificato
+        number = f64::from_bits(bits);
+
+        println!("Modified number: {}", number);
+        match error.err_comp {
+            ErrorComponent::Threshold => { self.v_threshold = number; },
+            ErrorComponent::VMem => { self.v_mem = number; },
+            _ => {println!("codione sempre prob")},
         }
     }
 }

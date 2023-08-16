@@ -1,7 +1,7 @@
 use crate::neuron::Neuron;
-use crate::network::ConfErr;
-use crate::network::ErrorComponent;
-use crate::network::Type;
+use crate::neuron::ConfErr;
+use crate::neuron::ErrorComponent;
+use crate::neuron::Type;
 use rand::{thread_rng, Rng};
 
 #[derive(Debug, Clone)]
@@ -50,14 +50,23 @@ impl Layer{
 
     }
 
-    pub fn compute_output(&mut self, inputs_prec_layer : &Vec<i32>, inputs_same_layer : &Vec<i32>, errors: Vec<ConfErr>) -> Vec<i32>{
+    pub fn compute_output(&mut self, inputs_prec_layer : &Vec<i32>, inputs_same_layer : &Vec<i32>, type_err:Type, n_errors: i32, time: usize) -> Vec<i32>{
         let mut output = Vec::new();
+        let mut errors_vec = Vec::new();
         let mut i = 0;
+
+        for _ in 0..n_errors{
+            let mut rng = rand::thread_rng();
+            let id_n = rng.gen_range(self.range.0..=self.range.1);
+
+            errors_vec.push(ConfErr::new(id_n,0,2,54,type_err,ErrorComponent::Threshold));
+        }
+
         for n in &mut self.neurons{
             let mut inputs_same_layer_copy = inputs_same_layer.clone();
             inputs_same_layer_copy.remove(i);
             i=i+1;
-            output.push(n.compute_output(&inputs_prec_layer, &inputs_same_layer_copy) );
+            output.push(n.compute_output(&inputs_prec_layer, &inputs_same_layer_copy, errors_vec.clone(), time as i32));
         }
         output
     }
