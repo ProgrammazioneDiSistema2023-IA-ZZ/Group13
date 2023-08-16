@@ -125,7 +125,7 @@ impl Network{
         for t in threads {
             layers.push(t.join().unwrap() );
         }
-        //self.layers = layers; //se questo verrà fatto, vedere se funziona la chiamata a create_Err che ha self come riferimento in lettura mentre qui è mutabile
+        self.layers = layers; //se questo verrà fatto, vedere se funziona la chiamata a create_Err che ha self come riferimento in lettura mentre qui è mutabile
         outputs
     }
 

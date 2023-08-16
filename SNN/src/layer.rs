@@ -59,14 +59,15 @@ impl Layer{
             let mut rng = rand::thread_rng();
             let id_n = rng.gen_range(self.range.0..=self.range.1);
 
-            errors_vec.push(ConfErr::new(id_n,0,2,54,type_err,ErrorComponent::Threshold));
+            let mut err = ConfErr::new(id_n,0,2,54,type_err,ErrorComponent::Threshold,0.0);
+            errors_vec.push(err);
         }
 
         for n in &mut self.neurons{
             let mut inputs_same_layer_copy = inputs_same_layer.clone();
             inputs_same_layer_copy.remove(i);
             i=i+1;
-            output.push(n.compute_output(&inputs_prec_layer, &inputs_same_layer_copy, errors_vec.clone(), time as i32));
+            output.push(n.compute_output(&inputs_prec_layer, &inputs_same_layer_copy, &mut errors_vec, time as i32));
         }
         output
     }

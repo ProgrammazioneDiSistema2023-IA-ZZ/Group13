@@ -42,11 +42,12 @@ pub struct ConfErr {
     n_bit: i32,
     err_type: Type,
     err_comp: ErrorComponent,
+    pub v_start: f64
 }
 
 impl ConfErr{
 
-    pub fn new(id_neuron: i32, t_start:i32, duration:i32, /*counter_duration: i32,*/ n_bit:i32, err_type: Type, err_comp: ErrorComponent) -> Self{
+    pub fn new(id_neuron: i32, t_start:i32, duration:i32, /*counter_duration: i32,*/ n_bit:i32, err_type: Type, err_comp: ErrorComponent, v_start: f64) -> Self{
         ConfErr{
             id_neuron,
             t_start,
@@ -54,7 +55,8 @@ impl ConfErr{
             //counter_duration,
             n_bit,
             err_type,
-            err_comp
+            err_comp,
+            v_start
         }
     }
 }
@@ -85,12 +87,13 @@ impl Neuron{
         }
     }
 
-    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, errors_vec: Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande
+    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, errors_vec: &mut Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande
         for error in errors_vec{
-            if error.id_neuron == self.id && error.t_start <= time && error.t_start+error.duration > time {
-                println!("before error: {}",self.v_threshold);
-                self.create_error(error);
-                println!("after error: {}",self.v_threshold);
+            if error.id_neuron == self.id && error.t_start <= time && error.t_start+error.duration >= time {
+                println!("Neurone: {}, time: {}, before error: {}, v_start: {}",self.id, time, self.v_threshold, error.v_start);
+                self.create_error(error, time);
+                //println!("prova di error: {}", error.prova);
+                //println!("after error: {}",self.v_threshold);
             }
         }
         self.v_mem = self.v_rest + (self.v_mem - self.v_rest)*f64::exp(-1.0/0.1);
@@ -114,16 +117,27 @@ impl Neuron{
         0
     }
 
-    fn create_error(&mut self, error: ConfErr){
+    fn create_error(&mut self, error: &mut ConfErr, time: i32){
         let mut number: f64 = 0.0;
         let bit_position = error.n_bit; // Posizione del bit da modificare
-
+        let mut ending = false;
         // Converte il numero in un intero e modifica il bit alla posizione desiderata
         match error.err_comp {
-            ErrorComponent::Threshold => { number = self.v_threshold; },
-            ErrorComponent::VMem => { number = self.v_mem; },
+            ErrorComponent::Threshold => {
+                if error.t_start==time { error.v_start = self.v_threshold; }
+                if error.t_start+error.duration==time { self.v_threshold=error.v_start; ending=true; }
+                number = self.v_threshold; },
+            ErrorComponent::VMem => {
+                if error.t_start==time { error.v_start = self.v_mem; }
+                if error.t_start+error.duration==time { error.v_start = self.v_mem; ending=true; }
+                number = self.v_mem; },
             _ => {println!("codione sempre prob")},
         }
+
+        if ending==true{
+            return;
+        }
+
         let mut bits: u64 = number.to_bits();
         match error.err_type {
             Type::Stuck0 => {

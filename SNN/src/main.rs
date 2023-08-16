@@ -20,6 +20,7 @@ fn main() {
     let mut inputs = Vec::new();
     inputs.push(vec![1;10]);
     inputs.push(vec![1;10]);
+    inputs.push(vec![1;10]);
     let mut outputs;// = network.create_thread(inputs.clone(), Type::None, 0);
 
    // for i in 0..outputs.len(){
