@@ -3,12 +3,14 @@ use crate::rand::Rng;
 use std::vec;
 use std::sync::mpsc;
 use std::thread;
-use crate::neuron::Type;
+use crate::errors::Type;
 use crate::layer::Layer;
+use crate::errors::ConfErr;
 
 pub struct Network {
     layers: Vec<Layer>,
-    vec_neurons : Vec<i32>
+    vec_neurons : Vec<i32>,
+    n_layers : usize,
 }
 
 
@@ -29,35 +31,20 @@ impl Network{
             start_id = start_id + vec_neurons[i];
         }
 
-        /*************************************************************/
-
-
         Network {
             layers,
             vec_neurons,
-            // sender_input,
-            // receiver_output,
-
-
+            n_layers,
         }
     }
-/***********************************************************************************************/
 
-    fn create_errors(&self, n_err: i32) -> Vec<i32>{
-        let mut errors_vec = vec![0; self.layers.len()];
-        for _ in 0..n_err{
-            let mut rng = rand::thread_rng();
-            let x = rng.gen_range(0..self.layers.len());
-            errors_vec[x] += 1;
-        }
-        return errors_vec;
-    }
 /***********************************************************************************************/
 
     pub fn create_thread(&mut self, inputs: Vec<Vec<i32>>, type_err: Type, n_err: i32) -> Vec<Vec<i32>> {
 
-        let length_input = inputs.len();
-        let n_layers = self.vec_neurons.len();
+        let tot_time = inputs.len();
+        let n_layers = self.n_layers;
+
         let mut sender = Vec::new();
         let mut receiver = Vec::new();
         for _ in 0..n_layers{
@@ -65,18 +52,19 @@ impl Network{
             sender.push(s);
             receiver.push(r);
         }
-
-        let errors_vec = self.create_errors(n_err);
-        println!("vec_errors: {:?}", errors_vec);
-
         let (sender_output, receiver_output) = mpsc::channel::<Vec<i32>>();
-        // let sender_input = sender[0].clone();
-        /*************************************************************/
 
-        for i in 0..length_input{
+        for i in 0..tot_time{
             sender[0].send(inputs[i].clone()).unwrap();
             println!("input {} : {:?}", i, inputs[i]);
         }
+
+        let errors_vec = ConfErr::create_errors(self.n_layers,n_err);
+        println!("vec_errors: {:?}", errors_vec);
+
+        /*************************************************************/
+
+
 
         /*************************************************************/
 
@@ -97,16 +85,14 @@ impl Network{
             let handle = thread::spawn(move || {
                 let mut input_same_layer = vec![0; n_neurons_in_layer as usize];
 
-                let mut vec_err = layer_copy.create_vec_err(type_err, n_err_xlayer, length_input as i32);
+                let mut vec_err = layer_copy.create_vec_err(type_err, n_err_xlayer, tot_time as i32);
 
-                for j in 0..length_input {
+                for time in 0..tot_time {
                     let input_prec_layer = rec.recv().unwrap();
 
-                    // let output = vec![input_prec_layer[0]+input_same_layer[0];input_prec_layer.len()];
+                    let output = layer_copy.compute_output(&input_prec_layer, &input_same_layer, &mut vec_err, time);
 
-                    let output = layer_copy.compute_output(&input_prec_layer, &input_same_layer, &mut vec_err, j);
-
-                    println!("thread {}, time : {}, input_same_layer : {:?}, input_prec_layer : {:?}, output : {:?}", layer, j, input_same_layer, input_prec_layer, output);
+                    println!("thread {}, time : {}, input_same_layer : {:?}, input_prec_layer : {:?}, output : {:?}", layer, time, input_same_layer, input_prec_layer, output);
                     input_same_layer = output.clone();
                     send.send(output).unwrap();
                 }
@@ -119,14 +105,14 @@ impl Network{
         /*************************************************************/
 
         let mut outputs = Vec::new();
-        outputs.push(receiver_output.recv().unwrap());
-        outputs.push(receiver_output.recv().unwrap());
-
-        let mut layers = Vec::new();
-        for t in threads {
-            layers.push(t.join().unwrap() );
+        for time in 0..tot_time{
+            outputs.push(receiver_output.recv().unwrap());
         }
-        //self.layers = layers; //se questo verrà fatto, vedere se funziona la chiamata a create_Err che ha self come riferimento in lettura mentre qui è mutabile
+
+        for t in threads {
+            t.join().unwrap();
+        }
+
         outputs
     }
 
@@ -141,23 +127,6 @@ impl Network{
             }
         }
     }
-
-    /*pub fn print_a_neuron(&self){
-        println!("n : {}", self.layers[0].clone_neuron());
-
-    }*/
-
-    // pub fn thread_join(&self){
-    //     let mut x = 0;
-    //     for t in self.threads.iter() {
-    //         x = x + t.join().unwrap();
-    //     }
-    //
-    //     println!("join : {}", x);
-    // }
-
-
-
 
 }
 

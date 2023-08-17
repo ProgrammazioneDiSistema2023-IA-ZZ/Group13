@@ -1,6 +1,8 @@
 use rand::{thread_rng, Rng};
 use std::fmt;
-
+use crate::errors::ConfErr;
+use crate::errors::ErrorComponent;
+use crate::errors::Type;
 //#[derive(Debug)]
 // pub struct Connection {
 //     id_input: i32,
@@ -17,53 +19,6 @@ use std::fmt;
 //     }
 // }
 
-#[derive(Debug, Clone, Copy)]
-pub enum ErrorComponent {
-    Threshold,
-    VMem,
-    Weights
-}
-
-#[derive(Debug, Clone, Copy)]
-pub enum Type {
-    Stuck0,
-    Stuck1,
-    BitFlip
-}
-
-#[derive(Debug, Clone, Copy)]
-pub struct ConfErr {
-    pub id_neuron: i32,
-    t_start: i32,
-    duration: i32, //valutare se aggiungere t_end cosi da avere sempre vincolo dentro boundaries (generi da t_start+1 a input.len())
-    //counter_duration: i32,
-    n_bit: i32,
-    err_type: Type,
-    err_comp: ErrorComponent,
-    pub w_pos: (i32, usize),
-    pub original_parameter: f64
-}
-
-impl ConfErr{
-
-    pub fn new(id_neuron: i32, t_start: i32, duration: i32, /*counter_duration: i32,*/ n_bit: i32, err_type: Type, err_comp: ErrorComponent, original_parameter: f64, w_pos: (i32, usize)) -> Self{
-        ConfErr{
-            id_neuron,
-            t_start,
-            duration,
-            //counter_duration,
-            n_bit,
-            err_type,
-            err_comp,
-            original_parameter,
-            w_pos
-        }
-    }
-
-    pub fn is_overlapping(&self, t_start: i32, duration: i32) -> bool{
-        (self.t_start < t_start+duration && self.t_start > t_start) || (self.t_start+self.duration > t_start && self.t_start < t_start )
-    }
-}
 
 #[derive(Debug, Clone)]
 pub struct Neuron {
@@ -94,7 +49,7 @@ impl Neuron{
     pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, errors_vec: &mut Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande
         for error in errors_vec{
             if error.id_neuron == self.id && error.t_start <= time && error.t_start+error.duration >= time {
-                println!("Neurone: {}, time: {}, before error: {}, original_parameter: {}, tupla: {:?}",self.id, time, self.v_threshold, error.original_parameter, error.w_pos);
+                //println!("Neurone: {}, time: {}, before error: {}, original_parameter: {}, tupla: {:?}",self.id, time, self.v_threshold, error.original_parameter, error.w_pos);
                 self.create_error(error, time);
                 //println!("prova di salvataggio original: {}", error.original_parameter);
                 //println!("after error: {}",self.v_threshold);
@@ -148,7 +103,7 @@ impl Neuron{
                     }else {//same
                         len = self.connections_same_layer.len();
                         index = rng.gen_range(0..len) as usize;
-                        error.original_parameter = self.connections_prec_layer[index];
+                        error.original_parameter = self.connections_same_layer[index];
                     }
 
                     error.w_pos = (vec, index);
@@ -191,10 +146,10 @@ impl Neuron{
         // Converte nuovamente gli "bits di floating point" in un f64 modificato
         number = f64::from_bits(bits);
 
-        println!("Modified number: {}", number);
+
         match error.err_comp {
-            ErrorComponent::Threshold => { self.v_threshold = number; },
-            ErrorComponent::VMem => { self.v_mem = number; },
+            ErrorComponent::Threshold => { /*println!("threshold {}, Modified number: {}", self.v_threshold, number);*/ self.v_threshold = number;  },
+            ErrorComponent::VMem => { /*println!("v_mem {}, Modified number: {}", self.v_mem, number);*/ self.v_mem = number; },
             ErrorComponent::Weights => {
                 if error.w_pos.0==0 {//prec
                     self.connections_prec_layer[error.w_pos.1] = number;

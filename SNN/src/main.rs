@@ -4,9 +4,10 @@ use crate::rand::Rng;
 mod network;
 mod neuron;
 mod layer;
+mod errors;
 
 use network::Network;
-use crate::neuron::Type;
+use errors::Type;
 
 pub fn gen_inputs( n_input: usize)-> Vec<i32>{
     let mut rnd = rand::thread_rng();
@@ -32,16 +33,19 @@ fn main() {
     inputs.push(gen_inputs(10));
     inputs.push(gen_inputs(10));
 
-    let _outputs;// = network.create_thread(inputs.clone(), Type::None, 0);
+    // let _outputs;// = network.create_thread(inputs.clone(), Type::None, 0);
 
    // for i in 0..outputs.len(){
-        //println!("output {} : {:?}", i, outputs[i]);
-    //}
+   //      println!("output {} : {:?}", i, outputs[i]);
+   //  }
 
-    println!("\n*********************************************\n");
+    // println!("\n*********************************************\n");
 
-    network.print_network();
+    // network.print_network();
 
     //let mut error = ConfErr::new(2,1,0,2,0,16,Type::Stuck0,ErrorComponent::Threshold);
-    _outputs = network.create_thread(inputs, Type::Stuck1, 40);
+    let outputs = network.create_thread(inputs, Type::Stuck1, 40);
+    for i in 0..outputs.len(){
+        println!("output {} : {:?}", i, outputs[i]);
+    }
 }

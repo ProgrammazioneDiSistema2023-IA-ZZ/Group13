@@ -1,7 +1,7 @@
 use crate::neuron::Neuron;
-use crate::neuron::ConfErr;
-use crate::neuron::ErrorComponent;
-use crate::neuron::Type;
+use crate::errors::ConfErr;
+use crate::errors::ErrorComponent;
+use crate::errors::Type;
 use rand::{thread_rng, Rng};
 
 #[derive(Debug, Clone)]
