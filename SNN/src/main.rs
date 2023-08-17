@@ -21,7 +21,6 @@ pub fn gen_inputs( n_input: usize)-> Vec<i32>{
 fn main() {
     let mut network = Network::new( vec![10, 7, 5, 6, 10, 4, 8, 5]);
     network.print_network();
-    // network.print_a_neuron();
 
     println!("\n*********************************************\n");
 
@@ -33,7 +32,7 @@ fn main() {
     inputs.push(gen_inputs(10));
     inputs.push(gen_inputs(10));
 
-    // let _outputs;// = network.create_thread(inputs.clone(), Type::None, 0);
+    // let _outputs = network.create_thread(inputs.clone(), Type::None, 0);
 
    // for i in 0..outputs.len(){
    //      println!("output {} : {:?}", i, outputs[i]);

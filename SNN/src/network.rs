@@ -3,37 +3,37 @@ use crate::rand::Rng;
 use std::vec;
 use std::sync::mpsc;
 use std::thread;
-use crate::errors::Type;
+use crate::errors::{ConfErr,ErrorComponent,Type};
 use crate::layer::Layer;
-use crate::errors::ConfErr;
+
 
 pub struct Network {
     layers: Vec<Layer>,
-    vec_neurons : Vec<i32>,
+    network_conf : Vec<i32>,
     n_layers : usize,
 }
 
 
 impl Network{
 
-    pub fn new(vec_neurons: Vec<i32>) -> Self { //vettore in lunghezza indica numero layer ed il singolo valore indica quanti neuroni a lvl
+    pub fn new(network_conf: Vec<i32>) -> Self { //vettore in lunghezza indica numero layer ed il singolo valore indica quanti neuroni a lvl
         let mut layers = Vec::<Layer>::new();
-        let n_layers = vec_neurons.len();
+        let n_layers = network_conf.len();
         let mut start_id = 0;
 
         //chiama la funzione in layer che genera i layer con i neuroni
-        for i in 0..n_layers {
-            if i == 0 {
-                layers.push(Layer::new(start_id,vec_neurons[i], -1));
+        for time in 0..n_layers {
+            if time == 0 {
+                layers.push(Layer::new(start_id,network_conf[time], -1));
             } else {
-                layers.push(Layer::new(start_id,vec_neurons[i], vec_neurons[i - 1]));
+                layers.push(Layer::new(start_id,network_conf[time], network_conf[time - 1]));
             }
-            start_id = start_id + vec_neurons[i];
+            start_id = start_id + network_conf[time];
         }
 
         Network {
             layers,
-            vec_neurons,
+            network_conf,
             n_layers,
         }
     }
@@ -59,11 +59,8 @@ impl Network{
             println!("input {} : {:?}", i, inputs[i]);
         }
 
-        let errors_vec = ConfErr::create_errors(self.n_layers,n_err);
-        println!("vec_errors: {:?}", errors_vec);
-
-        /*************************************************************/
-
+        let network_errors = ConfErr::network_create_errors(self.n_layers,n_err);
+        println!("vec_errors: {:?}", network_errors);
 
 
         /*************************************************************/
@@ -77,20 +74,20 @@ impl Network{
                 send = sender[layer + 1].clone();
             }
 
-            let n_neurons_in_layer = self.vec_neurons[layer];
+            let n_neurons_in_layer = self.network_conf[layer];
             let mut layer_copy = self.layers[layer].clone();
-            let n_err_xlayer = errors_vec[layer];
+            let n_err_xlayer = network_errors[layer];
             // println!("copy {:?}", layer_copy);
 
             let handle = thread::spawn(move || {
                 let mut input_same_layer = vec![0; n_neurons_in_layer as usize];
 
-                let mut vec_err = layer_copy.create_vec_err(type_err, n_err_xlayer, tot_time as i32);
+                let mut layer_errors = ConfErr::layer_create_error(layer_copy.range, type_err, n_err_xlayer, tot_time as i32);
 
                 for time in 0..tot_time {
                     let input_prec_layer = rec.recv().unwrap();
 
-                    let output = layer_copy.compute_output(&input_prec_layer, &input_same_layer, &mut vec_err, time);
+                    let output = layer_copy.compute_output(&input_prec_layer, &input_same_layer, &mut layer_errors, time);
 
                     println!("thread {}, time : {}, input_same_layer : {:?}, input_prec_layer : {:?}, output : {:?}", layer, time, input_same_layer, input_prec_layer, output);
                     input_same_layer = output.clone();

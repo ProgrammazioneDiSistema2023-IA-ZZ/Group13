@@ -1,8 +1,7 @@
 use rand::{thread_rng, Rng};
 use std::fmt;
-use crate::errors::ConfErr;
-use crate::errors::ErrorComponent;
-use crate::errors::Type;
+use crate::errors::{ConfErr,ErrorComponent,Type};
+
 //#[derive(Debug)]
 // pub struct Connection {
 //     id_input: i32,
@@ -46,11 +45,13 @@ impl Neuron{
         }
     }
 
-    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, errors_vec: &mut Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande
-        for error in errors_vec{
-            if error.id_neuron == self.id && error.t_start <= time && error.t_start+error.duration >= time {
+
+
+    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, layer_errors: &mut Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande
+        for neuron_error in layer_errors{
+            if neuron_error.id_neuron == self.id && neuron_error.t_start <= time && neuron_error.t_start+neuron_error.duration >= time {
                 //println!("Neurone: {}, time: {}, before error: {}, original_parameter: {}, tupla: {:?}",self.id, time, self.v_threshold, error.original_parameter, error.w_pos);
-                self.create_error(error, time);
+                self.neuron_create_error(neuron_error, time);
                 //println!("prova di salvataggio original: {}", error.original_parameter);
                 //println!("after error: {}",self.v_threshold);
             }
@@ -67,7 +68,6 @@ impl Neuron{
            self.v_mem += inputs_same_layer[i] as f64 * self.connections_same_layer[i];
         }
 
-
         // println!("id : {}, v_mem : {} -> {}", self.id, v_m, self.v_mem);
         if self.v_mem > self.v_threshold{
             self.v_mem = self.v_reset;
@@ -76,7 +76,9 @@ impl Neuron{
         0
     }
 
-    fn create_error(&mut self, error: &mut ConfErr, time: i32){
+
+
+    fn neuron_create_error(&mut self, error: &mut ConfErr, time: i32){
         let mut rng = thread_rng();
         let mut number;
         let bit_position = error.n_bit; // Posizione del bit da modificare
@@ -161,15 +163,10 @@ impl Neuron{
     }
 }
 
+
+
 impl fmt::Display for Neuron {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-
-        // let mut owned_string: String = "hello ".to_owned();
-        // let borrowed_string: &str = "world";
-        //
-        // owned_string.push_str(borrowed_string);
-        // println!("{}", owned_string);
-
 
         let mut s1 = "[ ".to_owned();
         for i in &self.connections_same_layer{
@@ -193,7 +190,6 @@ impl fmt::Display for Neuron {
         s2.pop();
         s2 = s2 + " ]";
 
-
         write!(f, "Neuron : id : {}, v_rest : {}, v_threshold : {}, v_mem  : {}, v_reset : {}, connections_same_layer : {}, connections_prec_layer : {}",
                self.id,
                round_f64(self.v_rest),
@@ -204,11 +200,7 @@ impl fmt::Display for Neuron {
     }
 }
 
-
-
-
-
-fn round_f64(n : f64) -> f64{
+pub fn round_f64(n : f64) -> f64{
     (n * 100.0).round() / 100.0
 }
 
