@@ -11,7 +11,7 @@ use crate::neuron::Type;
 pub fn gen_inputs( n_input: usize)-> Vec<i32>{
     let mut rnd = rand::thread_rng();
     let mut input = Vec::new();
-    for i  in 0..n_input{
+    for _ in 0..n_input{
         input.push((rnd.gen_range(0..10) as i32)%2);
     }
     input
@@ -30,7 +30,7 @@ fn main() {
     inputs.push(gen_inputs(10));
     inputs.push(gen_inputs(10));
     inputs.push(gen_inputs(10));
-    inputs.push(gen_inputs(10));first
+    inputs.push(gen_inputs(10));
 
     let _outputs;// = network.create_thread(inputs.clone(), Type::None, 0);
 
