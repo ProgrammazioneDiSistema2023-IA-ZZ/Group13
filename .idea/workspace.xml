@@ -41,12 +41,11 @@
     <cargoProject FILE="$PROJECT_DIR$/lab1/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a89491a6-8373-40e6-ac83-9ebad8917449" name="Default Changelist" comment="add error (not weights)">
+    <list default="true" id="a89491a6-8373-40e6-ac83-9ebad8917449" name="Default Changelist" comment="try to do refreshing v">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SNN/src/layer.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/layer.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SNN/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/main.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SNN/src/network.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/network.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SNN/src/neuron.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/neuron.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +83,7 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/ricca.LAPTOP-P9JKHG7N/Desktop/PDS/lab1",
+    "last_opened_file_path": "C:/Users/ricca.LAPTOP-P9JKHG7N/Desktop/PDS/Group13",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -139,7 +138,8 @@
       <workItem from="1691761059358" duration="228000" />
       <workItem from="1691761297263" duration="134000" />
       <workItem from="1691769417768" duration="2188000" />
-      <workItem from="1691836879881" duration="35606000" />
+      <workItem from="1691836879881" duration="35822000" />
+      <workItem from="1692277902506" duration="1732000" />
     </task>
     <task id="LOCAL-00001" summary="prova 2">
       <created>1691479883376</created>
@@ -183,7 +183,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692199924715</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="try to do refreshing v">
+      <created>1692205791132</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1692205791132</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,6 +213,7 @@
     <MESSAGE value="first version for error" />
     <MESSAGE value="actual with error" />
     <MESSAGE value="add error (not weights)" />
-    <option name="LAST_COMMIT_MESSAGE" value="add error (not weights)" />
+    <MESSAGE value="try to do refreshing v" />
+    <option name="LAST_COMMIT_MESSAGE" value="try to do refreshing v" />
   </component>
 </project>

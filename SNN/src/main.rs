@@ -32,5 +32,5 @@ fn main() {
     network.print_network();
 
     //let mut error = ConfErr::new(2,1,0,2,0,16,Type::Stuck0,ErrorComponent::Threshold);
-    outputs = network.create_thread(inputs, Type::Stuck0, 20);
+    outputs = network.create_thread(inputs, Type::Stuck0, 1);
 }

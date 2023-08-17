@@ -50,28 +50,31 @@ impl Layer{
 
     }
 
-    pub fn compute_output(&mut self, inputs_prec_layer : &Vec<i32>, inputs_same_layer : &Vec<i32>, type_err:Type, n_errors: i32, time: usize) -> Vec<i32>{
+    pub fn compute_output(&mut self, inputs_prec_layer : &Vec<i32>, inputs_same_layer : &Vec<i32>, errors_vec: &mut Vec<ConfErr>, time: usize) -> Vec<i32>{
         let mut output = Vec::new();
-        let mut errors_vec = Vec::new();
         let mut i = 0;
-
-        for _ in 0..n_errors{
-            let mut rng = rand::thread_rng();
-            let id_n = rng.gen_range(self.range.0..=self.range.1);
-
-            let mut err = ConfErr::new(id_n,0,2,54,type_err,ErrorComponent::Threshold,0.0);
-            errors_vec.push(err);
-        }
 
         for n in &mut self.neurons{
             let mut inputs_same_layer_copy = inputs_same_layer.clone();
             inputs_same_layer_copy.remove(i);
             i=i+1;
-            output.push(n.compute_output(&inputs_prec_layer, &inputs_same_layer_copy, &mut errors_vec, time as i32));
+            output.push(n.compute_output(&inputs_prec_layer, &inputs_same_layer_copy, errors_vec, time as i32));
         }
         output
     }
 
+    pub fn create_vec_err(&self, type_err:Type, n_errors: i32) -> Vec<ConfErr>{
+        let mut errors_vec = Vec::new();
+        for _ in 0..n_errors{
+            let mut rng = rand::thread_rng();
+            let id_n = rng.gen_range(self.range.0..=self.range.1);
+
+            let mut err = ConfErr::new(id_n,0,1,54,type_err,ErrorComponent::Threshold,0.0);
+            errors_vec.push(err);
+        }
+        println!("creati errori: {:?}",errors_vec);
+        errors_vec
+    }
     /*pub fn clone_neuron(&self)-> Neuron{
         self.neurons[0].clone()
     }*/

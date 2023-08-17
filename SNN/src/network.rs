@@ -98,12 +98,15 @@ impl Network{
 
             let handle = thread::spawn(move || {
                 let mut input_same_layer = vec![0; n_neurons_in_layer as usize];
+
+                let mut vec_err = layer_copy.create_vec_err(type_err, n_err_xlayer);
+
                 for j in 0..length_input {
                     let input_prec_layer = rec.recv().unwrap();
 
                     // let output = vec![input_prec_layer[0]+input_same_layer[0];input_prec_layer.len()];
 
-                    let output = layer_copy.compute_output(&input_prec_layer, &input_same_layer, type_err, n_err_xlayer, j);
+                    let output = layer_copy.compute_output(&input_prec_layer, &input_same_layer, &mut vec_err, j);
 
                     println!("thread {}, time : {}, input_same_layer : {:?}, input_prec_layer : {:?}, output : {:?}", layer, j, input_same_layer, input_prec_layer, output);
                     input_same_layer = output.clone();
@@ -125,7 +128,7 @@ impl Network{
         for t in threads {
             layers.push(t.join().unwrap() );
         }
-        self.layers = layers; //se questo verrà fatto, vedere se funziona la chiamata a create_Err che ha self come riferimento in lettura mentre qui è mutabile
+        //self.layers = layers; //se questo verrà fatto, vedere se funziona la chiamata a create_Err che ha self come riferimento in lettura mentre qui è mutabile
         outputs
     }
 
