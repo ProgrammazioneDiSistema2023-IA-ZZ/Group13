@@ -41,13 +41,7 @@
     <cargoProject FILE="$PROJECT_DIR$/lab1/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a89491a6-8373-40e6-ac83-9ebad8917449" name="Default Changelist" comment="fixing reset err">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SNN/src/layer.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/layer.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SNN/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SNN/src/network.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/network.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SNN/src/neuron.rs" beforeDir="false" afterPath="$PROJECT_DIR$/SNN/src/neuron.rs" afterDir="false" />
-    </list>
+    <list default="true" id="a89491a6-8373-40e6-ac83-9ebad8917449" name="Default Changelist" comment="adding err weights and removing some warnings" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,7 +78,7 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/ricca.LAPTOP-P9JKHG7N/Desktop/PDS/Group13",
+    "last_opened_file_path": "C:/Users/ricca.LAPTOP-P9JKHG7N/Desktop/PDS/Group13/SNN",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -140,7 +134,7 @@
       <workItem from="1691761297263" duration="134000" />
       <workItem from="1691769417768" duration="2188000" />
       <workItem from="1691836879881" duration="35822000" />
-      <workItem from="1692277902506" duration="6783000" />
+      <workItem from="1692277902506" duration="7033000" />
     </task>
     <task id="LOCAL-00001" summary="prova 2">
       <created>1691479883376</created>
@@ -198,7 +192,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692279805299</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="adding err weights and removing some warnings">
+      <created>1692284885896</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1692284885896</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,6 +224,7 @@
     <MESSAGE value="add error (not weights)" />
     <MESSAGE value="try to do refreshing v" />
     <MESSAGE value="fixing reset err" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing reset err" />
+    <MESSAGE value="adding err weights and removing some warnings" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding err weights and removing some warnings" />
   </component>
 </project>

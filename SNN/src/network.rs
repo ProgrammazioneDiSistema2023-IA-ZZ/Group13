@@ -14,7 +14,7 @@ pub struct Network {
 
 impl Network{
 
-    pub fn new(vec_neurons : Vec<i32>) -> Self { //vettore in lunghezza indica numero layer ed il singolo valore indica quanti neuroni a lvl
+    pub fn new(vec_neurons: Vec<i32>) -> Self { //vettore in lunghezza indica numero layer ed il singolo valore indica quanti neuroni a lvl
         let mut layers = Vec::<Layer>::new();
         let n_layers = vec_neurons.len();
         let mut start_id = 0;

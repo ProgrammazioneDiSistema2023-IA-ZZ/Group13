@@ -33,7 +33,7 @@ pub enum Type {
 
 #[derive(Debug, Clone, Copy)]
 pub struct ConfErr {
-    id_neuron: i32,
+    pub id_neuron: i32,
     t_start: i32,
     duration: i32, //valutare se aggiungere t_end cosi da avere sempre vincolo dentro boundaries (generi da t_start+1 a input.len())
     //counter_duration: i32,
@@ -46,7 +46,7 @@ pub struct ConfErr {
 
 impl ConfErr{
 
-    pub fn new(id_neuron: i32, t_start:i32, duration:i32, /*counter_duration: i32,*/ n_bit:i32, err_type: Type, err_comp: ErrorComponent, original_parameter: f64, w_pos: (i32, usize)) -> Self{
+    pub fn new(id_neuron: i32, t_start: i32, duration: i32, /*counter_duration: i32,*/ n_bit: i32, err_type: Type, err_comp: ErrorComponent, original_parameter: f64, w_pos: (i32, usize)) -> Self{
         ConfErr{
             id_neuron,
             t_start,
@@ -58,6 +58,10 @@ impl ConfErr{
             original_parameter,
             w_pos
         }
+    }
+
+    pub fn is_overlapping(&self, t_start: i32, duration: i32) -> bool{
+        (self.t_start < t_start+duration && self.t_start > t_start) || (self.t_start+self.duration > t_start && self.t_start < t_start )
     }
 }
 
@@ -74,7 +78,7 @@ pub struct Neuron {
 
 impl Neuron{
 
-    pub fn new( id : i32, v_threshold:f64, v_rest:f64, v_mem:f64, v_reset:f64, connections_same_layer: Vec<f64>,connections_prec_layer: Vec<f64>) -> Self{
+    pub fn new( id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64, connections_same_layer: Vec<f64>, connections_prec_layer: Vec<f64>) -> Self{
 
         Neuron {
             id,
