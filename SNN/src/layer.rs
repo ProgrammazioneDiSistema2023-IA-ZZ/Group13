@@ -63,13 +63,26 @@ impl Layer{
         output
     }
 
-    pub fn create_vec_err(&self, type_err:Type, n_errors: i32) -> Vec<ConfErr>{
+    pub fn create_vec_err(&self, type_err:Type, n_errors: i32, tot_time: i32) -> Vec<ConfErr>{
         let mut errors_vec = Vec::new();
         for _ in 0..n_errors{
             let mut rng = rand::thread_rng();
             let id_n = rng.gen_range(self.range.0..=self.range.1);
+            let t_start = rng.gen_range(0..tot_time);
+            let mut duration = rng.gen_range(1..=(tot_time-t_start));
+            let bit = rng.gen_range(0..64);
+            let flag = rng.gen_range(0..3);
+            let cmpn;
+            match flag {
+                0 => cmpn = ErrorComponent::Threshold,
+                1 => cmpn = ErrorComponent::VMem,
+                2 => cmpn = ErrorComponent::Weights,
+                _ => panic!("impossible")
+            }
 
-            let mut err = ConfErr::new(id_n,0,1,54,type_err,ErrorComponent::Threshold,0.0);
+            if let Type::BitFlip=type_err { duration=1 }
+
+            let err = ConfErr::new(id_n,t_start,duration,bit,type_err,cmpn,0.0, (0,0));
             errors_vec.push(err);
         }
         println!("creati errori: {:?}",errors_vec);

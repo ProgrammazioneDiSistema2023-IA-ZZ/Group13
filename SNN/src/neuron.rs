@@ -19,7 +19,6 @@ use std::fmt;
 
 #[derive(Debug, Clone, Copy)]
 pub enum ErrorComponent {
-    NoErr,
     Threshold,
     VMem,
     Weights
@@ -27,7 +26,6 @@ pub enum ErrorComponent {
 
 #[derive(Debug, Clone, Copy)]
 pub enum Type {
-    None,
     Stuck0,
     Stuck1,
     BitFlip
@@ -42,12 +40,13 @@ pub struct ConfErr {
     n_bit: i32,
     err_type: Type,
     err_comp: ErrorComponent,
-    pub v_start: f64
+    pub w_pos: (i32, usize),
+    pub original_parameter: f64
 }
 
 impl ConfErr{
 
-    pub fn new(id_neuron: i32, t_start:i32, duration:i32, /*counter_duration: i32,*/ n_bit:i32, err_type: Type, err_comp: ErrorComponent, v_start: f64) -> Self{
+    pub fn new(id_neuron: i32, t_start:i32, duration:i32, /*counter_duration: i32,*/ n_bit:i32, err_type: Type, err_comp: ErrorComponent, original_parameter: f64, w_pos: (i32, usize)) -> Self{
         ConfErr{
             id_neuron,
             t_start,
@@ -56,7 +55,8 @@ impl ConfErr{
             n_bit,
             err_type,
             err_comp,
-            v_start
+            original_parameter,
+            w_pos
         }
     }
 }
@@ -90,9 +90,9 @@ impl Neuron{
     pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, errors_vec: &mut Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande
         for error in errors_vec{
             if error.id_neuron == self.id && error.t_start <= time && error.t_start+error.duration >= time {
-                println!("Neurone: {}, time: {}, before error: {}, v_start: {}",self.id, time, self.v_threshold, error.v_start);
+                println!("Neurone: {}, time: {}, before error: {}, original_parameter: {}, tupla: {:?}",self.id, time, self.v_threshold, error.original_parameter, error.w_pos);
                 self.create_error(error, time);
-                //println!("prova di error: {}", error.prova);
+                //println!("prova di salvataggio original: {}", error.original_parameter);
                 //println!("after error: {}",self.v_threshold);
             }
         }
@@ -118,20 +118,51 @@ impl Neuron{
     }
 
     fn create_error(&mut self, error: &mut ConfErr, time: i32){
-        let mut number: f64 = 0.0;
+        let mut rng = thread_rng();
+        let mut number;
         let bit_position = error.n_bit; // Posizione del bit da modificare
         let mut ending = false;
         // Converte il numero in un intero e modifica il bit alla posizione desiderata
         match error.err_comp {
             ErrorComponent::Threshold => {
-                if error.t_start==time { error.v_start = self.v_threshold; }
-                if error.t_start+error.duration==time { self.v_threshold=error.v_start; ending=true; }
+                if error.t_start==time { error.original_parameter = self.v_threshold; }
+                if error.t_start+error.duration==time { self.v_threshold=error.original_parameter; ending=true; }
                 number = self.v_threshold; },
             ErrorComponent::VMem => {
-                if error.t_start==time { error.v_start = self.v_mem; }
-                if error.t_start+error.duration==time { error.v_start = self.v_mem; ending=true; }
+                if error.t_start==time { error.original_parameter = self.v_mem; }
+                if error.t_start+error.duration==time { self.v_mem=error.original_parameter; ending=true; }
                 number = self.v_mem; },
-            _ => {println!("codione sempre prob")},
+            ErrorComponent::Weights => {
+                if error.t_start==time {
+                    let vec = rng.gen_range(0..2);
+                    let len;
+                    let index;
+                    if vec==0 {//prec
+                        len = self.connections_prec_layer.len();
+                        index = rng.gen_range(0..len) as usize;
+                        error.original_parameter = self.connections_prec_layer[index];
+                    }else {//same
+                        len = self.connections_same_layer.len();
+                        index = rng.gen_range(0..len) as usize;
+                        error.original_parameter = self.connections_prec_layer[index];
+                    }
+
+                    error.w_pos = (vec, index);
+                }
+                if error.t_start+error.duration==time {
+                    if error.w_pos.0==0 {//prec
+                        self.connections_prec_layer[error.w_pos.1]=error.original_parameter;
+                    }else {//same
+                        self.connections_same_layer[error.w_pos.1]=error.original_parameter;
+                    }
+                    ending=true;
+                }
+                if error.w_pos.0==0 {//prec
+                    number = self.connections_prec_layer[error.w_pos.1];
+                }else {//same
+                    number = self.connections_same_layer[error.w_pos.1];
+                }
+            }
         }
 
         if ending==true{
@@ -150,8 +181,7 @@ impl Neuron{
             },
             Type::BitFlip => {
                 bits ^= 1 << bit_position; // Esegue un XOR per invertire il bit
-            },
-            _ => {println!("greve")}
+            }
         }
 
         // Converte nuovamente gli "bits di floating point" in un f64 modificato
@@ -161,7 +191,13 @@ impl Neuron{
         match error.err_comp {
             ErrorComponent::Threshold => { self.v_threshold = number; },
             ErrorComponent::VMem => { self.v_mem = number; },
-            _ => {println!("codione sempre prob")},
+            ErrorComponent::Weights => {
+                if error.w_pos.0==0 {//prec
+                    self.connections_prec_layer[error.w_pos.1] = number;
+                }else {//same
+                    self.connections_same_layer[error.w_pos.1] = number;
+                }
+            }
         }
     }
 }

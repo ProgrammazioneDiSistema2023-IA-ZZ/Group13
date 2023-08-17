@@ -3,8 +3,6 @@ use crate::rand::Rng;
 use std::vec;
 use std::sync::mpsc;
 use std::thread;
-use crate::neuron::ConfErr;
-use crate::neuron::ErrorComponent;
 use crate::neuron::Type;
 use crate::layer::Layer;
 
@@ -99,7 +97,7 @@ impl Network{
             let handle = thread::spawn(move || {
                 let mut input_same_layer = vec![0; n_neurons_in_layer as usize];
 
-                let mut vec_err = layer_copy.create_vec_err(type_err, n_err_xlayer);
+                let mut vec_err = layer_copy.create_vec_err(type_err, n_err_xlayer, length_input as i32);
 
                 for j in 0..length_input {
                     let input_prec_layer = rec.recv().unwrap();
