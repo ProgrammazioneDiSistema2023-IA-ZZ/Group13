@@ -211,10 +211,10 @@ impl fmt::Display for Neuron {
         s2.pop();
         s2 = s2 + " ]";
 
-        write!(f, "Neuron : id : {}, v_rest : {}, v_threshold : {}, v_mem  : {}, v_reset : {}, connections_same_layer : {}, connections_prec_layer : {}",
+        write!(f, "Neuron : id : {}, v_threshold : {}, v_rest : {}, v_mem  : {}, v_reset : {}, connections_same_layer : {}, connections_prec_layer : {}",
                self.id,
-               round_f64(self.v_rest),
                round_f64(self.v_threshold),
+               round_f64(self.v_rest),
                round_f64(self.v_mem),
                round_f64(self.v_reset),
                 s1, s2)
