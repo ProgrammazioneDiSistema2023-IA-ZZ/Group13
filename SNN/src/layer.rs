@@ -13,7 +13,7 @@ pub struct Layer{
 
 impl Layer{
 
-    pub fn new(start_id: i32, n_neurons: i32, n_neurons_pre: i32) -> Self {
+    pub fn new_random_weight(start_id: i32, n_neurons: i32, n_neurons_pre: i32) -> Self {
         let mut rng = thread_rng();
         let mut neurons = Vec::new();
         let mut id = start_id;
@@ -47,6 +47,39 @@ impl Layer{
         }
 
     }
+
+    pub fn new_empty(range: (i32,i32)) -> Self {
+        Layer{
+            neurons: Vec::new(),
+            range,
+        }
+    }
+
+    pub fn add_neuron(&mut self, id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64){
+        self.neurons.push( Neuron::new_without_weights(id,v_threshold,v_rest,v_mem,v_reset));
+        if self.range.0 == -1 {
+            self.range.0 = id;
+        }
+
+        if self.range.1 == -1 {
+            self.range.0 = id;
+        }
+
+    }
+
+    pub fn add_weights_same_layer(&mut self, id_in_layer: usize, connections_same_layer: Vec<f64>){
+        self.neurons[id_in_layer].add_weights_same_layer(connections_same_layer);
+    }
+
+    pub fn add_weights_prec_layer(&mut self, id_in_layer: usize, connections_prec_layer: Vec<f64>){
+        self.neurons[id_in_layer].add_weights_prec_layer(connections_prec_layer);
+    }
+
+
+
+
+
+
 
     pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, layer_errors: &mut Vec<ConfErr>, time: usize) -> Vec<i32>{
         let mut output = Vec::new();

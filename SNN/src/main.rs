@@ -19,7 +19,7 @@ pub fn gen_inputs( n_input: usize)-> Vec<i32>{
 }
 
 fn main() {
-    let mut network = Network::new( vec![10, 7, 5, 6, 10, 4, 8, 5]);
+    let mut network = Network::new_random( vec![10, 7, 5, 6, 10, 4, 8, 5]);
     network.print_network();
 
     println!("\n*********************************************\n");

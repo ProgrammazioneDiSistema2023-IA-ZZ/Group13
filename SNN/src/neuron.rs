@@ -45,6 +45,27 @@ impl Neuron{
         }
     }
 
+    pub fn new_without_weights( id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64) -> Self{
+        let connections_same_layer = vec![];
+        let connections_prec_layer = vec![];
+        Neuron {
+            id,
+            v_threshold,
+            v_rest,
+            v_mem,
+            v_reset,
+            connections_same_layer,
+            connections_prec_layer,
+        }
+    }
+
+    pub fn add_weights_same_layer(&mut self, connections_same_layer: Vec<f64>){
+        self.connections_prec_layer = connections_same_layer;
+    }
+    pub fn add_weights_prec_layer(&mut self, connections_prec_layer: Vec<f64>){
+        self.connections_prec_layer = connections_prec_layer;
+    }
+
 
 
     pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, layer_errors: &mut Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande

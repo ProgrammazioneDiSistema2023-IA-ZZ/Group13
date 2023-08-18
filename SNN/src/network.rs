@@ -16,7 +16,36 @@ pub struct Network {
 
 impl Network{
 
-    pub fn new(network_conf: Vec<i32>) -> Self { //vettore in lunghezza indica numero layer ed il singolo valore indica quanti neuroni a lvl
+    pub fn new_empty(network_conf: Vec<i32>) -> Self{// [3 2 3] [0-2 3-4 5-7]
+        let n_layers = network_conf.len();
+        let mut layers = Vec::new();
+        let mut start_id = 0;
+        for layer in 0..n_layers{
+            let range = (start_id, start_id+network_conf[layer]-1);
+            start_id = start_id+network_conf[layer];
+            layers.push(Layer::new_empty(range));
+        }
+
+        Network{
+            layers,
+            network_conf,
+            n_layers
+        }
+    }
+
+    pub fn add_neuron(&mut self, layer: usize, id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64){ // [3 2 3]  [0 3 5]
+        self.layers[layer].add_neuron(id,v_threshold,v_rest,v_mem,v_reset);
+    }
+
+    pub fn add_weights_same_layer(&mut self, layer: usize, id_in_layer: usize, connections_same_layer: Vec<f64>){
+        self.layers[layer].add_weights_same_layer(id_in_layer,connections_same_layer);
+    }
+
+    pub fn add_weights_prec_layer(&mut self, layer: usize, id_in_layer: usize, connections_prec_layer: Vec<f64>){
+        self.layers[layer].add_weights_prec_layer(id_in_layer,connections_prec_layer);
+    }
+
+    pub fn new_random(network_conf: Vec<i32>) -> Self { //vettore in lunghezza indica numero layer ed il singolo valore indica quanti neuroni a lvl
         let mut layers = Vec::<Layer>::new();
         let n_layers = network_conf.len();
         let mut start_id = 0;
@@ -24,9 +53,9 @@ impl Network{
         //chiama la funzione in layer che genera i layer con i neuroni
         for time in 0..n_layers {
             if time == 0 {
-                layers.push(Layer::new(start_id,network_conf[time], -1));
+                layers.push(Layer::new_random_weight(start_id,network_conf[time], -1));
             } else {
-                layers.push(Layer::new(start_id,network_conf[time], network_conf[time - 1]));
+                layers.push(Layer::new_random_weight(start_id,network_conf[time], network_conf[time - 1]));
             }
             start_id = start_id + network_conf[time];
         }
