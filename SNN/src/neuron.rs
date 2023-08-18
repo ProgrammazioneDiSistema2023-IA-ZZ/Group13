@@ -60,7 +60,7 @@ impl Neuron{
     }
 
     pub fn add_weights_same_layer(&mut self, connections_same_layer: Vec<f64>){
-        self.connections_prec_layer = connections_same_layer;
+        self.connections_same_layer = connections_same_layer;
     }
     pub fn add_weights_prec_layer(&mut self, connections_prec_layer: Vec<f64>){
         self.connections_prec_layer = connections_prec_layer;

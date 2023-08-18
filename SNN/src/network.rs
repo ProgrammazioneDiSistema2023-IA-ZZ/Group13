@@ -8,9 +8,9 @@ use crate::layer::Layer;
 
 
 pub struct Network {
-    layers: Vec<Layer>,
-    network_conf : Vec<i32>,
-    n_layers : usize,
+    pub layers: Vec<Layer>,
+    pub network_conf : Vec<i32>,
+    pub n_layers : usize,
 }
 
 
