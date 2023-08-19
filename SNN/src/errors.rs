@@ -9,6 +9,7 @@ pub enum ErrorComponent {
 
 #[derive(Debug, Clone, Copy)]
 pub enum Type {
+    None,
     Stuck0,
     Stuck1,
     BitFlip

@@ -11,6 +11,7 @@ mod errors;
 use network::Network;
 use errors::Type;
 use crate::layer::Layer;
+use neuron::Neuron;
 
 pub fn gen_inputs( n_input: usize)-> Vec<i32>{
     let mut rnd = rand::thread_rng();
@@ -34,7 +35,8 @@ fn main() {
         network_conf[i] = num_neurons as i32;
     }
 
-    let mut network_test = Network {layers:vec![], network_conf: vec![], n_layers: 0};
+    let mut network_test = Network::new_empty(network_conf.clone());
+
     let random_values: bool = get_yes_or_no("\nDo you want to generate random values for each neuron?");
     let random_weights: bool = get_yes_or_no("\nDo you want to generate random weights?");
     match random_values {
@@ -42,154 +44,74 @@ fn main() {
             match random_weights {
                 true => { //random values
                     println!("Genereting network with random values and random weights");
-                    network_test = Network::new_random(network_conf);
+                    // network_test = Network::new_random(network_conf);
+                    network_test.add_random_neurons(lif);
+                    network_test.add_random_weights();
                 },
                 false => { //by hand
                     println!("Genereting network with random values and configured weights");
-                    network_test = Network::new_empty(network_conf.clone());
-                    let mut id=0;
-                    for (index, layer) in network_test.layers.iter_mut().enumerate(){
-                        for _ in 0..network_conf[index]{
-                            layer.add_neuron(id,-52.0+rnd.gen_range(-1.0..=1.0),-65.0+rnd.gen_range(-1.0..=1.0),-65.0+rnd.gen_range(-1.0..=1.0),-60.0+rnd.gen_range(-1.0..=1.0));
-                            id+=1;
-                        }
-                    }
-
-                    for (index, layer) in network_test.layers.iter_mut().enumerate(){
-                        for n in 0..network_conf[index]{
-                            if index!=0{
-                                println!("layer: {}, write {} prec_weights for neuron: {}",index,network_conf[index-1],n);
-                                let prec_weights = get_array_input(network_conf[index-1] as usize);
-                                layer.add_weights_prec_layer(n as usize,prec_weights);
-
-                            }else {
-                                let input_weight =  get_input_f64(&format!("layer: {}, write 1 input weight for neuron: {}",index,n));
-                                let mut prec_weights = vec![];
-                                for i in 0..network_conf[index]{
-                                   if i==n {
-                                       prec_weights.push(input_weight);
-                                   }else {
-                                       prec_weights.push(0.0);
-                                   }
-                                }
-                                layer.add_weights_prec_layer(n as usize,prec_weights);
-                            }
-                            println!("layer: {}, write {} same_weights for neuron: {}",index,network_conf[index]-1,n);
-                            let same_weights = get_array_input((network_conf[index]-1) as usize);
-                            layer.add_weights_same_layer(n as usize,same_weights);
-                        }
-                    }
+                    network_test.add_random_neurons(lif);
+                    network_test.add_weights_from_input();
                 }
             }
         },
         false => { //by hand
+
             match random_weights {
                 true => { //random values
                     println!("Genereting network with configured values and random weights");
-                    println!("write value for the 4 values of v:");
+                    println!("write value for v_threshold, v_rest, v_mem, v_reset: ");
                     let values = get_array_input(4 as usize);
 
-                    network_test = Network::new_empty(network_conf.clone());
-                    let mut id=0;
-                    for (index, layer) in network_test.layers.iter_mut().enumerate(){
-                        for _ in 0..network_conf[index]{
-                            layer.add_neuron(id,values[0],values[1],values[2],values[3]);
-                            id+=1;
-                        }
-                    }
-
-                    id=0;
-                    for (index, layer) in network_test.layers.iter_mut().enumerate(){
-                        for n in 0..network_conf[index]{
-                            let weights = Layer::generate_weight(network_conf[index],if index as i32 ==0 {-1} else {network_conf[index-1]}, id);
-                            layer.add_weights_prec_layer(n as usize,weights.0);
-                            layer.add_weights_same_layer(n as usize,weights.1);
-                            id+=1;
-                        }
-                    }
+                    network_test.add_neurons(values[0],values[1],values[2],values[3],lif);
+                    network_test.add_random_weights();
                 },
                 false => { //by hand
                     println!("Genereting network with configured values and configured weights");
-                    println!("write value for the 4 values of v:");
+                    println!("write value for v_threshold, v_rest, v_mem, v_reset: ");
                     let values = get_array_input(4 as usize);
 
-                    network_test = Network::new_empty(network_conf.clone());
-                    let mut id=0;
-                    for (index, layer) in network_test.layers.iter_mut().enumerate(){
-                        for _ in 0..network_conf[index]{
-                            layer.add_neuron(id,values[0],values[1],values[2],values[3]);
-                            id+=1;
-                        }
-                    }
-
-                    for (index, layer) in network_test.layers.iter_mut().enumerate() {
-                        for n in 0..network_conf[index] {
-                            if index != 0 {
-                                println!("layer: {}, write {} prec_weights for neuron: {}", index, network_conf[index - 1], n);
-                                let prec_weights = get_array_input(network_conf[index - 1] as usize);
-                                layer.add_weights_prec_layer(n as usize, prec_weights);
-
-                            } else {
-                                let input_weight = get_input_f64(&format!("layer: {}, write 1 input weight for neuron: {}", index, n));
-                                let mut prec_weights = vec![];
-                                for i in 0..network_conf[index] {
-                                    if i == n {
-                                        prec_weights.push(input_weight);
-                                    } else {
-                                        prec_weights.push(0.0);
-                                    }
-                                }
-                                layer.add_weights_prec_layer(n as usize,prec_weights);
-                            }
-                            println!("layer: {}, write {} same_weights for neuron: {}", index, network_conf[index] - 1, n);
-                            let same_weights = get_array_input((network_conf[index] - 1) as usize);
-                            layer.add_weights_same_layer(n as usize, same_weights);
-                        }
-                    }
+                    network_test.add_neurons(values[0],values[1],values[2],values[3],lif);
+                    network_test.add_weights_from_input();
                 }
             }
         }
     }
-
-    let errors_flag: bool = get_yes_or_no("\nDo you want to add some errors?");
-    match errors_flag {
-        true => { 
-            let num_errors = get_input("How many errors do you want?"); 
-            let error_type = get_error_type(); 
-        },   //yes errors
-        false => { println!("No errors in the network"); } //Everything works fine
-    }
-
     network_test.print_network();
 
-    /*let mut network = Network::new_random( vec![10, 7, 5, 6, 10, 4, 8, 5]);
-    network.print_network();
+    let mut inputs = Vec::new();
+    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
+    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
+    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
+    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
+    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
+    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
+
+
+
+    let errors_flag: bool = get_yes_or_no("\nDo you want to add some errors?");
+    let num_errors;
+    let error_type;
+    match errors_flag {
+        true => { 
+            num_errors = get_input("How many errors do you want?");
+            error_type = get_error_type();
+        },   //yes errors
+        false => {
+            println!("No errors in the network");
+            num_errors = 0;
+            error_type = Type::None;
+        } //Everything works fine
+    }
+    let outputs =  network_test.create_thread(inputs, error_type, num_errors as i32);
+    for i in 0..outputs.len(){
+        println!("output {} : {:?}", i, outputs[i]);
+    }
 
     println!("\n*********************************************\n");
 
-    let mut inputs = Vec::new();
-    inputs.push(gen_inputs(10));
-    inputs.push(gen_inputs(10));
-    inputs.push(gen_inputs(10));
-    inputs.push(gen_inputs(10));
-    inputs.push(gen_inputs(10));
-    inputs.push(gen_inputs(10));
+    network_test.print_network();
 
-    // let _outputs = network.create_thread(inputs.clone(), Type::None, 0);
-
-   // for i in 0..outputs.len(){
-   //      println!("output {} : {:?}", i, outputs[i]);
-   //  }
-
-    // println!("\n*********************************************\n");
-
-    // network.print_network();
-
-    //let mut error = ConfErr::new(2,1,0,2,0,16,Type::Stuck0,ErrorComponent::Threshold);
-    let outputs = network.create_thread(inputs, Type::Stuck1, 40);
-    for i in 0..outputs.len(){
-        println!("output {} : {:?}", i, outputs[i]);
-    }*/
 }
 
 fn get_input(prompt: &str) -> usize {
@@ -271,4 +193,24 @@ fn get_array_input(size: usize) -> Vec<f64> {
     }
 
     numbers
+}
+
+pub fn lif(neuron :&mut Neuron, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>) -> i32{
+    neuron.v_mem = neuron.v_rest + (neuron.v_mem - neuron.v_rest)*f64::exp(-neuron.delta_t/0.1);
+    neuron.delta_t = 1.0;
+
+    for i in 0..inputs_prec_layer.len(){
+        neuron.v_mem += inputs_prec_layer[i] as f64 * neuron.connections_prec_layer[i];
+
+    }
+
+    for i in 0..inputs_same_layer.len(){
+        neuron.v_mem += inputs_same_layer[i] as f64 * neuron.connections_same_layer[i];
+    }
+
+    if neuron.v_mem > neuron.v_threshold{
+        neuron.v_mem = neuron.v_reset;
+        return 1;
+    }
+    0
 }

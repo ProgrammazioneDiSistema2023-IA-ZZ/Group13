@@ -2,52 +2,25 @@ use rand::{thread_rng, Rng};
 use std::fmt;
 use crate::errors::{ConfErr,ErrorComponent,Type};
 
-//#[derive(Debug)]
-// pub struct Connection {
-//     id_input: i32,
-//     weight: f64
-// }
-//
-// impl Connection {
-//
-//     pub fn new(id_input:i32, weight:f64) -> Self{
-//         Connection{
-//             id_input,
-//             weight
-//         }
-//     }
-// }
-
-
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct Neuron {
-    id: i32,
-    v_threshold: f64,
-    v_rest: f64,
-    v_mem: f64, //la struct dovrà essere mutabile cosicchè ogni volta v_mem cambia in base al t
-    v_reset: f64,
-    connections_same_layer: Vec<f64>,
-    connections_prec_layer: Vec<f64>
+    pub id: i32,
+    pub v_threshold: f64,
+    pub v_rest: f64,
+    pub v_mem: f64, //la struct dovrà essere mutabile cosicchè ogni volta v_mem cambia in base al t
+    pub v_reset: f64,
+    pub connections_same_layer: Vec<f64>,
+    pub connections_prec_layer: Vec<f64>,
+    pub funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32,
+    pub delta_t : f64,
 }
+
 
 impl Neuron{
 
-    pub fn new( id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64, connections_same_layer: Vec<f64>, connections_prec_layer: Vec<f64>) -> Self{
+    pub fn new(id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64, connections_same_layer: Vec<f64>, connections_prec_layer: Vec<f64>,funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32) -> Self{
+        let delta_t = 1.0;
 
-        Neuron {
-            id,
-            v_threshold,
-            v_rest,
-            v_mem, //valore t0
-            v_reset,
-            connections_same_layer,
-            connections_prec_layer,
-        }
-    }
-
-    pub fn new_without_weights( id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64) -> Self{
-        let connections_same_layer = vec![];
-        let connections_prec_layer = vec![];
         Neuron {
             id,
             v_threshold,
@@ -56,6 +29,26 @@ impl Neuron{
             v_reset,
             connections_same_layer,
             connections_prec_layer,
+            funzione,
+            delta_t
+        }
+    }
+
+    pub fn new_without_weights(id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64,funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32) -> Self{
+        let connections_same_layer = vec![];
+        let connections_prec_layer = vec![];
+        let delta_t = 1.0;
+
+        Neuron {
+            id,
+            v_threshold,
+            v_rest,
+            v_mem,
+            v_reset,
+            connections_same_layer,
+            connections_prec_layer,
+            funzione,
+            delta_t
         }
     }
 
@@ -66,33 +59,23 @@ impl Neuron{
         self.connections_prec_layer = connections_prec_layer;
     }
 
-
-
     pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, layer_errors: &mut Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande
-        for neuron_error in layer_errors{
-            if neuron_error.id_neuron == self.id && neuron_error.t_start <= time && neuron_error.t_start+neuron_error.duration >= time {
-                //println!("Neurone: {}, time: {}, before error: {}, original_parameter: {}, tupla: {:?}",self.id, time, self.v_threshold, error.original_parameter, error.w_pos);
-                self.neuron_create_error(neuron_error, time);
-                //println!("prova di salvataggio original: {}", error.original_parameter);
-                //println!("after error: {}",self.v_threshold);
+        let decrement = 0.1;
+        if inputs_prec_layer.contains(&1) || inputs_same_layer.contains(&1) {
+            for neuron_error in layer_errors{
+                if neuron_error.id_neuron == self.id && neuron_error.t_start <= time && neuron_error.t_start+neuron_error.duration >= time {
+                    //println!("Neurone: {}, time: {}, before error: {}, original_parameter: {}, tupla: {:?}",self.id, time, self.v_threshold, error.original_parameter, error.w_pos);
+                    self.neuron_create_error(neuron_error, time);
+                    //println!("prova di salvataggio original: {}", error.original_parameter);
+                    //println!("after error: {}",self.v_threshold);
+                }
             }
+
+            return (self.funzione)(self, inputs_prec_layer, inputs_same_layer);
         }
-        self.v_mem = self.v_rest + (self.v_mem - self.v_rest)*f64::exp(-1.0/0.1);
-        //let _v_m = self.v_mem.clone();
-
-        for i in 0..inputs_prec_layer.len(){
-            self.v_mem += inputs_prec_layer[i] as f64 * self.connections_prec_layer[i];
-
-        }
-
-       for i in 0..inputs_same_layer.len(){
-           self.v_mem += inputs_same_layer[i] as f64 * self.connections_same_layer[i];
-        }
-
-        // println!("id : {}, v_mem : {} -> {}", self.id, v_m, self.v_mem);
-        if self.v_mem > self.v_threshold{
-            self.v_mem = self.v_reset;
-            return 1;
+        self.delta_t += 1.0;
+        if self.v_mem - decrement > self.v_rest{
+            self.v_mem -= decrement;
         }
         0
     }
@@ -164,6 +147,9 @@ impl Neuron{
             Type::BitFlip => {
                 bits ^= 1 << bit_position; // Esegue un XOR per invertire il bit
             }
+            Type::None => {
+                panic!("impossible, NoError here!")
+            }
         }
 
         // Converte nuovamente gli "bits di floating point" in un f64 modificato
@@ -196,8 +182,10 @@ impl fmt::Display for Neuron {
 
             s1 = s1 + ", ";
         }
-        s1.pop();
-        s1.pop();
+        if s1.len()>2{
+            s1.pop();
+            s1.pop();
+        }
         s1 = s1 + " ]";
 
         let mut s2 = "[ ".to_owned();
@@ -207,8 +195,11 @@ impl fmt::Display for Neuron {
 
             s2 = s2 + ", ";
         }
-        s2.pop();
-        s2.pop();
+        if s2.len()>2{
+            s2.pop();
+            s2.pop();
+        }
+
         s2 = s2 + " ]";
 
         write!(f, "Neuron : id : {}, v_threshold : {}, v_rest : {}, v_mem  : {}, v_reset : {}, connections_same_layer : {}, connections_prec_layer : {}",
