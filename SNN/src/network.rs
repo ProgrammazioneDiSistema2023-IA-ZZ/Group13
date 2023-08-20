@@ -3,7 +3,7 @@ use crate::rand::Rng;
 use std::vec;
 use std::sync::mpsc;
 use std::thread;
-use crate::errors::{ConfErr,ErrorComponent,Type};
+use crate::errors::{ConfErr,Type};
 use crate::layer::Layer;
 use crate::{get_array_input, get_input_f64};
 use crate::neuron::Neuron;
@@ -190,7 +190,7 @@ impl Network{
         /*************************************************************/
 
         let mut outputs = Vec::new();
-        for time in 0..tot_time{
+        for _ in 0..tot_time{
             outputs.push(receiver_output.recv().unwrap());
         }
 

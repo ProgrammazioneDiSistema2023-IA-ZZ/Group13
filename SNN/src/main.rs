@@ -1,7 +1,6 @@
 extern crate rand;
 use crate::rand::Rng;
 use std::io;
-use std::ops::Index;
 
 mod network;
 mod neuron;
@@ -10,7 +9,6 @@ mod errors;
 
 use network::Network;
 use errors::Type;
-use crate::layer::Layer;
 use neuron::Neuron;
 
 pub fn gen_inputs( n_input: usize)-> Vec<i32>{
@@ -23,7 +21,6 @@ pub fn gen_inputs( n_input: usize)-> Vec<i32>{
 }
 
 fn main() {
-    let mut rnd = rand::thread_rng();
     println!("Welcome to the Neural Network Configuration Menu!");
     let num_layers = get_input("\nEnter the number of layers: ");
 
@@ -79,19 +76,26 @@ fn main() {
     }
     network_test.print_network();
 
+    let n_inputs = get_input("How long should simulation lasts (in instant of time)?");
     let mut inputs = Vec::new();
-    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
-    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
-    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
-    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
-    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
-    inputs.push(gen_inputs(network_test.network_conf[0] as usize));
-
-
+    let random_inputs: bool = get_yes_or_no("\nDo you want random inputs?");
+    match random_inputs {
+        true => {
+            for _ in 0..n_inputs{
+                inputs.push(gen_inputs(network_test.network_conf[0] as usize));
+            }
+        },
+        false => {
+            for i in 0..n_inputs{
+                println!("Filling inputs instant {}:", i);
+                inputs.push(get_array_input_i32(network_test.network_conf[0] as usize));
+            }
+        }
+    }
 
     let errors_flag: bool = get_yes_or_no("\nDo you want to add some errors?");
-    let num_errors;
-    let error_type;
+    let mut num_errors;
+    let mut error_type;
     match errors_flag {
         true => { 
             num_errors = get_input("How many errors do you want?");
@@ -103,7 +107,7 @@ fn main() {
             error_type = Type::None;
         } //Everything works fine
     }
-    let outputs =  network_test.create_thread(inputs, error_type, num_errors as i32);
+    let outputs =  network_test.create_thread(inputs.clone(), error_type, num_errors as i32);
     for i in 0..outputs.len(){
         println!("output {} : {:?}", i, outputs[i]);
     }
@@ -111,6 +115,22 @@ fn main() {
     println!("\n*********************************************\n");
 
     network_test.print_network();
+
+    if errors_flag==false {
+        match get_yes_or_no("\nNow do you want to restart the network with some errors?") {
+            true => {
+                num_errors = get_input("How many errors do you want?");
+                error_type = get_error_type();
+                let outputs_w_errs = network_test.create_thread(inputs, error_type, num_errors as i32);
+                for i in 0..outputs_w_errs.len(){
+                    println!("output with errors {} : {:?}", i, outputs_w_errs[i]);
+                }
+            },
+            false => {
+                println!("ending...");
+            }
+        }
+    }
 
 }
 
@@ -163,6 +183,23 @@ fn get_yes_or_no(prompt: &str) -> bool {
     }
 }
 
+fn get_binary_input(prompt: &str) -> i32 {
+    loop {
+        println!("{} (1/0)", prompt);
+
+        let mut input = String::new();
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read line");
+
+        match input.trim() {
+            "1" => return 1,
+            "0" => return 0,
+            _ => println!("Invalid input. Please enter 1 or 0 only"),
+        }
+    }
+}
+
 fn get_error_type() -> Type {
     println!("Select the type of error:");
     println!("1. Stuck0");
@@ -190,6 +227,17 @@ fn get_array_input(size: usize) -> Vec<f64> {
     for i in 0..size {
         let number = get_input_f64(&format!("Enter number {}:", i + 1));
         numbers.push(number as f64);
+    }
+
+    numbers
+}
+
+fn get_array_input_i32(size: usize) -> Vec<i32> {
+    let mut numbers = Vec::new();
+
+    for i in 0..size {
+        let number = get_binary_input(&format!("Enter input for neuron {} (first layer):", i + 1));
+        numbers.push(number as i32);
     }
 
     numbers

@@ -3,7 +3,9 @@ use rand::{Rng, thread_rng};
 #[derive(Debug, Clone, Copy)]
 pub enum ErrorComponent {
     Threshold,
+    VRest,
     VMem,
+    VReset,
     Weights
 }
 
@@ -80,12 +82,14 @@ impl ConfErr{
                 }
 
                 let bit = rng.gen_range(0..64);
-                let flag = rng.gen_range(0..3);
+                let flag = rng.gen_range(0..5);
                 let cmpn;
                 match flag {
                     0 => cmpn = ErrorComponent::Threshold,
-                    1 => cmpn = ErrorComponent::VMem,
-                    2 => cmpn = ErrorComponent::Weights,
+                    1 => cmpn = ErrorComponent::VRest,
+                    2 => cmpn = ErrorComponent::VMem,
+                    3 => cmpn = ErrorComponent::VReset,
+                    4 => cmpn = ErrorComponent::Weights,
                     _ => panic!("impossible")
                 }
 

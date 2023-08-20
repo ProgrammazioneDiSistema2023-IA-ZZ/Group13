@@ -93,10 +93,18 @@ impl Neuron{
                 if error.t_start==time { error.original_parameter = self.v_threshold; }
                 if error.t_start+error.duration==time { self.v_threshold=error.original_parameter; ending=true; }
                 number = self.v_threshold; },
+            ErrorComponent::VRest => {
+                if error.t_start==time { error.original_parameter = self.v_rest; }
+                if error.t_start+error.duration==time { self.v_rest=error.original_parameter; ending=true; }
+                number = self.v_rest; },
             ErrorComponent::VMem => {
                 if error.t_start==time { error.original_parameter = self.v_mem; }
                 if error.t_start+error.duration==time { self.v_mem=error.original_parameter; ending=true; }
                 number = self.v_mem; },
+            ErrorComponent::VReset => {
+                if error.t_start==time { error.original_parameter = self.v_reset; }
+                if error.t_start+error.duration==time { self.v_reset=error.original_parameter; ending=true; }
+                number = self.v_reset; },
             ErrorComponent::Weights => {
                 if error.t_start==time {
                     let vec = rng.gen_range(0..2);
@@ -158,7 +166,9 @@ impl Neuron{
 
         match error.err_comp {
             ErrorComponent::Threshold => { /*println!("threshold {}, Modified number: {}", self.v_threshold, number);*/ self.v_threshold = number;  },
+            ErrorComponent::VRest => { /*println!("v_mem {}, Modified number: {}", self.v_mem, number);*/ self.v_rest = number; },
             ErrorComponent::VMem => { /*println!("v_mem {}, Modified number: {}", self.v_mem, number);*/ self.v_mem = number; },
+            ErrorComponent::VReset => { /*println!("v_mem {}, Modified number: {}", self.v_mem, number);*/ self.v_reset = number; },
             ErrorComponent::Weights => {
                 if error.w_pos.0==0 {//prec
                     self.connections_prec_layer[error.w_pos.1] = number;
