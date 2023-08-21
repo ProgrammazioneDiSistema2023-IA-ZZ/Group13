@@ -8,7 +8,7 @@ mod layer;
 mod errors;
 
 use network::Network;
-use errors::Type;
+use errors::{Type, ErrorComponent, ConfErr};
 use neuron::Neuron;
 
 pub fn gen_inputs( n_input: usize)-> Vec<i32>{
@@ -91,10 +91,12 @@ fn main() {
 
     let errors_flag: bool = get_yes_or_no("\nDo you want to add some errors?");
     let mut num_errors;
+    let mut num_inferences = 1;
     let mut error_type;
     match errors_flag {
         true => { 
-            num_errors = get_input("How many errors do you want?");
+            num_inferences = get_input("How many inferences do you want?");
+            num_errors = 1;
             error_type = get_error_type();
         },   //yes errors
         false => {
@@ -103,9 +105,14 @@ fn main() {
             error_type = Type::None;
         } //Everything works fine
     }
-    let outputs =  network_test.create_thread(inputs.clone(), error_type, num_errors as i32);
-    for i in 0..outputs.len(){
-        println!("output {} : {:?}", i, outputs[i]);
+    for i in 0..num_inferences{
+        let error = ConfErr::new_from_main(&network_test, error_type, get_error_component(), (-1,-1), n_inputs);
+        let outputs =  network_test.create_thread(inputs.clone(), error_type, num_errors as i32);
+        println!("Simulation {}", i);
+        for j in 0..outputs.len(){
+            println!("output {} : {:?}", j, outputs[j]);
+        }
+        println!("\n*********************************************\n");
     }
 
     println!("\n*********************************************\n");
@@ -213,6 +220,34 @@ fn get_error_type() -> Type {
             "2" => return Type::Stuck1,
             "3" => return Type::BitFlip,
             _ => println!("Invalid input. Please select a valid option (1, 2, or 3)."),
+        }
+    }
+}
+
+fn get_error_component() -> Vec<ErrorComponent> {
+    let mut err_cmp_vec = Vec::new();
+    println!("Select error component for components list:");
+    println!("1. Threshold");
+    println!("2. VRest");
+    println!("3. VMem");
+    println!("4. VReset");
+    println!("5. Weights");
+    println!("6. Stop");
+
+    loop {
+        let mut input = String::new();
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read line");
+
+        match input.trim() {
+            "1" => err_cmp_vec.push(ErrorComponent::Threshold),
+            "2" => err_cmp_vec.push(ErrorComponent::VRest),
+            "3" => err_cmp_vec.push(ErrorComponent::VMem),
+            "4" => err_cmp_vec.push(ErrorComponent::VReset),
+            "5" => err_cmp_vec.push(ErrorComponent::Weights),
+            "6" => return err_cmp_vec,
+            _ => println!("Invalid input. Please select a valid option (1 ..= 6)."),
         }
     }
 }

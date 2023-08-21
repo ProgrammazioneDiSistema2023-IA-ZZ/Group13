@@ -13,6 +13,7 @@ pub struct Network {
     pub layers: Vec<Layer>,
     pub network_conf : Vec<i32>,
     pub n_layers : usize,
+    pub n_neurons: i32
 }
 
 
@@ -31,7 +32,8 @@ impl Network{
         Network{
             layers,
             network_conf,
-            n_layers
+            n_layers,
+            n_neurons: network_conf.iter().sum()
         }
     }
 
@@ -149,7 +151,7 @@ impl Network{
             println!("input {} : {:?}", i, inputs[i]);
         }
 
-        let network_errors = ConfErr::network_create_errors(self.n_layers,n_err);
+        let network_errors = ConfErr::network_create_errors(self.n_layers, n_err);
         println!("vec_errors: {:?}", network_errors);
 
 

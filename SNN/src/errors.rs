@@ -1,4 +1,5 @@
 use rand::{Rng, thread_rng};
+use crate::network::Network;
 
 #[derive(Debug, Clone, Copy)]
 pub enum ErrorComponent {
@@ -21,28 +22,62 @@ pub enum Type {
 pub struct ConfErr {
     pub id_neuron: i32,
     pub t_start: i32,
-    pub duration: i32, //valutare se aggiungere t_end cosi da avere sempre vincolo dentro boundaries (generi da t_start+1 a input.len())
+    //pub duration: i32, //valutare se aggiungere t_end cosi da avere sempre vincolo dentro boundaries (generi da t_start+1 a input.len())
     //counter_duration: i32,
     pub n_bit: i32,
     pub err_type: Type,
     pub err_comp: ErrorComponent,
     pub w_pos: (i32, usize),
-    pub original_parameter: f64
 }
 
 impl ConfErr{
 
-    pub fn new(id_neuron: i32, t_start: i32, duration: i32, /*counter_duration: i32,*/ n_bit: i32, err_type: Type, err_comp: ErrorComponent, original_parameter: f64, w_pos: (i32, usize)) -> Self{
+    pub fn new(id_neuron: i32, t_start: i32, /*duration: i32, counter_duration: i32,*/ n_bit: i32, err_type: Type, err_comp: ErrorComponent, original_parameter: f64, w_pos: (i32, usize)) -> Self{
         ConfErr{
             id_neuron,
             t_start,
-            duration,
+            //duration,
             //counter_duration,
             n_bit,
             err_type,
             err_comp,
-            original_parameter,
+            //original_parameter,
             w_pos
+        }
+    }
+
+    pub fn new_from_main(network: &Network, err_type: Type, err_comp: Vec<ErrorComponent>, w_pos: (i32, usize), time: usize) -> Self{
+        let mut rng = thread_rng();
+        let mut t_start = 0;
+        let err_c = err_comp[rng.gen_range(0..err_comp.len())];
+
+        if err_type == Type::BitFlip {
+            t_start = rng.gen_range(0..time-1) as i32;
+        }
+
+        let mut vec = -1;
+        let mut index= -1;
+        if err_comp == ErrorComponent::Weights{
+            vec = rng.gen_range(0..2);
+            let len;
+
+            if vec==0 {//prec
+                len = network.connections_prec_layer.len();
+                index = rng.gen_range(0..len) as usize;
+            }else {//same
+                len = network.connections_same_layer.len();
+                index = rng.gen_range(0..len) as usize;
+            }
+        }
+
+        ConfErr{
+            id_neuron: rng.gen_range(0..network.n_neurons),
+            t_start,
+            //counter_duration,
+            n_bit: rng.gen_range(0..64),
+            err_type,
+            err_comp: err_c,
+            w_pos: (vec, index),
         }
     }
 
@@ -53,7 +88,7 @@ impl ConfErr{
     pub fn network_create_errors(n_layers: usize, n_err: i32) -> Vec<i32>{
         let mut errors_vec = vec![0; n_layers];
         for _ in 0..n_err{
-            let mut rng = rand::thread_rng();
+            let mut rng = thread_rng();
             let x = rng.gen_range(0..n_layers);
             errors_vec[x] += 1;
         }

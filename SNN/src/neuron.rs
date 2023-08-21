@@ -59,7 +59,7 @@ impl Neuron{
         self.connections_prec_layer = connections_prec_layer;
     }
 
-    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, layer_errors: &mut Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande
+    /*pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, layer_errors: &mut Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande
         let decrement = 0.1;
         if inputs_prec_layer.contains(&1) || inputs_same_layer.contains(&1) {
             for neuron_error in layer_errors{
@@ -78,35 +78,39 @@ impl Neuron{
             self.v_mem -= decrement;
         }
         0
+    }*/
+
+    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, error: &mut ConfErr, time: i32) -> i32{ //sarà chiamata dalla rete grande
+        let decrement = 0.1;
+        if inputs_prec_layer.contains(&1) || inputs_same_layer.contains(&1) {
+            if error.id_neuron == self.id {
+                //println!("Neurone: {}, time: {}, before error: {}, original_parameter: {}, tupla: {:?}",self.id, time, self.v_threshold, error.original_parameter, error.w_pos);
+                self.neuron_create_error(neuron_error, time);
+                //println!("prova di salvataggio original: {}", error.original_parameter);
+                //println!("after error: {}",self.v_threshold);
+            }
+
+            return (self.funzione)(self, inputs_prec_layer, inputs_same_layer);
+        }
+        self.delta_t += 1.0;
+        if self.v_mem - decrement > self.v_rest{
+            self.v_mem -= decrement;
+        }
+        0
     }
-
-
 
     fn neuron_create_error(&mut self, error: &mut ConfErr, time: i32){
         let mut rng = thread_rng();
         let mut number;
         let bit_position = error.n_bit; // Posizione del bit da modificare
-        let mut ending = false;
         // Converte il numero in un intero e modifica il bit alla posizione desiderata
         match error.err_comp {
-            ErrorComponent::Threshold => {
-                if error.t_start==time { error.original_parameter = self.v_threshold; }
-                if error.t_start+error.duration==time { self.v_threshold=error.original_parameter; ending=true; }
-                number = self.v_threshold; },
-            ErrorComponent::VRest => {
-                if error.t_start==time { error.original_parameter = self.v_rest; }
-                if error.t_start+error.duration==time { self.v_rest=error.original_parameter; ending=true; }
-                number = self.v_rest; },
-            ErrorComponent::VMem => {
-                if error.t_start==time { error.original_parameter = self.v_mem; }
-                if error.t_start+error.duration==time { self.v_mem=error.original_parameter; ending=true; }
-                number = self.v_mem; },
-            ErrorComponent::VReset => {
-                if error.t_start==time { error.original_parameter = self.v_reset; }
-                if error.t_start+error.duration==time { self.v_reset=error.original_parameter; ending=true; }
-                number = self.v_reset; },
+            ErrorComponent::Threshold => { number = self.v_threshold; },
+            ErrorComponent::VRest => { number = self.v_rest; },
+            ErrorComponent::VMem => { number = self.v_mem; },
+            ErrorComponent::VReset => { number = self.v_reset; },
             ErrorComponent::Weights => {
-                if error.t_start==time {
+                /*if error.t_start==time {
                     let vec = rng.gen_range(0..2);
                     let len;
                     let index;
@@ -121,25 +125,14 @@ impl Neuron{
                     }
 
                     error.w_pos = (vec, index);
-                }
-                if error.t_start+error.duration==time {
-                    if error.w_pos.0==0 {//prec
-                        self.connections_prec_layer[error.w_pos.1]=error.original_parameter;
-                    }else {//same
-                        self.connections_same_layer[error.w_pos.1]=error.original_parameter;
-                    }
-                    ending=true;
-                }
+                }*/
+
                 if error.w_pos.0==0 {//prec
                     number = self.connections_prec_layer[error.w_pos.1];
                 }else {//same
                     number = self.connections_same_layer[error.w_pos.1];
                 }
             }
-        }
-
-        if ending==true{
-            return;
         }
 
         let mut bits: u64 = number.to_bits();
