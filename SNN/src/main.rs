@@ -93,8 +93,8 @@ fn main() {
     }
 
     let errors_flag: bool = get_yes_or_no("\nDo you want to add some errors?");
-    let mut num_inferences = 1;
-    let mut error_type;
+    let mut num_inferences = 0;
+    let error_type;
     match errors_flag {
         true => { 
             num_inferences = get_input("How many inferences do you want?");
@@ -108,7 +108,7 @@ fn main() {
 
     let err_comp = get_error_component();
     println!("\n*********************************************\n");
-    let mut error = ConfErr::new_from_main(&network_test, Type::None,&vec![] ,  0);
+    let error = ConfErr::new_from_main(&network_test, Type::None,&vec![] ,  0);
     println!("Simulation without error: ");
     let outputs_no_err =  network_test.create_thread(inputs.clone(), error.clone());
     for j in 0..outputs_no_err.len(){
@@ -119,7 +119,7 @@ fn main() {
     let mut count_err1 = 0;
     let mut count_err2 = 0;
     for i in 0..num_inferences{
-        let mut error = ConfErr::new_from_main(&network_test, error_type, &err_comp ,n_inputs);
+        let error = ConfErr::new_from_main(&network_test, error_type, &err_comp ,n_inputs);
         println!("Simulation {}", i+1);
         let outputs =  network_test.create_thread(inputs.clone(), error.clone());
         for j in 0..outputs.len(){

@@ -1,4 +1,3 @@
-use rand::{thread_rng, Rng};
 use std::fmt;
 use crate::errors::{ConfErr,ErrorComponent,Type};
 
@@ -85,7 +84,7 @@ impl Neuron{
         if inputs_prec_layer.contains(&1) || inputs_same_layer.contains(&1) {
             if error.id_neuron == self.id && ((error.err_type == Type::BitFlip && error.t_start == time) || (error.err_type == Type::Stuck0 || error.err_type == Type::Stuck1) ){
                 //println!("Neurone: {}, time: {}, before error: {}, original_parameter: {}, tupla: {:?}",self.id, time, self.v_threshold, error.original_parameter, error.w_pos);
-                self.neuron_create_error(error, time);
+                self.neuron_create_error(error);
                 //println!("prova di salvataggio original: {}", error.original_parameter);
                 //println!("after error: {}",self.v_threshold);
             }
@@ -99,8 +98,7 @@ impl Neuron{
         0
     }
 
-    fn neuron_create_error(&mut self, error: &ConfErr, time: i32){
-        let mut rng = thread_rng();
+    fn neuron_create_error(&mut self, error: &ConfErr){
         let mut number;
         let bit_position = error.n_bit; // Posizione del bit da modificare
         // Converte il numero in un intero e modifica il bit alla posizione desiderata

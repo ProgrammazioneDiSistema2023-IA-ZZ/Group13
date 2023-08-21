@@ -32,7 +32,7 @@ pub struct ConfErr {
 
 impl ConfErr{
 
-    pub fn new(id_neuron: i32, t_start: i32, /*duration: i32, counter_duration: i32,*/ n_bit: i32, err_type: Type, err_comp: ErrorComponent, original_parameter: f64, w_pos: (i32, usize)) -> Self{
+    pub fn new(id_neuron: i32, t_start: i32, /*duration: i32, counter_duration: i32,*/ n_bit: i32, err_type: Type, err_comp: ErrorComponent, w_pos: (i32, usize)) -> Self{
         ConfErr{
             id_neuron,
             t_start,

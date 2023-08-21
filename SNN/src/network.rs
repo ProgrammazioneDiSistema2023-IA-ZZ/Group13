@@ -3,7 +3,7 @@ use crate::rand::Rng;
 use std::vec;
 use std::sync::mpsc;
 use std::thread;
-use crate::errors::{ConfErr,Type};
+use crate::errors::ConfErr;
 use crate::layer::Layer;
 use crate::{get_array_input, get_input_f64};
 use crate::neuron::Neuron;
