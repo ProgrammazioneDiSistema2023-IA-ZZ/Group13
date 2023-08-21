@@ -100,5 +100,4 @@ impl ConfErr{
         }
         errors_vec
     }
-
 }

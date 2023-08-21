@@ -46,11 +46,13 @@ impl Network{
         }
     }
 
-    pub fn add_neurons(&mut self, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64,funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32){ // [3 2 3]  [0 3 5]
+    pub fn add_neurons(&mut self, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32){ // [3 2 3]  [0 3 5]
         let mut id=0;
         for (index, layer) in self.layers.iter_mut().enumerate(){
             for _ in 0..self.network_conf[index]{
-                layer.add_neuron(id,v_threshold,v_rest,v_mem,v_reset,funzione);
+                println!("write value for v_threshold, v_rest, v_mem, v_reset: for neuron {}", id);
+                let values = get_array_input(4 as usize);
+                layer.add_neuron(id,values[0],values[1],values[2],values[3],funzione);
                 id+=1;
             }
         }

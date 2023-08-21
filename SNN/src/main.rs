@@ -57,18 +57,14 @@ fn main() {
             match random_weights {
                 true => { //random values
                     println!("Genereting network with configured values and random weights");
-                    println!("write value for v_threshold, v_rest, v_mem, v_reset: ");
-                    let values = get_array_input(4 as usize);
 
-                    network_test.add_neurons(values[0],values[1],values[2],values[3],lif);
+                    network_test.add_neurons(lif);
                     network_test.add_random_weights();
                 },
                 false => { //by hand
                     println!("Genereting network with configured values and configured weights");
-                    println!("write value for v_threshold, v_rest, v_mem, v_reset: ");
-                    let values = get_array_input(4 as usize);
 
-                    network_test.add_neurons(values[0],values[1],values[2],values[3],lif);
+                    network_test.add_neurons(lif);
                     network_test.add_weights_from_input();
                 }
             }
