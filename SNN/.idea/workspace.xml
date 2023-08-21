@@ -33,14 +33,10 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a1e5f37-387d-4765-b1a7-d625a447373d" name="Default Changelist" comment="single neuron configurable">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_08_2023_18_36__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_08_2023_18_36__Default_Changelist_.xml" afterDir="false" />
+    <list default="true" id="1a1e5f37-387d-4765-b1a7-d625a447373d" name="Default Changelist" comment="matteo9">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/errors.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/errors.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layer.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/layer.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/network.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neuron.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/neuron.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +74,11 @@
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
   </component>
   <component name="RunManager">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command" nameIsGenerated="true">
       <option name="command" value="run" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -171,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692625119891</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="matteo9">
+      <created>1692633815303</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1692633815303</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -197,24 +205,29 @@
     <MESSAGE value="final check and simulation" />
     <MESSAGE value="change mult" />
     <MESSAGE value="single neuron configurable" />
-    <option name="LAST_COMMIT_MESSAGE" value="single neuron configurable" />
+    <MESSAGE value="matteo9" />
+    <option name="LAST_COMMIT_MESSAGE" value="matteo9" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1495" height="854" key="GridCell.Tab.0.bottom" timestamp="1692633617614">
+    <state width="1604" height="733" key="GridCell.Tab.0.bottom" timestamp="1692637212308">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
-    <state width="1495" height="854" key="GridCell.Tab.0.bottom/0.0.1920.1032@0.0.1920.1032" timestamp="1692633617614" />
-    <state width="1495" height="854" key="GridCell.Tab.0.center" timestamp="1692633617614">
+    <state width="1604" height="733" key="GridCell.Tab.0.bottom/0.0.1920.1032@0.0.1920.1032" timestamp="1692637212308" />
+    <state width="1604" height="733" key="GridCell.Tab.0.center" timestamp="1692637212307">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
-    <state width="1495" height="854" key="GridCell.Tab.0.center/0.0.1920.1032@0.0.1920.1032" timestamp="1692633617614" />
-    <state width="1495" height="854" key="GridCell.Tab.0.left" timestamp="1692633617614">
+    <state width="1604" height="733" key="GridCell.Tab.0.center/0.0.1920.1032@0.0.1920.1032" timestamp="1692637212307" />
+    <state width="1604" height="733" key="GridCell.Tab.0.left" timestamp="1692637212307">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
-    <state width="1495" height="854" key="GridCell.Tab.0.left/0.0.1920.1032@0.0.1920.1032" timestamp="1692633617614" />
-    <state width="1495" height="854" key="GridCell.Tab.0.right" timestamp="1692633617614">
+    <state width="1604" height="733" key="GridCell.Tab.0.left/0.0.1920.1032@0.0.1920.1032" timestamp="1692637212307" />
+    <state width="1604" height="733" key="GridCell.Tab.0.right" timestamp="1692637212308">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
-    <state width="1495" height="854" key="GridCell.Tab.0.right/0.0.1920.1032@0.0.1920.1032" timestamp="1692633617614" />
+    <state width="1604" height="733" key="GridCell.Tab.0.right/0.0.1920.1032@0.0.1920.1032" timestamp="1692637212308" />
+    <state x="552" y="230" key="Vcs.Push.Dialog.v2" timestamp="1692633817747">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="552" y="230" key="Vcs.Push.Dialog.v2/0.0.1920.1032@0.0.1920.1032" timestamp="1692633817747" />
   </component>
 </project>

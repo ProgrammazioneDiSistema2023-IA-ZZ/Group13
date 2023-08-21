@@ -21,6 +21,9 @@ pub fn gen_inputs( n_input: usize)-> Vec<i32>{
 }
 
 fn main() {
+
+
+
     println!("Welcome to the Neural Network Configuration Menu!");
     let num_layers = get_input("\nEnter the number of layers: ");
 
@@ -107,12 +110,14 @@ fn main() {
     println!("\n*********************************************\n");
     let mut error = ConfErr::new_from_main(&network_test, Type::None,&vec![] ,  0);
     println!("Simulation without error: ");
-    let outputs =  network_test.create_thread(inputs.clone(), error.clone());
-    for j in 0..outputs.len(){
-        println!("output {} : {:?}", j, outputs[j]);
+    let outputs_no_err =  network_test.create_thread(inputs.clone(), error.clone());
+    for j in 0..outputs_no_err.len(){
+        println!("output {} : {:?}", j, outputs_no_err[j]);
     }
     println!("\n*********************************************\n");
 
+    let mut count_err1 = 0;
+    let mut count_err2 = 0;
     for i in 0..num_inferences{
         let mut error = ConfErr::new_from_main(&network_test, error_type, &err_comp ,n_inputs);
         println!("Simulation {}", i+1);
@@ -121,7 +126,54 @@ fn main() {
             println!("output {} : {:?}", j, outputs[j]);
         }
         println!("\n*********************************************\n");
+
+        count_err1 += compute_differences1(&outputs_no_err, &outputs);
+        count_err2 += compute_differences2(&outputs_no_err, &outputs);
     }
+
+
+    println!("resilience1: {:.2}", (num_inferences-count_err1)*100/num_inferences);
+    println!("resilience2: {:.2}", (num_inferences*(outputs_no_err[0].len() * outputs_no_err.len())-count_err2)*100/(outputs_no_err[0].len() * outputs_no_err.len() * num_inferences) );
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+pub fn compute_differences1(right: &Vec<Vec<i32>>, output: &Vec<Vec<i32>>) -> usize{
+    for i in 0..output.len(){
+        for j in 0..output[i].len(){
+            if right[i][j] != output[i][j]{
+                return 1;
+            }
+        }
+    }
+    0
+}
+
+pub fn compute_differences2(right: &Vec<Vec<i32>>, output: &Vec<Vec<i32>>) -> usize{
+    let mut count = 0;
+    for i in 0..output.len(){
+        for j in 0..output[i].len(){
+            if right[i][j] != output[i][j]{
+                count+=1;
+            }
+        }
+    }
+    count
 }
 
 fn get_input(prompt: &str) -> usize {

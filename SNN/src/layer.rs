@@ -65,7 +65,7 @@ impl Layer{
 
     pub fn generate_weight(n_neurons: i32, n_neurons_pre: i32, id: i32) -> (Vec<f64>, Vec<f64>){
         let mut rng = thread_rng();
-        let mult = 18.5;
+        let mult = 16.5;
         let mut weights_same = Vec::new();
         for _ in 0..n_neurons-1{
             weights_same.push(  rng.gen::<f64>()*mult );
