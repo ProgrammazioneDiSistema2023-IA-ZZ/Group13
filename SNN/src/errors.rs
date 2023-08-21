@@ -1,7 +1,7 @@
 use rand::{Rng, thread_rng};
 use crate::network::Network;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ErrorComponent {
     Threshold,
     VRest,
@@ -10,7 +10,7 @@ pub enum ErrorComponent {
     Weights
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Type {
     None,
     Stuck0,
@@ -46,7 +46,17 @@ impl ConfErr{
         }
     }
 
-    pub fn new_from_main(network: &Network, err_type: Type, err_comp: Vec<ErrorComponent>, w_pos: (i32, usize), time: usize) -> Self{
+    pub fn new_from_main(network: &Network, err_type: Type, err_comp: &Vec<ErrorComponent>, time: usize) -> Self{
+        if err_type == Type::None{
+            return ConfErr{
+                id_neuron: 0,
+                t_start: 0,
+                n_bit: 0,
+                err_type: Type::None,
+                err_comp: ErrorComponent::Threshold,
+                w_pos: (-1, 1),
+            };
+        }
         let mut rng = thread_rng();
         let mut t_start = 0;
         let err_c = err_comp[rng.gen_range(0..err_comp.len())];
@@ -54,24 +64,23 @@ impl ConfErr{
         if err_type == Type::BitFlip {
             t_start = rng.gen_range(0..time-1) as i32;
         }
+        let id_neuron = rng.gen_range(0..network.n_neurons);
 
-        let mut vec = -1;
-        let mut index= -1;
-        if err_comp == ErrorComponent::Weights{
-            vec = rng.gen_range(0..2);
-            let len;
-
+        let index;
+        let vec = rng.gen_range(0..2);
+        if err_c == ErrorComponent::Weights{
+            let (layer, index_layer) = network.get_indexes(id_neuron);
             if vec==0 {//prec
-                len = network.connections_prec_layer.len();
+                let len = network.layers[layer].neurons[index_layer].connections_prec_layer.len();
                 index = rng.gen_range(0..len) as usize;
             }else {//same
-                len = network.connections_same_layer.len();
+                let len = network.layers[layer].neurons[index_layer].connections_same_layer.len();
                 index = rng.gen_range(0..len) as usize;
             }
-        }
+        }else{index = 0}
 
         ConfErr{
-            id_neuron: rng.gen_range(0..network.n_neurons),
+            id_neuron,
             t_start,
             //counter_duration,
             n_bit: rng.gen_range(0..64),
@@ -81,58 +90,55 @@ impl ConfErr{
         }
     }
 
-    pub fn is_overlapping(&self, t_start: i32, duration: i32) -> bool{
-        (self.t_start < t_start+duration && self.t_start > t_start) || (self.t_start+self.duration > t_start && self.t_start < t_start )
-    }
 
-    pub fn network_create_errors(n_layers: usize, n_err: i32) -> Vec<i32>{
-        let mut errors_vec = vec![0; n_layers];
-        for _ in 0..n_err{
-            let mut rng = thread_rng();
-            let x = rng.gen_range(0..n_layers);
-            errors_vec[x] += 1;
-        }
-        return errors_vec;
-    }
+    // pub fn network_create_errors(n_layers: usize, n_err: i32) -> Vec<i32>{
+    //     let mut errors_vec = vec![0; n_layers];
+    //     for _ in 0..n_err{
+    //         let mut rng = thread_rng();
+    //         let x = rng.gen_range(0..n_layers);
+    //         errors_vec[x] += 1;
+    //     }
+    //     return errors_vec;
+    // }
 
-    pub fn layer_create_error(range: (i32, i32), type_err: Type, n_errors: i32, tot_time: i32) -> Vec<ConfErr>{
-        if n_errors <= 0{
-            return vec![];
-        }
-
-        let mut rng = thread_rng();
-        let mut errors_vec: Vec<ConfErr> = Vec::new();
-        for _ in 0..n_errors{
-            'loop_flag: loop{
-                let id_n = rng.gen_range(range.0..=range.1);
-                let t_start = rng.gen_range(0..tot_time);
-                let duration;
-                if let Type::BitFlip=type_err { duration=1 }
-                else {duration = rng.gen_range(1..=3/*(tot_time-t_start)*/); }
-
-                for e in &errors_vec{
-                    if e.id_neuron == id_n && e.is_overlapping(t_start,duration){
-                        continue 'loop_flag;
-                    }
-                }
-
-                let bit = rng.gen_range(0..64);
-                let flag = rng.gen_range(0..5);
-                let cmpn;
-                match flag {
-                    0 => cmpn = ErrorComponent::Threshold,
-                    1 => cmpn = ErrorComponent::VRest,
-                    2 => cmpn = ErrorComponent::VMem,
-                    3 => cmpn = ErrorComponent::VReset,
-                    4 => cmpn = ErrorComponent::Weights,
-                    _ => panic!("impossible")
-                }
-
-                let err = ConfErr::new(id_n,t_start,duration,bit,type_err,cmpn,0.0, (0,0));
-                errors_vec.push(err);
-                break 'loop_flag;
-            }
-        }
-        errors_vec
-    }
+    // pub fn layer_create_error(range: (i32, i32), type_err: Type, n_errors: i32, tot_time: i32) -> Vec<ConfErr>{
+    //     if n_errors <= 0{
+    //         return vec![];
+    //     }
+    //
+    //     let mut rng = thread_rng();
+    //     let mut errors_vec: Vec<ConfErr> = Vec::new();
+    //     for _ in 0..n_errors{
+    //         'loop_flag: loop{
+    //             let id_n = rng.gen_range(range.0..=range.1);
+    //             let t_start = rng.gen_range(0..tot_time);
+    //             let duration;
+    //             if let Type::BitFlip=type_err { duration=1 }
+    //             else {duration = rng.gen_range(1..=3/*(tot_time-t_start)*/); }
+    //
+    //             for e in &errors_vec{
+    //                 if e.id_neuron == id_n && e.is_overlapping(t_start,duration){
+    //                     continue 'loop_flag;
+    //                 }
+    //             }
+    //
+    //             let bit = rng.gen_range(0..64);
+    //             let flag = rng.gen_range(0..5);
+    //             let cmpn;
+    //             match flag {
+    //                 0 => cmpn = ErrorComponent::Threshold,
+    //                 1 => cmpn = ErrorComponent::VRest,
+    //                 2 => cmpn = ErrorComponent::VMem,
+    //                 3 => cmpn = ErrorComponent::VReset,
+    //                 4 => cmpn = ErrorComponent::Weights,
+    //                 _ => panic!("impossible")
+    //             }
+    //
+    //             let err = ConfErr::new(id_n,t_start,duration,bit,type_err,cmpn,0.0, (0,0));
+    //             errors_vec.push(err);
+    //             break 'loop_flag;
+    //         }
+    //     }
+    //     errors_vec
+    // }
 }

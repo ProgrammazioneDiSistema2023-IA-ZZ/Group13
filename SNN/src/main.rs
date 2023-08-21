@@ -90,51 +90,38 @@ fn main() {
     }
 
     let errors_flag: bool = get_yes_or_no("\nDo you want to add some errors?");
-    let mut num_errors;
     let mut num_inferences = 1;
     let mut error_type;
     match errors_flag {
         true => { 
             num_inferences = get_input("How many inferences do you want?");
-            num_errors = 1;
             error_type = get_error_type();
         },   //yes errors
         false => {
             println!("No errors in the network");
-            num_errors = 0;
             error_type = Type::None;
         } //Everything works fine
     }
+
+    let err_comp = get_error_component();
+    println!("\n*********************************************\n");
+    let mut error = ConfErr::new_from_main(&network_test, Type::None,&vec![] ,  0);
+    println!("Simulation without error: ");
+    let outputs =  network_test.create_thread(inputs.clone(), error.clone());
+    for j in 0..outputs.len(){
+        println!("output {} : {:?}", j, outputs[j]);
+    }
+    println!("\n*********************************************\n");
+
     for i in 0..num_inferences{
-        let error = ConfErr::new_from_main(&network_test, error_type, get_error_component(), (-1,-1), n_inputs);
-        let outputs =  network_test.create_thread(inputs.clone(), error_type, num_errors as i32);
-        println!("Simulation {}", i);
+        let mut error = ConfErr::new_from_main(&network_test, error_type, &err_comp ,n_inputs);
+        println!("Simulation {}", i+1);
+        let outputs =  network_test.create_thread(inputs.clone(), error.clone());
         for j in 0..outputs.len(){
             println!("output {} : {:?}", j, outputs[j]);
         }
         println!("\n*********************************************\n");
     }
-
-    println!("\n*********************************************\n");
-
-    network_test.print_network();
-
-    if errors_flag==false {
-        match get_yes_or_no("\nNow do you want to restart the network with some errors?") {
-            true => {
-                num_errors = get_input("How many errors do you want?");
-                error_type = get_error_type();
-                let outputs_w_errs = network_test.create_thread(inputs, error_type, num_errors as i32);
-                for i in 0..outputs_w_errs.len(){
-                    println!("output with errors {} : {:?}", i, outputs_w_errs[i]);
-                }
-            },
-            false => {
-                println!("ending...");
-            }
-        }
-    }
-
 }
 
 fn get_input(prompt: &str) -> usize {

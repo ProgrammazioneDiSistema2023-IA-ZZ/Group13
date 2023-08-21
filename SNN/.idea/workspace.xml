@@ -21,15 +21,12 @@
     </expand>
     <select />
   </component>
-  <component name="CMakePresetLoader">{
-  &quot;useNewFormat&quot;: true
-}</component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated />
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
   <component name="CargoProjects">
@@ -37,8 +34,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1a1e5f37-387d-4765-b1a7-d625a447373d" name="Default Changelist" comment="single neuron configurable">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_08_2023_18_36__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_08_2023_18_36__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/errors.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/errors.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layer.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/layer.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/network.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/network.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/neuron.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/neuron.rs" afterDir="false" />
@@ -75,32 +74,17 @@
     <option name="showLibraryContents" value="true" />
     <option name="sortByType" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/ricca.LAPTOP-P9JKHG7N/Desktop/PDS/Group13/SNN",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
-    "vue.rearranger.settings.migration": "true"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
+  </component>
   <component name="RunManager">
     <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command" nameIsGenerated="true">
       <option name="command" value="run" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
-      <option name="emulateTerminal" value="false" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
       <option name="allFeatures" value="false" />
-      <option name="withSudo" value="false" />
-      <option name="buildTarget" value="REMOTE" />
+      <option name="emulateTerminal" value="false" />
       <option name="backtrace" value="SHORT" />
       <envs />
       <option name="isRedirectInput" value="false" />
@@ -203,6 +187,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="matteo2" />
@@ -213,5 +198,23 @@
     <MESSAGE value="change mult" />
     <MESSAGE value="single neuron configurable" />
     <option name="LAST_COMMIT_MESSAGE" value="single neuron configurable" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1495" height="854" key="GridCell.Tab.0.bottom" timestamp="1692633617614">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1495" height="854" key="GridCell.Tab.0.bottom/0.0.1920.1032@0.0.1920.1032" timestamp="1692633617614" />
+    <state width="1495" height="854" key="GridCell.Tab.0.center" timestamp="1692633617614">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1495" height="854" key="GridCell.Tab.0.center/0.0.1920.1032@0.0.1920.1032" timestamp="1692633617614" />
+    <state width="1495" height="854" key="GridCell.Tab.0.left" timestamp="1692633617614">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1495" height="854" key="GridCell.Tab.0.left/0.0.1920.1032@0.0.1920.1032" timestamp="1692633617614" />
+    <state width="1495" height="854" key="GridCell.Tab.0.right" timestamp="1692633617614">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1495" height="854" key="GridCell.Tab.0.right/0.0.1920.1032@0.0.1920.1032" timestamp="1692633617614" />
   </component>
 </project>

@@ -50,7 +50,7 @@ impl Layer{
         self.neurons[id_in_layer].add_weights_prec_layer(connections_prec_layer);
     }
 
-    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, layer_errors: &mut Vec<ConfErr>, time: usize) -> Vec<i32>{
+    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, error: &ConfErr, time: usize) -> Vec<i32>{
         let mut output = Vec::new();
         let mut i = 0;
 
@@ -58,7 +58,7 @@ impl Layer{
             let mut inputs_same_layer_copy = inputs_same_layer.clone();
             inputs_same_layer_copy.remove(i);
             i=i+1;
-            output.push(n.compute_output(&inputs_prec_layer, &inputs_same_layer_copy, layer_errors, time as i32));
+            output.push(n.compute_output(&inputs_prec_layer, &inputs_same_layer_copy, error, time as i32));
         }
         output
     }
@@ -83,5 +83,9 @@ impl Layer{
             }
         }
         (weights_prec, weights_same)
+    }
+
+    pub fn id_is_in_range(&self, id: i32) -> bool{
+        id >= self.range.0 && id <= self.range.1
     }
 }

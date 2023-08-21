@@ -80,12 +80,12 @@ impl Neuron{
         0
     }*/
 
-    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, error: &mut ConfErr, time: i32) -> i32{ //sarà chiamata dalla rete grande
+    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, error: &ConfErr, time: i32) -> i32{ //sarà chiamata dalla rete grande
         let decrement = 0.1;
         if inputs_prec_layer.contains(&1) || inputs_same_layer.contains(&1) {
-            if error.id_neuron == self.id {
+            if error.id_neuron == self.id && ((error.err_type == Type::BitFlip && error.t_start == time) || (error.err_type == Type::Stuck0 || error.err_type == Type::Stuck1) ){
                 //println!("Neurone: {}, time: {}, before error: {}, original_parameter: {}, tupla: {:?}",self.id, time, self.v_threshold, error.original_parameter, error.w_pos);
-                self.neuron_create_error(neuron_error, time);
+                self.neuron_create_error(error, time);
                 //println!("prova di salvataggio original: {}", error.original_parameter);
                 //println!("after error: {}",self.v_threshold);
             }
@@ -99,7 +99,7 @@ impl Neuron{
         0
     }
 
-    fn neuron_create_error(&mut self, error: &mut ConfErr, time: i32){
+    fn neuron_create_error(&mut self, error: &ConfErr, time: i32){
         let mut rng = thread_rng();
         let mut number;
         let bit_position = error.n_bit; // Posizione del bit da modificare
@@ -110,23 +110,6 @@ impl Neuron{
             ErrorComponent::VMem => { number = self.v_mem; },
             ErrorComponent::VReset => { number = self.v_reset; },
             ErrorComponent::Weights => {
-                /*if error.t_start==time {
-                    let vec = rng.gen_range(0..2);
-                    let len;
-                    let index;
-                    if vec==0 {//prec
-                        len = self.connections_prec_layer.len();
-                        index = rng.gen_range(0..len) as usize;
-                        error.original_parameter = self.connections_prec_layer[index];
-                    }else {//same
-                        len = self.connections_same_layer.len();
-                        index = rng.gen_range(0..len) as usize;
-                        error.original_parameter = self.connections_same_layer[index];
-                    }
-
-                    error.w_pos = (vec, index);
-                }*/
-
                 if error.w_pos.0==0 {//prec
                     number = self.connections_prec_layer[error.w_pos.1];
                 }else {//same

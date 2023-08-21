@@ -28,12 +28,12 @@ impl Network{
             start_id = start_id+network_conf[layer];
             layers.push(Layer::new_empty(range));
         }
-
+        let n_neurons = network_conf.clone().iter().sum();
         Network{
             layers,
             network_conf,
             n_layers,
-            n_neurons: network_conf.iter().sum()
+            n_neurons,
         }
     }
 
@@ -132,7 +132,7 @@ impl Network{
 
 /***********************************************************************************************/
 
-    pub fn create_thread(&mut self, inputs: Vec<Vec<i32>>, type_err: Type, n_err: i32) -> Vec<Vec<i32>> {
+    pub fn create_thread(&mut self, inputs: Vec<Vec<i32>>,error : ConfErr) -> Vec<Vec<i32>> {
 
         let tot_time = inputs.len();
         let n_layers = self.n_layers;
@@ -151,10 +151,6 @@ impl Network{
             println!("input {} : {:?}", i, inputs[i]);
         }
 
-        let network_errors = ConfErr::network_create_errors(self.n_layers, n_err);
-        println!("vec_errors: {:?}", network_errors);
-
-
         /*************************************************************/
 
         let mut threads = Vec::new();
@@ -168,18 +164,14 @@ impl Network{
 
             let n_neurons_in_layer = self.network_conf[layer];
             let mut layer_copy = self.layers[layer].clone();
-            let n_err_xlayer = network_errors[layer];
-            // println!("copy {:?}", layer_copy);
 
             let handle = thread::spawn(move || {
                 let mut input_same_layer = vec![0; n_neurons_in_layer as usize];
 
-                let mut layer_errors = ConfErr::layer_create_error(layer_copy.range, type_err, n_err_xlayer, tot_time as i32);
-
                 for time in 0..tot_time {
                     let input_prec_layer = rec.recv().unwrap();
 
-                    let output = layer_copy.compute_output(&input_prec_layer, &input_same_layer, &mut layer_errors, time);
+                    let output = layer_copy.compute_output(&input_prec_layer, &input_same_layer,  &error, time);
 
                     println!("thread {}, time : {}, input_same_layer : {:?}, input_prec_layer : {:?}, output : {:?}", layer, time, input_same_layer, input_prec_layer, output);
                     input_same_layer = output.clone();
@@ -206,6 +198,21 @@ impl Network{
     }
 
 /***********************************************************************************************/
+
+    pub fn get_indexes(&self, id : i32)-> (usize, usize){
+
+        for l in 0..self.n_layers{
+            if self.layers[l].id_is_in_range(id){
+                for (index, n) in self.layers[l].neurons.iter().enumerate(){
+                    if n.id == id{
+                        return (l, index);
+                    }
+                }
+            }
+        }
+        (0,0)
+    }
+
 
     pub fn print_network(&self){
         println!("Network :");
