@@ -37,7 +37,7 @@ impl Network{
         }
     }
 
-    pub fn add_random_neurons(&mut self,funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32){ // [3 2 3]  [0 3 5]
+    pub fn add_random_neurons(&mut self, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32){ // [3 2 3]  [0 3 5]
         let mut rnd = rand::thread_rng();
         let mut id=0;
         for (index, layer) in self.layers.iter_mut().enumerate(){
@@ -48,13 +48,25 @@ impl Network{
         }
     }
 
-    pub fn add_neurons(&mut self, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32){ // [3 2 3]  [0 3 5]
+    pub fn add_neurons_from_input(&mut self, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32){
         let mut id=0;
         for (index, layer) in self.layers.iter_mut().enumerate(){
             for _ in 0..self.network_conf[index]{
                 println!("write value for v_threshold, v_rest, v_mem, v_reset: for neuron {}", id);
                 let values = get_array_input(4 as usize);
                 layer.add_neuron(id,values[0],values[1],values[2],values[3],funzione);
+                id+=1;
+            }
+        }
+    }
+
+    pub fn add_random_weights(&mut self){
+        let mut id=0;
+        for (index, layer) in self.layers.iter_mut().enumerate(){
+            for n in 0..self.network_conf[index]{
+                let weights = Layer::generate_weight(self.network_conf[index],if index as i32 ==0 {-1} else {self.network_conf[index-1]}, id);
+                layer.add_weights_prec_layer(n as usize,weights.0);
+                layer.add_weights_same_layer(n as usize,weights.1);
                 id+=1;
             }
         }
@@ -87,52 +99,15 @@ impl Network{
         }
     }
 
-    pub fn add_random_weights(&mut self){
-        let mut id=0;
-        for (index, layer) in self.layers.iter_mut().enumerate(){
-            for n in 0..self.network_conf[index]{
-                let weights = Layer::generate_weight(self.network_conf[index],if index as i32 ==0 {-1} else {self.network_conf[index-1]}, id);
-                layer.add_weights_prec_layer(n as usize,weights.0);
-                layer.add_weights_same_layer(n as usize,weights.1);
-                id+=1;
-            }
-        }
-    }
 
-    // pub fn add_weights_same_layer(&mut self, layer: usize, id_in_layer: usize, connections_same_layer: Vec<f64>){
-    //     self.layers[layer].add_weights_same_layer(id_in_layer,connections_same_layer);
-    // }
-    //
-    // pub fn add_weights_prec_layer(&mut self, layer: usize, id_in_layer: usize, connections_prec_layer: Vec<f64>){
-    //     self.layers[layer].add_weights_prec_layer(id_in_layer,connections_prec_layer);
-    // }
-
-
-    // pub fn new_random(network_conf: Vec<i32>) -> Self { //vettore in lunghezza indica numero layer ed il singolo valore indica quanti neuroni a lvl
-    //     let mut layers = Vec::<Layer>::new();
-    //     let n_layers = network_conf.len();
-    //     let mut start_id = 0;
-    //
-    //     //chiama la funzione in layer che genera i layer con i neuroni
-    //     for time in 0..n_layers {
-    //         if time == 0 {
-    //             layers.push(Layer::new_random_weight(start_id,network_conf[time], -1));
-    //         } else {
-    //             layers.push(Layer::new_random_weight(start_id,network_conf[time], network_conf[time - 1]));
-    //         }
-    //         start_id = start_id + network_conf[time];
-    //     }
-    //
-    //     Network {
-    //         layers,
-    //         network_conf,
-    //         n_layers,
-    //     }
-    // }
 
 /***********************************************************************************************/
 
-    pub fn create_thread(&mut self, inputs: Vec<Vec<i32>>,error : ConfErr) -> Vec<Vec<i32>> {
+    pub fn simulation_without_errors(&mut self, inputs: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        self.simulation(inputs,ConfErr::no_errors())
+    }
+
+    pub fn simulation(&mut self, inputs: Vec<Vec<i32>>,error : ConfErr) -> Vec<Vec<i32>> {
 
         let tot_time = inputs.len();
         let n_layers = self.n_layers;

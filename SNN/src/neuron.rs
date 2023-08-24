@@ -6,7 +6,7 @@ pub struct Neuron {
     pub id: i32,
     pub v_threshold: f64,
     pub v_rest: f64,
-    pub v_mem: f64, //la struct dovrà essere mutabile cosicchè ogni volta v_mem cambia in base al t
+    pub v_mem: f64,
     pub v_reset: f64,
     pub connections_same_layer: Vec<f64>,
     pub connections_prec_layer: Vec<f64>,
@@ -19,7 +19,6 @@ impl Neuron{
 
     pub fn new(id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64, connections_same_layer: Vec<f64>, connections_prec_layer: Vec<f64>,funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32) -> Self{
         let delta_t = 1.0;
-
         Neuron {
             id,
             v_threshold,
@@ -33,7 +32,8 @@ impl Neuron{
         }
     }
 
-    pub fn new_without_weights(id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64,funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32) -> Self{
+
+    pub fn new_without_weights(id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32) -> Self{
         let connections_same_layer = vec![];
         let connections_prec_layer = vec![];
         let delta_t = 1.0;
@@ -51,52 +51,34 @@ impl Neuron{
         }
     }
 
+
     pub fn add_weights_same_layer(&mut self, connections_same_layer: Vec<f64>){
         self.connections_same_layer = connections_same_layer;
     }
+
+
     pub fn add_weights_prec_layer(&mut self, connections_prec_layer: Vec<f64>){
         self.connections_prec_layer = connections_prec_layer;
     }
 
-    /*pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, layer_errors: &mut Vec<ConfErr>, time: i32) -> i32{ //sarà chiamata dalla rete grande
-        let decrement = 0.1;
-        if inputs_prec_layer.contains(&1) || inputs_same_layer.contains(&1) {
-            for neuron_error in layer_errors{
-                if neuron_error.id_neuron == self.id && neuron_error.t_start <= time && neuron_error.t_start+neuron_error.duration >= time {
-                    //println!("Neurone: {}, time: {}, before error: {}, original_parameter: {}, tupla: {:?}",self.id, time, self.v_threshold, error.original_parameter, error.w_pos);
-                    self.neuron_create_error(neuron_error, time);
-                    //println!("prova di salvataggio original: {}", error.original_parameter);
-                    //println!("after error: {}",self.v_threshold);
-                }
-            }
-
-            return (self.funzione)(self, inputs_prec_layer, inputs_same_layer);
-        }
-        self.delta_t += 1.0;
-        if self.v_mem - decrement > self.v_rest{
-            self.v_mem -= decrement;
-        }
-        0
-    }*/
 
     pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, error: &ConfErr, time: i32) -> i32{ //sarà chiamata dalla rete grande
-        let decrement = 0.1;
         if inputs_prec_layer.contains(&1) || inputs_same_layer.contains(&1) {
             if error.id_neuron == self.id && ((error.err_type == Type::BitFlip && error.t_start == time) || (error.err_type == Type::Stuck0 || error.err_type == Type::Stuck1) ){
-                //println!("Neurone: {}, time: {}, before error: {}, original_parameter: {}, tupla: {:?}",self.id, time, self.v_threshold, error.original_parameter, error.w_pos);
                 self.neuron_create_error(error);
-                //println!("prova di salvataggio original: {}", error.original_parameter);
-                //println!("after error: {}",self.v_threshold);
             }
+            (self.funzione)(self, inputs_prec_layer, inputs_same_layer)
 
-            return (self.funzione)(self, inputs_prec_layer, inputs_same_layer);
+        }else{
+            self.delta_t += 1.0;
+            let decrement = 0.1;
+            if self.v_mem - decrement > self.v_rest{
+                self.v_mem -= decrement;
+            }
+            0
         }
-        self.delta_t += 1.0;
-        if self.v_mem - decrement > self.v_rest{
-            self.v_mem -= decrement;
-        }
-        0
     }
+
 
     fn neuron_create_error(&mut self, error: &ConfErr){
         let mut number;
@@ -114,6 +96,7 @@ impl Neuron{
                     number = self.connections_same_layer[error.w_pos.1];
                 }
             }
+            _ => { return;}
         }
 
         let mut bits: u64 = number.to_bits();
@@ -134,15 +117,15 @@ impl Neuron{
             }
         }
 
-        // Converte nuovamente gli "bits di floating point" in un f64 modificato
+        // Converte nuovamente i "bits di floating point" in un f64 modificato
         number = f64::from_bits(bits);
 
 
         match error.err_comp {
-            ErrorComponent::Threshold => { /*println!("threshold {}, Modified number: {}", self.v_threshold, number);*/ self.v_threshold = number;  },
-            ErrorComponent::VRest => { /*println!("v_mem {}, Modified number: {}", self.v_mem, number);*/ self.v_rest = number; },
-            ErrorComponent::VMem => { /*println!("v_mem {}, Modified number: {}", self.v_mem, number);*/ self.v_mem = number; },
-            ErrorComponent::VReset => { /*println!("v_mem {}, Modified number: {}", self.v_mem, number);*/ self.v_reset = number; },
+            ErrorComponent::Threshold => {  self.v_threshold = number;  },
+            ErrorComponent::VRest => {      self.v_rest = number; },
+            ErrorComponent::VMem => {       self.v_mem = number; },
+            ErrorComponent::VReset => {     self.v_reset = number; },
             ErrorComponent::Weights => {
                 if error.w_pos.0==0 {//prec
                     self.connections_prec_layer[error.w_pos.1] = number;
@@ -150,10 +133,10 @@ impl Neuron{
                     self.connections_same_layer[error.w_pos.1] = number;
                 }
             }
+            _ => { return;}
         }
     }
 }
-
 
 
 impl fmt::Display for Neuron {
@@ -195,6 +178,7 @@ impl fmt::Display for Neuron {
                 s1, s2)
     }
 }
+
 
 pub fn round_f64(n : f64) -> f64{
     (n * 100.0).round() / 100.0

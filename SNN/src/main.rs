@@ -11,14 +11,6 @@ use network::Network;
 use errors::{Type, ErrorComponent, ConfErr};
 use neuron::Neuron;
 
-pub fn gen_inputs( n_input: usize)-> Vec<i32>{
-    let mut rnd = rand::thread_rng();
-    let mut input = Vec::new();
-    for _ in 0..n_input{
-        input.push((rnd.gen_range(0..10) as i32)%2);
-    }
-    input
-}
 
 fn main() {
 
@@ -61,13 +53,13 @@ fn main() {
                 true => { //random values
                     println!("Genereting network with configured values and random weights");
 
-                    network_test.add_neurons(lif);
+                    network_test.add_neurons_from_input(lif);
                     network_test.add_random_weights();
                 },
                 false => { //by hand
                     println!("Genereting network with configured values and configured weights");
 
-                    network_test.add_neurons(lif);
+                    network_test.add_neurons_from_input(lif);
                     network_test.add_weights_from_input();
                 }
             }
@@ -96,21 +88,20 @@ fn main() {
     let mut num_inferences = 0;
     let error_type;
     match errors_flag {
-        true => { 
+        true => {
             num_inferences = get_input("How many inferences do you want?");
             error_type = get_error_type();
-        },   //yes errors
+        },
         false => {
             println!("No errors in the network");
             error_type = Type::None;
-        } //Everything works fine
+        }
     }
 
     let err_comp = get_error_component();
     println!("\n*********************************************\n");
-    let error = ConfErr::new_from_main(&network_test, Type::None,&vec![] ,  0);
     println!("Simulation without error: ");
-    let outputs_no_err =  network_test.create_thread(inputs.clone(), error.clone());
+    let outputs_no_err =  network_test.simulation_without_errors(inputs.clone());
     for j in 0..outputs_no_err.len(){
         println!("output {} : {:?}", j, outputs_no_err[j]);
     }
@@ -121,7 +112,7 @@ fn main() {
     for i in 0..num_inferences{
         let error = ConfErr::new_from_main(&network_test, error_type, &err_comp ,n_inputs);
         println!("Simulation {}", i+1);
-        let outputs =  network_test.create_thread(inputs.clone(), error.clone());
+        let outputs =  network_test.simulation(inputs.clone(), error.clone());
         for j in 0..outputs.len(){
             println!("output {} : {:?}", j, outputs[j]);
         }
@@ -130,21 +121,33 @@ fn main() {
         count_err1 += compute_differences1(&outputs_no_err, &outputs);
         count_err2 += compute_differences2(&outputs_no_err, &outputs);
     }
-
-
     println!("resilience1: {:.2}", (num_inferences-count_err1)*100/num_inferences);
     println!("resilience2: {:.2}", (num_inferences*(outputs_no_err[0].len() * outputs_no_err.len())-count_err2)*100/(outputs_no_err[0].len() * outputs_no_err.len() * num_inferences) );
-
-
-
-
-
-
 
 }
 
 
 
+
+pub fn lif(neuron :&mut Neuron, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>) -> i32{
+    neuron.v_mem = neuron.v_rest + (neuron.v_mem - neuron.v_rest)*f64::exp(-neuron.delta_t/0.1);
+    neuron.delta_t = 1.0;
+
+    for i in 0..inputs_prec_layer.len(){
+        neuron.v_mem += inputs_prec_layer[i] as f64 * neuron.connections_prec_layer[i];
+
+    }
+
+    for i in 0..inputs_same_layer.len(){
+        neuron.v_mem += inputs_same_layer[i] as f64 * neuron.connections_same_layer[i];
+    }
+
+    if neuron.v_mem > neuron.v_threshold{
+        neuron.v_mem = neuron.v_reset;
+        return 1;
+    }
+    0
+}
 
 
 
@@ -174,6 +177,15 @@ pub fn compute_differences2(right: &Vec<Vec<i32>>, output: &Vec<Vec<i32>>) -> us
         }
     }
     count
+}
+
+pub fn gen_inputs( n_input: usize)-> Vec<i32>{
+    let mut rnd = rand::thread_rng();
+    let mut input = Vec::new();
+    for _ in 0..n_input{
+        input.push((rnd.gen_range(0..10) as i32)%2);
+    }
+    input
 }
 
 fn get_input(prompt: &str) -> usize {
@@ -313,22 +325,3 @@ fn get_array_input_i32(size: usize) -> Vec<i32> {
     numbers
 }
 
-pub fn lif(neuron :&mut Neuron, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>) -> i32{
-    neuron.v_mem = neuron.v_rest + (neuron.v_mem - neuron.v_rest)*f64::exp(-neuron.delta_t/0.1);
-    neuron.delta_t = 1.0;
-
-    for i in 0..inputs_prec_layer.len(){
-        neuron.v_mem += inputs_prec_layer[i] as f64 * neuron.connections_prec_layer[i];
-
-    }
-
-    for i in 0..inputs_same_layer.len(){
-        neuron.v_mem += inputs_same_layer[i] as f64 * neuron.connections_same_layer[i];
-    }
-
-    if neuron.v_mem > neuron.v_threshold{
-        neuron.v_mem = neuron.v_reset;
-        return 1;
-    }
-    0
-}

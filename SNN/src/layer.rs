@@ -6,9 +6,6 @@ use rand::{thread_rng, Rng};
 pub struct Layer{
     pub neurons : Vec<Neuron>,
     pub range: (i32, i32)
-    // input : Vec<i32>,
-    // output : Vec<i32>,
-    // output_prec : Vec<i32>,
 }
 
 impl Layer{
@@ -19,24 +16,6 @@ impl Layer{
             range,
         }
     }
-
-    // pub fn new_random_weight(start_id: i32, n_neurons: i32, n_neurons_pre: i32) -> Self {
-    //     let mut neurons = Vec::new();
-    //     let mut id = start_id;
-    //
-    //     for _ in 0..n_neurons{
-    //
-    //         let weights = Layer::generate_weight(n_neurons, n_neurons_pre, id);
-    //
-    //         neurons.push( Neuron::new(id,-52.0,-65.0,-65.0,-60.0,weights.1, weights.0) );
-    //         id = id + 1;
-    //     }
-    //
-    //     Layer{
-    //         neurons,
-    //         range: (start_id, start_id+n_neurons-1)
-    //     }
-    // }
 
     pub fn add_neuron(&mut self, id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64,funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32){
         self.neurons.push( Neuron::new_without_weights(id,v_threshold,v_rest,v_mem,v_reset,funzione));
