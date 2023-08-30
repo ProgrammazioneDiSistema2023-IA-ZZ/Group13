@@ -37,7 +37,7 @@ impl Network{
         }
     }
 
-    pub fn add_random_neurons(&mut self, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32){ // [3 2 3]  [0 3 5]
+    pub fn add_random_neurons(&mut self, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>,&ConfErr,i32)->i32){ // [3 2 3]  [0 3 5]
         let mut rnd = rand::thread_rng();
         let mut id=0;
         for (index, layer) in self.layers.iter_mut().enumerate(){
@@ -48,7 +48,7 @@ impl Network{
         }
     }
 
-    pub fn add_neurons_from_input(&mut self, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32){
+    pub fn add_neurons_from_input(&mut self, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>,&ConfErr,i32)->i32){
         let mut id=0;
         for (index, layer) in self.layers.iter_mut().enumerate(){
             for _ in 0..self.network_conf[index]{

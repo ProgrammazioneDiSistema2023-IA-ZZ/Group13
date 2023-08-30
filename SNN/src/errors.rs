@@ -1,5 +1,6 @@
 use rand::{Rng, thread_rng};
 use crate::network::Network;
+use std::fmt;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ErrorComponent {
@@ -8,7 +9,9 @@ pub enum ErrorComponent {
     VRest,
     VMem,
     VReset,
-    Weights
+    Weights,
+    Multiplier,
+    Adder,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -69,6 +72,7 @@ impl ConfErr{
 
         let index;
         let vec = rng.gen_range(0..2);
+
         if err_c == ErrorComponent::Weights{
             let (layer, index_layer) = network.get_indexes(id_neuron);
             if vec==0 {//prec
@@ -89,4 +93,43 @@ impl ConfErr{
             w_pos: (vec, index),
         }
     }
+
+    pub fn change_bit(&self, number: f64)-> f64{
+        let bit_position = self.n_bit;
+        let mut bits: u64 = number.to_bits();
+
+        match self.err_type {
+            Type::Stuck0 => {
+                let mask = !(1 << bit_position);
+                bits &= mask;// stuck ad 0
+            },
+            Type::Stuck1 => {
+                let mask = 1 << bit_position;
+                bits &= mask;// stuck ad 1
+            },
+            Type::BitFlip => {
+                bits ^= 1 << bit_position; // Esegue un XOR per invertire il bit
+            }
+            Type::None => {
+                panic!("impossible, NoError here!")
+            }
+        }
+        f64::from_bits(bits)
+    }
+
+    // pub fn check_mult_and_add(&self, id: i32, component: ErrorComponent, time: i32, pos: i32, i: usize) -> bool {
+    //     if self.id_neuron == id && self.err_comp == component {
+    //         if (self.err_type == Type::BitFlip && self.t_start == time && self.w_pos.0 == pos && self.w_pos.1 == i) || (self.err_type == Type::Stuck0 || self.err_type == Type::Stuck1) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 }
+
+impl fmt::Display for ConfErr {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Error: Type: {:?}, Component: {:?}, IdNeuron: {}, Modified_bit: {}", self.err_type, self.err_comp, self.id_neuron, self.n_bit )
+    }
+}
+

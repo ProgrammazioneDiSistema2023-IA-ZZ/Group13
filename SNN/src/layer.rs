@@ -17,7 +17,7 @@ impl Layer{
         }
     }
 
-    pub fn add_neuron(&mut self, id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64,funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>)->i32){
+    pub fn add_neuron(&mut self, id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64,funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>,&ConfErr,i32)->i32){
         self.neurons.push( Neuron::new_without_weights(id,v_threshold,v_rest,v_mem,v_reset,funzione));
     }
 

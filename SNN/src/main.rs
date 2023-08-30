@@ -13,9 +13,6 @@ use neuron::Neuron;
 
 
 fn main() {
-
-
-
     println!("Welcome to the Neural Network Configuration Menu!");
     let num_layers = get_input("\nEnter the number of layers: ");
 
@@ -35,13 +32,13 @@ fn main() {
         true => { //random values
             match random_weights {
                 true => { //random values
-                    println!("Genereting network with random values and random weights");
+                    println!("\nGenereting network with random values and random weights");
                     // network_test = Network::new_random(network_conf);
                     network_test.add_random_neurons(lif);
                     network_test.add_random_weights();
                 },
                 false => { //by hand
-                    println!("Genereting network with random values and configured weights");
+                    println!("\nGenereting network with random values and configured weights");
                     network_test.add_random_neurons(lif);
                     network_test.add_weights_from_input();
                 }
@@ -51,13 +48,13 @@ fn main() {
 
             match random_weights {
                 true => { //random values
-                    println!("Genereting network with configured values and random weights");
+                    println!("\nGenereting network with configured values and random weights");
 
                     network_test.add_neurons_from_input(lif);
                     network_test.add_random_weights();
                 },
                 false => { //by hand
-                    println!("Genereting network with configured values and configured weights");
+                    println!("\nGenereting network with configured values and configured weights");
 
                     network_test.add_neurons_from_input(lif);
                     network_test.add_weights_from_input();
@@ -67,7 +64,7 @@ fn main() {
     }
     network_test.print_network();
 
-    let n_inputs = get_input("How long should simulation lasts (in instant of time)?");
+    let n_inputs = get_input("\nHow long should simulation lasts (in instant of time)?");
     let mut inputs = Vec::new();
     let random_inputs: bool = get_yes_or_no("\nDo you want random inputs?");
     match random_inputs {
@@ -89,11 +86,11 @@ fn main() {
     let error_type;
     match errors_flag {
         true => {
-            num_inferences = get_input("How many inferences do you want?");
+            num_inferences = get_input("\nHow many inferences do you want?");
             error_type = get_error_type();
         },
         false => {
-            println!("No errors in the network");
+            println!("\nNo errors in the network");
             error_type = Type::None;
         }
     }
@@ -112,34 +109,65 @@ fn main() {
     for i in 0..num_inferences{
         let error = ConfErr::new_from_main(&network_test, error_type, &err_comp ,n_inputs);
         println!("Simulation {}", i+1);
+        println!("{}", error);
+
         let outputs =  network_test.simulation(inputs.clone(), error.clone());
         for j in 0..outputs.len(){
             println!("output {} : {:?}", j, outputs[j]);
         }
+        let tmp = compute_differences1(&outputs_no_err, &outputs);
+        count_err1 += tmp;
+        count_err2 += compute_differences2(&outputs_no_err, &outputs);
+        if tmp == 1{
+            println!("\nERROR IN THIS SIMULATION!!!!");
+        }
         println!("\n*********************************************\n");
 
-        count_err1 += compute_differences1(&outputs_no_err, &outputs);
-        count_err2 += compute_differences2(&outputs_no_err, &outputs);
-    }
-    println!("resilience1: {:.2}", (num_inferences-count_err1)*100/num_inferences);
-    println!("resilience2: {:.2}", (num_inferences*(outputs_no_err[0].len() * outputs_no_err.len())-count_err2)*100/(outputs_no_err[0].len() * outputs_no_err.len() * num_inferences) );
 
+    }
+    println!("resilience1: {:.2}, with errors: {}", (num_inferences-count_err1)*100/num_inferences, count_err1);
+    println!("resilience2: {:.2}, with errors: {}", (num_inferences*(outputs_no_err[0].len() * outputs_no_err.len())-count_err2)*100/(outputs_no_err[0].len() * outputs_no_err.len() * num_inferences), count_err2);
+
+}
+
+pub fn multiplier(x: f64, y: f64, error: &ConfErr, with_error: bool) -> f64{
+    if with_error && error.err_comp == ErrorComponent::Multiplier{
+        error.change_bit(x*y)
+    }
+    else { x*y }
+}
+
+pub fn adder(x: f64, y: f64, error: &ConfErr, with_error: bool) -> f64{
+    if with_error && error.err_comp == ErrorComponent::Adder{
+        error.change_bit(x+y)
+    }
+    else { x+y }
 }
 
 
 
+pub fn lif(neuron :&mut Neuron, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, error: &ConfErr, time: i32) -> i32{
 
-pub fn lif(neuron :&mut Neuron, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>) -> i32{
-    neuron.v_mem = neuron.v_rest + (neuron.v_mem - neuron.v_rest)*f64::exp(-neuron.delta_t/0.1);
+    let mut flag_error = false;
+    if error.id_neuron == neuron.id && ((error.err_type == Type::BitFlip && error.t_start == time) || (error.err_type == Type::Stuck0 || error.err_type == Type::Stuck1) ){
+        flag_error = error.err_comp == ErrorComponent::Adder || error.err_comp == ErrorComponent::Multiplier;
+        neuron.neuron_create_error(error);
+    }
+
+    let diff = adder(neuron.v_mem,  -neuron.v_rest, error, flag_error);
+    let mul = multiplier(diff, f64::exp(-neuron.delta_t/0.1) , error, flag_error);
+    neuron.v_mem = adder(neuron.v_rest, mul, error, flag_error);
+
     neuron.delta_t = 1.0;
 
     for i in 0..inputs_prec_layer.len(){
-        neuron.v_mem += inputs_prec_layer[i] as f64 * neuron.connections_prec_layer[i];
-
+        let temp = multiplier(inputs_prec_layer[i] as f64, neuron.connections_prec_layer[i], error, flag_error);
+        neuron.v_mem = adder(neuron.v_mem, temp, error,flag_error );
     }
 
     for i in 0..inputs_same_layer.len(){
-        neuron.v_mem += inputs_same_layer[i] as f64 * neuron.connections_same_layer[i];
+        let temp = multiplier(inputs_same_layer[i] as f64, neuron.connections_same_layer[i], error, flag_error);
+        neuron.v_mem = adder(neuron.v_mem, temp, error,flag_error);
     }
 
     if neuron.v_mem > neuron.v_threshold{
@@ -255,7 +283,7 @@ fn get_binary_input(prompt: &str) -> i32 {
 }
 
 fn get_error_type() -> Type {
-    println!("Select the type of error:");
+    println!("\nSelect the type of error:");
     println!("1. Stuck0");
     println!("2. Stuck1");
     println!("3. BitFlip");
@@ -277,13 +305,15 @@ fn get_error_type() -> Type {
 
 fn get_error_component() -> Vec<ErrorComponent> {
     let mut err_cmp_vec = Vec::new();
-    println!("Select error component for components list:");
+    println!("\nSelect error component for components list:");
     println!("1. Threshold");
     println!("2. VRest");
     println!("3. VMem");
     println!("4. VReset");
     println!("5. Weights");
-    println!("6. Stop");
+    println!("6. Multiplier");
+    println!("7. Adder");
+    println!("8. Stop");
 
     loop {
         let mut input = String::new();
@@ -297,8 +327,10 @@ fn get_error_component() -> Vec<ErrorComponent> {
             "3" => err_cmp_vec.push(ErrorComponent::VMem),
             "4" => err_cmp_vec.push(ErrorComponent::VReset),
             "5" => err_cmp_vec.push(ErrorComponent::Weights),
-            "6" => return err_cmp_vec,
-            _ => println!("Invalid input. Please select a valid option (1 ..= 6)."),
+            "6" => err_cmp_vec.push(ErrorComponent::Multiplier),
+            "7" => err_cmp_vec.push(ErrorComponent::Adder),
+            "8" => return err_cmp_vec,
+            _ => println!("Invalid input. Please select a valid option (1 ..= 8)."),
         }
     }
 }

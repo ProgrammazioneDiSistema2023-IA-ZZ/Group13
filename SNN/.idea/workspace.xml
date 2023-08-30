@@ -33,7 +33,9 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a1e5f37-387d-4765-b1a7-d625a447373d" name="Default Changelist" comment="matteo9">
+    <list default="true" id="1a1e5f37-387d-4765-b1a7-d625a447373d" name="Default Changelist" comment="matteo10">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_08_2023_18_36_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_08_2023_18_36__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/errors.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/errors.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layer.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/layer.rs" afterDir="false" />
@@ -94,6 +96,11 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
@@ -123,6 +130,8 @@
       <workItem from="1692467636242" duration="1000" />
       <workItem from="1692536378457" duration="15274000" />
       <workItem from="1692820001979" duration="4845000" />
+      <workItem from="1692883481459" duration="712000" />
+      <workItem from="1693400436396" duration="8235000" />
     </task>
     <task id="LOCAL-00001" summary="matteo2">
       <created>1691769064064</created>
@@ -187,7 +196,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692637563366</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="matteo9">
+      <created>1692883509835</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1692883509835</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,29 +233,29 @@
     <option name="LAST_COMMIT_MESSAGE" value="matteo9" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="107" height="700" key="GridCell.Tab.0.bottom" timestamp="1692828159369">
+    <state width="820" height="854" key="GridCell.Tab.0.bottom" timestamp="1693408596384">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
-    <state width="107" height="700" key="GridCell.Tab.0.bottom/0.0.1920.1032@0.0.1920.1032" timestamp="1692828159369" />
-    <state width="107" height="700" key="GridCell.Tab.0.center" timestamp="1692828159369">
+    <state width="820" height="854" key="GridCell.Tab.0.bottom/0.0.1920.1032@0.0.1920.1032" timestamp="1693408596384" />
+    <state width="820" height="854" key="GridCell.Tab.0.center" timestamp="1693408596384">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
-    <state width="107" height="700" key="GridCell.Tab.0.center/0.0.1920.1032@0.0.1920.1032" timestamp="1692828159369" />
-    <state width="107" height="700" key="GridCell.Tab.0.left" timestamp="1692828159369">
+    <state width="820" height="854" key="GridCell.Tab.0.center/0.0.1920.1032@0.0.1920.1032" timestamp="1693408596384" />
+    <state width="820" height="854" key="GridCell.Tab.0.left" timestamp="1693408596382">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
-    <state width="107" height="700" key="GridCell.Tab.0.left/0.0.1920.1032@0.0.1920.1032" timestamp="1692828159369" />
-    <state width="107" height="700" key="GridCell.Tab.0.right" timestamp="1692828159369">
+    <state width="820" height="854" key="GridCell.Tab.0.left/0.0.1920.1032@0.0.1920.1032" timestamp="1693408596382" />
+    <state width="820" height="854" key="GridCell.Tab.0.right" timestamp="1693408596384">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
-    <state width="107" height="700" key="GridCell.Tab.0.right/0.0.1920.1032@0.0.1920.1032" timestamp="1692828159369" />
-    <state x="552" y="230" key="Vcs.Push.Dialog.v2" timestamp="1692637570406">
+    <state width="820" height="854" key="GridCell.Tab.0.right/0.0.1920.1032@0.0.1920.1032" timestamp="1693408596384" />
+    <state x="552" y="230" key="Vcs.Push.Dialog.v2" timestamp="1692883534626">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
-    <state x="552" y="230" key="Vcs.Push.Dialog.v2/0.0.1920.1032@0.0.1920.1032" timestamp="1692637570406" />
-    <state x="777" y="425" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1692820006511">
+    <state x="552" y="230" key="Vcs.Push.Dialog.v2/0.0.1920.1032@0.0.1920.1032" timestamp="1692883534626" />
+    <state x="777" y="425" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1693400442452">
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
-    <state x="777" y="425" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1032@0.0.1920.1032" timestamp="1692820006511" />
+    <state x="777" y="425" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1032@0.0.1920.1032" timestamp="1693400442452" />
   </component>
 </project>
