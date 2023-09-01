@@ -98,6 +98,22 @@ impl Neuron{
 }
 
 
+pub fn multiplier(x: f64, y: f64, error: &ConfErr, with_error: bool) -> f64{
+    if with_error && error.err_comp == ErrorComponent::Multiplier{
+        error.change_bit(x*y)
+    }
+    else { x*y }
+}
+
+
+pub fn adder(x: f64, y: f64, error: &ConfErr, with_error: bool) -> f64{
+    if with_error && error.err_comp == ErrorComponent::Adder{
+        error.change_bit(x+y)
+    }
+    else { x+y }
+}
+
+
 impl fmt::Display for Neuron {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 

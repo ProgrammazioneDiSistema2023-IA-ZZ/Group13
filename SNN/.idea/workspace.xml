@@ -21,28 +21,22 @@
     </expand>
     <select />
   </component>
+  <component name="CMakePresetLoader"><![CDATA[{
+  "useNewFormat": true
+}]]></component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated />
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
     </configurations>
   </component>
   <component name="CargoProjects">
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a1e5f37-387d-4765-b1a7-d625a447373d" name="Default Changelist" comment="matteo10">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_08_2023_18_36_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_08_2023_18_36__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/errors.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/errors.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layer.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/layer.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/network.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neuron.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/neuron.rs" afterDir="false" />
-    </list>
+    <list default="true" id="1a1e5f37-387d-4765-b1a7-d625a447373d" name="Default Changelist" comment="resolved warnings" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,21 +78,18 @@
     <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command" nameIsGenerated="true">
       <option name="command" value="run" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <option name="emulateTerminal" value="false" />
       <option name="channel" value="DEFAULT" />
       <option name="requiredFeatures" value="true" />
       <option name="allFeatures" value="false" />
-      <option name="emulateTerminal" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
       <option name="backtrace" value="SHORT" />
       <envs />
       <option name="isRedirectInput" value="false" />
       <option name="redirectInputPath" value="" />
       <method v="2">
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
   </component>
@@ -128,10 +119,7 @@
       <workItem from="1692285079757" duration="4656000" />
       <workItem from="1692302221984" duration="9825000" />
       <workItem from="1692467636242" duration="1000" />
-      <workItem from="1692536378457" duration="15274000" />
-      <workItem from="1692820001979" duration="4845000" />
-      <workItem from="1692883481459" duration="712000" />
-      <workItem from="1693400436396" duration="8235000" />
+      <workItem from="1692536378457" duration="25367000" />
     </task>
     <task id="LOCAL-00001" summary="matteo2">
       <created>1691769064064</created>
@@ -182,28 +170,21 @@
       <option name="project" value="LOCAL" />
       <updated>1692625119891</updated>
     </task>
-    <task id="LOCAL-00008" summary="matteo9">
-      <created>1692633815303</created>
+    <task id="LOCAL-00008" summary="offkr">
+      <created>1692629848978</created>
       <option name="number" value="00008" />
       <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
-      <updated>1692633815303</updated>
+      <updated>1692629848978</updated>
     </task>
-    <task id="LOCAL-00009" summary="matteo9">
-      <created>1692637563366</created>
+    <task id="LOCAL-00009" summary="resolved warnings">
+      <created>1692638219191</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1692637563366</updated>
+      <updated>1692638219191</updated>
     </task>
-    <task id="LOCAL-00010" summary="matteo9">
-      <created>1692883509835</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1692883509835</updated>
-    </task>
-    <option name="localTasksCounter" value="11" />
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,7 +200,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="matteo2" />
@@ -229,33 +209,8 @@
     <MESSAGE value="final check and simulation" />
     <MESSAGE value="change mult" />
     <MESSAGE value="single neuron configurable" />
-    <MESSAGE value="matteo9" />
-    <option name="LAST_COMMIT_MESSAGE" value="matteo9" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="820" height="854" key="GridCell.Tab.0.bottom" timestamp="1693408596384">
-      <screen x="0" y="0" width="1920" height="1032" />
-    </state>
-    <state width="820" height="854" key="GridCell.Tab.0.bottom/0.0.1920.1032@0.0.1920.1032" timestamp="1693408596384" />
-    <state width="820" height="854" key="GridCell.Tab.0.center" timestamp="1693408596384">
-      <screen x="0" y="0" width="1920" height="1032" />
-    </state>
-    <state width="820" height="854" key="GridCell.Tab.0.center/0.0.1920.1032@0.0.1920.1032" timestamp="1693408596384" />
-    <state width="820" height="854" key="GridCell.Tab.0.left" timestamp="1693408596382">
-      <screen x="0" y="0" width="1920" height="1032" />
-    </state>
-    <state width="820" height="854" key="GridCell.Tab.0.left/0.0.1920.1032@0.0.1920.1032" timestamp="1693408596382" />
-    <state width="820" height="854" key="GridCell.Tab.0.right" timestamp="1693408596384">
-      <screen x="0" y="0" width="1920" height="1032" />
-    </state>
-    <state width="820" height="854" key="GridCell.Tab.0.right/0.0.1920.1032@0.0.1920.1032" timestamp="1693408596384" />
-    <state x="552" y="230" key="Vcs.Push.Dialog.v2" timestamp="1692883534626">
-      <screen x="0" y="0" width="1920" height="1032" />
-    </state>
-    <state x="552" y="230" key="Vcs.Push.Dialog.v2/0.0.1920.1032@0.0.1920.1032" timestamp="1692883534626" />
-    <state x="777" y="425" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1693400442452">
-      <screen x="0" y="0" width="1920" height="1032" />
-    </state>
-    <state x="777" y="425" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1032@0.0.1920.1032" timestamp="1693400442452" />
+    <MESSAGE value="offkr" />
+    <MESSAGE value="resolved warnings" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolved warnings" />
   </component>
 </project>

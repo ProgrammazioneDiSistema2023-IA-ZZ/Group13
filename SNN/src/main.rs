@@ -130,21 +130,6 @@ fn main() {
 
 }
 
-pub fn multiplier(x: f64, y: f64, error: &ConfErr, with_error: bool) -> f64{
-    if with_error && error.err_comp == ErrorComponent::Multiplier{
-        error.change_bit(x*y)
-    }
-    else { x*y }
-}
-
-pub fn adder(x: f64, y: f64, error: &ConfErr, with_error: bool) -> f64{
-    if with_error && error.err_comp == ErrorComponent::Adder{
-        error.change_bit(x+y)
-    }
-    else { x+y }
-}
-
-
 
 pub fn lif(neuron :&mut Neuron, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, error: &ConfErr, time: i32) -> i32{
 
@@ -154,20 +139,20 @@ pub fn lif(neuron :&mut Neuron, inputs_prec_layer: &Vec<i32>, inputs_same_layer:
         neuron.neuron_create_error(error);
     }
 
-    let diff = adder(neuron.v_mem,  -neuron.v_rest, error, flag_error);
-    let mul = multiplier(diff, f64::exp(-neuron.delta_t/0.1) , error, flag_error);
-    neuron.v_mem = adder(neuron.v_rest, mul, error, flag_error);
+    let diff = neuron::adder(neuron.v_mem,  -neuron.v_rest, error, flag_error);
+    let mul = neuron::multiplier(diff, f64::exp(-neuron.delta_t/0.1) , error, flag_error);
+    neuron.v_mem = neuron::adder(neuron.v_rest, mul, error, flag_error);
 
     neuron.delta_t = 1.0;
 
     for i in 0..inputs_prec_layer.len(){
-        let temp = multiplier(inputs_prec_layer[i] as f64, neuron.connections_prec_layer[i], error, flag_error);
-        neuron.v_mem = adder(neuron.v_mem, temp, error,flag_error );
+        let temp = neuron::multiplier(inputs_prec_layer[i] as f64, neuron.connections_prec_layer[i], error, flag_error);
+        neuron.v_mem = neuron::adder(neuron.v_mem, temp, error,flag_error );
     }
 
     for i in 0..inputs_same_layer.len(){
-        let temp = multiplier(inputs_same_layer[i] as f64, neuron.connections_same_layer[i], error, flag_error);
-        neuron.v_mem = adder(neuron.v_mem, temp, error,flag_error);
+        let temp = neuron::multiplier(inputs_same_layer[i] as f64, neuron.connections_same_layer[i], error, flag_error);
+        neuron.v_mem = neuron::adder(neuron.v_mem, temp, error,flag_error);
     }
 
     if neuron.v_mem > neuron.v_threshold{
@@ -176,12 +161,6 @@ pub fn lif(neuron :&mut Neuron, inputs_prec_layer: &Vec<i32>, inputs_same_layer:
     }
     0
 }
-
-
-
-
-
-
 
 
 pub fn compute_differences1(right: &Vec<Vec<i32>>, output: &Vec<Vec<i32>>) -> usize{
