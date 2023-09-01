@@ -44,13 +44,320 @@ _compute_differences2_: in questa funzione, gli errori vengono contati ad ogni s
 * **change_bit**: questa funzione serve per applicare uno dei tre possibili errori (Stuck0, Stuck1 o BitFlip) ad un bit scelto precedentemente
 
 ## Simulazione
+All'inizio della simulazione c'è una fase di configurazione:
 
 ``` json
-blabla
-dsh
+Welcome to the Neural Network Configuration Menu!
 
-dfg
-df
-gd
-fg
+Enter the number of layers:
+4
+
+Number of neurons per layer:
+-Layer 0:
+5
+-Layer 1:
+3
+-Layer 2:
+7
+-Layer 3:
+3
+
+Do you want to generate random values for each neuron? (y/n)
+y
+
+Do you want to generate random weights? (y/n)
+y
+```
+Poi segue la generazione della rete:
+
+``` json
+Genereting network with random values and random weights
+Network :
+  Layer :
+    Neuron : id : 0, v_threshold : -52.09, v_rest : -64.5, v_mem  : -65.64, v_reset : -60.04, connections_same_layer : [ 3.40, 12.60, 7.51, 7.36 ], connections_prec_layer : [ 11.74, 0.00, 0.00, 0.00, 0.00 ]
+    Neuron : id : 1, v_threshold : -51.05, v_rest : -65.06, v_mem  : -64.65, v_reset : -59.07, connections_same_layer : [ 3.33, 11.20, 16.12, 10.17 ], connections_prec_layer : [ 0.00, 10.78, 0.00, 0.00, 0.00 ]
+    Neuron : id : 2, v_threshold : -52.63, v_rest : -64.97, v_mem  : -65.92, v_reset : -60.2, connections_same_layer : [ 0.51, 9.03, 12.14, 6.01 ], connections_prec_layer : [ 0.00, 0.00, 13.48, 0.00, 0.00 ]
+    Neuron : id : 3, v_threshold : -51.42, v_rest : -65.1, v_mem  : -64.55, v_reset : -59.01, connections_same_layer : [ 13.64, 2.78, 3.15, 11.97 ], connections_prec_layer : [ 0.00, 0.00, 0.00, 10.68, 0.00 ]
+    Neuron : id : 4, v_threshold : -52.39, v_rest : -64.99, v_mem  : -65.64, v_reset : -59.26, connections_same_layer : [ 10.95, 1.20, 13.20, 10.42 ], connections_prec_layer : [ 0.00, 0.00, 0.00, 0.00, 1.04 ]
+  Layer :
+    Neuron : id : 5, v_threshold : -51.84, v_rest : -65.6, v_mem  : -65.04, v_reset : -59.07, connections_same_layer : [ 15.48, 0.46 ], connections_prec_layer : [ 7.31, 3.80, 4.31, 11.23, 13.10 ]
+    Neuron : id : 6, v_threshold : -52.83, v_rest : -65.16, v_mem  : -64.74, v_reset : -59.16, connections_same_layer : [ 14.03, 14.77 ], connections_prec_layer : [ 2.83, 10.19, 5.16, 6.89, 8.16 ]
+    Neuron : id : 7, v_threshold : -51.98, v_rest : -64.34, v_mem  : -64.58, v_reset : -59.57, connections_same_layer : [ 15.60, 5.96 ], connections_prec_layer : [ 7.09, 9.38, 2.02, 0.29, 14.39 ]
+  Layer :
+    Neuron : id : 8, v_threshold : -52.79, v_rest : -64.73, v_mem  : -64.53, v_reset : -60.76, connections_same_layer : [ 14.48, 1.34, 3.20, 13.59, 14.64, 8.51 ], connections_prec_layer : [ 11.44, 14.31, 5.29 ]
+    Neuron : id : 9, v_threshold : -51.73, v_rest : -64.85, v_mem  : -64.39, v_reset : -59.09, connections_same_layer : [ 15.11, 1.89, 12.26, 14.47, 12.50, 1.52 ], connections_prec_layer : [ 12.39, 7.62, 10.45 ]
+    Neuron : id : 10, v_threshold : -51.17, v_rest : -64.25, v_mem  : -64.92, v_reset : -59.45, connections_same_layer : [ 12.91, 13.30, 11.39, 2.06, 2.16, 16.44 ], connections_prec_layer : [ 15.29, 16.25, 10.93 ]
+    Neuron : id : 11, v_threshold : -52.31, v_rest : -64.3, v_mem  : -65.91, v_reset : -60.2, connections_same_layer : [ 15.08, 14.75, 6.07, 3.64, 4.10, 7.33 ], connections_prec_layer : [ 6.05, 14.84, 6.95 ]
+    Neuron : id : 12, v_threshold : -52.11, v_rest : -65.52, v_mem  : -64.68, v_reset : -60.71, connections_same_layer : [ 1.15, 11.92, 8.64, 15.95, 12.55, 4.37 ], connections_prec_layer : [ 13.10, 14.96, 8.00 ]
+    Neuron : id : 13, v_threshold : -51.5, v_rest : -64.93, v_mem  : -65.28, v_reset : -60.24, connections_same_layer : [ 8.34, 11.64, 10.70, 7.41, 0.83, 2.38 ], connections_prec_layer : [ 0.00, 14.45, 10.65 ]
+    Neuron : id : 14, v_threshold : -52.83, v_rest : -65.88, v_mem  : -64.32, v_reset : -59.46, connections_same_layer : [ 5.92, 5.03, 3.43, 2.16, 0.72, 3.57 ], connections_prec_layer : [ 8.38, 2.94, 0.21 ]
+  Layer :
+    Neuron : id : 15, v_threshold : -52.1, v_rest : -65.24, v_mem  : -64.9, v_reset : -60.21, connections_same_layer : [ 5.53, 12.41 ], connections_prec_layer : [ 6.20, 7.14, 8.75, 3.21, 10.02, 5.59, 11.12 ]
+    Neuron : id : 16, v_threshold : -51.35, v_rest : -65.3, v_mem  : -64.31, v_reset : -60.48, connections_same_layer : [ 4.83, 9.70 ], connections_prec_layer : [ 4.98, 0.49, 7.05, 2.65, 1.27, 16.07, 5.74 ]
+    Neuron : id : 17, v_threshold : -52.65, v_rest : -65.51, v_mem  : -65.12, v_reset : -59.96, connections_same_layer : [ 6.48, 15.03 ], connections_prec_layer : [ 7.16, 4.84, 5.68, 7.32, 8.24, 10.69, 4.72 ]
+```
+
+Successivamente vengono scelti la durata della simulazione, gli input e se si vuole la presenza di errori o meno: 
+``` json
+How long should simulation lasts (in instant of time)?
+6
+
+Do you want random inputs? (y/n)
+y
+
+Do you want to add some errors? (y/n)
+y
+
+How many inferences do you want?
+200
+
+Select the type of error:
+1. Stuck0
+2. Stuck1
+3. BitFlip
+3
+
+Select error component for components list:
+1. Threshold
+2. VRest
+3. VMem
+4. VReset
+5. Weights
+6. Multiplier
+7. Adder
+8. Stop
+6
+7
+3
+8
+
+```
+
+Simulation without error:
+``` json
+input 0 : [1, 1, 1, 1, 0]
+input 1 : [0, 0, 1, 0, 0]
+input 2 : [1, 0, 1, 1, 0]
+input 3 : [0, 1, 0, 0, 1]
+input 4 : [1, 1, 0, 0, 1]
+input 5 : [0, 1, 0, 0, 1]
+thread 0, time : 0, input_same_layer : [0, 0, 0, 0, 0], input_prec_layer : [1, 1, 1, 1, 0], output : [0, 0, 1, 0, 0]
+thread 0, time : 1, input_same_layer : [0, 0, 1, 0, 0], input_prec_layer : [0, 0, 1, 0, 0], output : [1, 0, 1, 0, 1]
+thread 0, time : 2, input_same_layer : [1, 0, 1, 0, 1], input_prec_layer : [1, 0, 1, 1, 0], output : [1, 1, 1, 1, 1]
+thread 0, time : 3, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [0, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 1, time : 0, input_same_layer : [0, 0, 0], input_prec_layer : [0, 0, 1, 0, 0], output : [0, 0, 0]
+thread 0, time : 4, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [1, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 1, time : 1, input_same_layer : [0, 0, 0], input_prec_layer : [1, 0, 1, 0, 1], output : [1, 1, 1]
+thread 1, time : 2, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 1, time : 3, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 1, time : 4, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 0, time : 5, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [0, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 2, time : 0, input_same_layer : [0, 0, 0, 0, 0, 0, 0], input_prec_layer : [0, 0, 0], output : [0, 0, 0, 0, 0, 0, 0]
+thread 1, time : 5, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 2, time : 1, input_same_layer : [0, 0, 0, 0, 0, 0, 0], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 0]
+thread 3, time : 0, input_same_layer : [0, 0, 0], input_prec_layer : [0, 0, 0, 0, 0, 0, 0], output : [0, 0, 0]
+thread 2, time : 2, input_same_layer : [1, 1, 1, 1, 1, 1, 0], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 1, input_same_layer : [0, 0, 0], input_prec_layer : [1, 1, 1, 1, 1, 1, 0], output : [1, 1, 1]
+thread 2, time : 3, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 2, time : 4, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 2, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 2, time : 5, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 3, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 4, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 5, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+output 0 : [0, 0, 0]
+output 1 : [1, 1, 1]
+output 2 : [1, 1, 1]
+output 3 : [1, 1, 1]
+output 4 : [1, 1, 1]
+output 5 : [1, 1, 1]
+```
+
+Simulations with error:
+
+``` json
+Simulation 1
+Error: Type: BitFlip, Component: Multiplier, IdNeuron: 14, Modified_bit: 52
+input 0 : [1, 1, 1, 1, 0]
+input 1 : [0, 0, 1, 0, 0]
+input 2 : [1, 0, 1, 1, 0]
+input 3 : [0, 1, 0, 0, 1]
+input 4 : [1, 1, 0, 0, 1]
+input 5 : [0, 1, 0, 0, 1]
+thread 0, time : 0, input_same_layer : [0, 0, 0, 0, 0], input_prec_layer : [1, 1, 1, 1, 0], output : [0, 0, 1, 0, 0]
+thread 0, time : 1, input_same_layer : [0, 0, 1, 0, 0], input_prec_layer : [0, 0, 1, 0, 0], output : [1, 0, 1, 0, 1]
+thread 0, time : 2, input_same_layer : [1, 0, 1, 0, 1], input_prec_layer : [1, 0, 1, 1, 0], output : [1, 1, 1, 1, 1]
+thread 0, time : 3, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [0, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 1, time : 0, input_same_layer : [0, 0, 0], input_prec_layer : [0, 0, 1, 0, 0], output : [0, 0, 0]
+thread 0, time : 4, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [1, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 0, time : 5, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [0, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 2, time : 0, input_same_layer : [0, 0, 0, 0, 0, 0, 0], input_prec_layer : [0, 0, 0], output : [0, 0, 0, 0, 0, 0, 0]
+thread 3, time : 0, input_same_layer : [0, 0, 0], input_prec_layer : [0, 0, 0, 0, 0, 0, 0], output : [0, 0, 0]
+thread 1, time : 1, input_same_layer : [0, 0, 0], input_prec_layer : [1, 0, 1, 0, 1], output : [1, 1, 1]
+thread 1, time : 2, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 1, time : 3, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 1, time : 4, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 1, time : 5, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 2, time : 1, input_same_layer : [0, 0, 0, 0, 0, 0, 0], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 0]
+thread 2, time : 2, input_same_layer : [1, 1, 1, 1, 1, 1, 0], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 1, input_same_layer : [0, 0, 0], input_prec_layer : [1, 1, 1, 1, 1, 1, 0], output : [1, 1, 1]
+thread 3, time : 2, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 2, time : 3, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 2, time : 4, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 2, time : 5, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 3, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 4, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 5, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+output 0 : [0, 0, 0]
+output 1 : [1, 1, 1]
+output 2 : [1, 1, 1]
+output 3 : [1, 1, 1]
+output 4 : [1, 1, 1]
+output 5 : [1, 1, 1]
+
+*********************************************
+
+Simulation 2
+Error: Type: BitFlip, Component: VMem, IdNeuron: 15, Modified_bit: 32
+input 0 : [1, 1, 1, 1, 0]
+input 1 : [0, 0, 1, 0, 0]
+input 2 : [1, 0, 1, 1, 0]
+input 3 : [0, 1, 0, 0, 1]
+input 4 : [1, 1, 0, 0, 1]
+input 5 : [0, 1, 0, 0, 1]
+thread 0, time : 0, input_same_layer : [0, 0, 0, 0, 0], input_prec_layer : [1, 1, 1, 1, 0], output : [0, 0, 1, 0, 0]
+thread 1, time : 0, input_same_layer : [0, 0, 0], input_prec_layer : [0, 0, 1, 0, 0], output : [0, 0, 0]
+thread 0, time : 1, input_same_layer : [0, 0, 1, 0, 0], input_prec_layer : [0, 0, 1, 0, 0], output : [1, 0, 1, 0, 1]
+thread 2, time : 0, input_same_layer : [0, 0, 0, 0, 0, 0, 0], input_prec_layer : [0, 0, 0], output : [0, 0, 0, 0, 0, 0, 0]
+thread 0, time : 2, input_same_layer : [1, 0, 1, 0, 1], input_prec_layer : [1, 0, 1, 1, 0], output : [1, 1, 1, 1, 1]
+thread 1, time : 1, input_same_layer : [0, 0, 0], input_prec_layer : [1, 0, 1, 0, 1], output : [1, 1, 1]
+thread 1, time : 2, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 0, time : 3, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [0, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 2, time : 1, input_same_layer : [0, 0, 0, 0, 0, 0, 0], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 0]
+thread 2, time : 2, input_same_layer : [1, 1, 1, 1, 1, 1, 0], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 0, time : 4, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [1, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 1, time : 3, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 1, time : 4, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 0, time : 5, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [0, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 2, time : 3, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 0, input_same_layer : [0, 0, 0], input_prec_layer : [0, 0, 0, 0, 0, 0, 0], output : [0, 0, 0]
+thread 1, time : 5, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 2, time : 4, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 1, input_same_layer : [0, 0, 0], input_prec_layer : [1, 1, 1, 1, 1, 1, 0], output : [1, 1, 1]
+thread 2, time : 5, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 2, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 3, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 4, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 5, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+output 0 : [0, 0, 0]
+output 1 : [1, 1, 1]
+output 2 : [1, 1, 1]
+output 3 : [1, 1, 1]
+output 4 : [1, 1, 1]
+output 5 : [1, 1, 1]
+
+*********************************************
+
+...
+
+*********************************************
+
+Simulation 147
+Error: Type: BitFlip, Component: Multiplier, IdNeuron: 6, Modified_bit: 61
+input 0 : [1, 1, 1, 1, 0]
+input 1 : [0, 0, 1, 0, 0]
+input 2 : [1, 0, 1, 1, 0]
+input 3 : [0, 1, 0, 0, 1]
+input 4 : [1, 1, 0, 0, 1]
+input 5 : [0, 1, 0, 0, 1]
+thread 0, time : 0, input_same_layer : [0, 0, 0, 0, 0], input_prec_layer : [1, 1, 1, 1, 0], output : [0, 0, 1, 0, 0]
+thread 0, time : 1, input_same_layer : [0, 0, 1, 0, 0], input_prec_layer : [0, 0, 1, 0, 0], output : [1, 0, 1, 0, 1]
+thread 1, time : 0, input_same_layer : [0, 0, 0], input_prec_layer : [0, 0, 1, 0, 0], output : [0, 1, 0]
+thread 0, time : 2, input_same_layer : [1, 0, 1, 0, 1], input_prec_layer : [1, 0, 1, 1, 0], output : [1, 1, 1, 1, 1]
+thread 1, time : 1, input_same_layer : [0, 1, 0], input_prec_layer : [1, 0, 1, 0, 1], output : [1, 1, 1]
+thread 2, time : 0, input_same_layer : [0, 0, 0, 0, 0, 0, 0], input_prec_layer : [0, 1, 0], output : [1, 0, 1, 1, 1, 1, 0]
+thread 0, time : 3, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [0, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 1, time : 2, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 1, time : 3, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 0, input_same_layer : [0, 0, 0], input_prec_layer : [1, 0, 1, 1, 1, 1, 0], output : [1, 1, 1]
+thread 0, time : 4, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [1, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 2, time : 1, input_same_layer : [1, 0, 1, 1, 1, 1, 0], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 0, time : 5, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [0, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 1, time : 4, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 1, time : 5, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 1, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 2, time : 2, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 2, time : 3, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 2, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 2, time : 4, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 3, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 2, time : 5, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 4, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 5, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+output 0 : [1, 1, 1]
+output 1 : [1, 1, 1]
+output 2 : [1, 1, 1]
+output 3 : [1, 1, 1]
+output 4 : [1, 1, 1]
+output 5 : [1, 1, 1]
+
+ERROR IN THIS SIMULATION!!!!
+
+*********************************************
+
+...
+
+*********************************************
+
+Simulation 152
+Error: Type: BitFlip, Component: VMem, IdNeuron: 16, Modified_bit: 56
+input 0 : [1, 1, 1, 1, 0]
+input 1 : [0, 0, 1, 0, 0]
+input 2 : [1, 0, 1, 1, 0]
+input 3 : [0, 1, 0, 0, 1]
+input 4 : [1, 1, 0, 0, 1]
+input 5 : [0, 1, 0, 0, 1]
+thread 0, time : 0, input_same_layer : [0, 0, 0, 0, 0], input_prec_layer : [1, 1, 1, 1, 0], output : [0, 0, 1, 0, 0]
+thread 1, time : 0, input_same_layer : [0, 0, 0], input_prec_layer : [0, 0, 1, 0, 0], output : [0, 0, 0]
+thread 0, time : 1, input_same_layer : [0, 0, 1, 0, 0], input_prec_layer : [0, 0, 1, 0, 0], output : [1, 0, 1, 0, 1]
+thread 2, time : 0, input_same_layer : [0, 0, 0, 0, 0, 0, 0], input_prec_layer : [0, 0, 0], output : [0, 0, 0, 0, 0, 0, 0]
+thread 0, time : 2, input_same_layer : [1, 0, 1, 0, 1], input_prec_layer : [1, 0, 1, 1, 0], output : [1, 1, 1, 1, 1]
+thread 1, time : 1, input_same_layer : [0, 0, 0], input_prec_layer : [1, 0, 1, 0, 1], output : [1, 1, 1]
+thread 3, time : 0, input_same_layer : [0, 0, 0], input_prec_layer : [0, 0, 0, 0, 0, 0, 0], output : [0, 0, 0]
+thread 0, time : 3, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [0, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 1, time : 2, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 2, time : 1, input_same_layer : [0, 0, 0, 0, 0, 0, 0], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 0]
+thread 0, time : 4, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [1, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 1, time : 3, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 1, time : 4, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 1, input_same_layer : [0, 0, 0], input_prec_layer : [1, 1, 1, 1, 1, 1, 0], output : [1, 1, 1]
+thread 0, time : 5, input_same_layer : [1, 1, 1, 1, 1], input_prec_layer : [0, 1, 0, 0, 1], output : [1, 1, 1, 1, 1]
+thread 2, time : 2, input_same_layer : [1, 1, 1, 1, 1, 1, 0], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 1, time : 5, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 2, time : 3, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 2, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 2, time : 4, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 3, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 0, 1]
+thread 2, time : 5, input_same_layer : [1, 1, 1, 1, 1, 1, 1], input_prec_layer : [1, 1, 1], output : [1, 1, 1, 1, 1, 1, 1]
+thread 3, time : 4, input_same_layer : [1, 0, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+thread 3, time : 5, input_same_layer : [1, 1, 1], input_prec_layer : [1, 1, 1, 1, 1, 1, 1], output : [1, 1, 1]
+output 0 : [0, 0, 0]
+output 1 : [1, 1, 1]
+output 2 : [1, 1, 1]
+output 3 : [1, 0, 1]
+output 4 : [1, 1, 1]
+output 5 : [1, 1, 1]
+
+ERROR IN THIS SIMULATION!!!!
+
+*********************************************
+
+...
+
+```
+
+Come ultima cosa vengono mostrate le percentuali della resilienza:
+``` json
+resilience1: 99%, with errors: 2
+resilience2: 99%, with errors: 4
 ```
