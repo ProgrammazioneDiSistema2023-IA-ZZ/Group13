@@ -23,7 +23,7 @@ di questo tipo può ridurre considerevolmente il numero di calcoli richiesti
 * **compute_differences**: viene utilizzata per calcolare la resilienza tramite due funzioni differenti, compute_differences1 e compute_differences2. <br>_compute_differences1_: in questa funzione, se ad una n iterazione c'è almeno un impulso che è diverso dall' output senza errori, si conta la rete come errata.
 _compute_differences2_: in questa funzione, gli errori vengono contati ad ogni singola differenza tra gli impulsi dell'iterazione corrente e l'output senza errori 
 
-### network rs
+### network
 * **new_empty**: questa funzione crea una rete senza neuroni, ricevendo un DAG in input 
 * **add_random_neurons**: una volta scelto il numero di neuroni, questa funzione genera randomicamente i singoli valori associati ad ogni neurone
 * **add_neurons_from_input**: in questa funzione vengono creati i neuroni e poi configurati a mano
