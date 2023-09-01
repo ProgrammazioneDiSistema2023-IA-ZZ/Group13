@@ -46,7 +46,7 @@ _compute_differences2_: in questa funzione, gli errori vengono contati ad ogni s
 ## Simulazione
 All'inizio della simulazione c'è una fase di configurazione:
 
-``` json
+``` text
 Welcome to the Neural Network Configuration Menu!
 
 Enter the number of layers:
@@ -70,7 +70,7 @@ y
 ```
 Poi segue la generazione della rete:
 
-``` json
+``` text
 Genereting network with random values and random weights
 Network :
   Layer :
@@ -98,7 +98,7 @@ Network :
 ```
 
 Successivamente vengono scelti la durata della simulazione, gli input e se si vuole la presenza di errori o meno: 
-``` json
+``` text
 How long should simulation lasts (in instant of time)?
 6
 
@@ -134,7 +134,7 @@ Select error component for components list:
 ```
 
 Simulation without error:
-``` json
+``` text
 input 0 : [1, 1, 1, 1, 0]
 input 1 : [0, 0, 1, 0, 0]
 input 2 : [1, 0, 1, 1, 0]
@@ -175,7 +175,8 @@ output 5 : [1, 1, 1]
 
 Simulations with error:
 
-``` json
+``` text
+
 Simulation 1
 Error: Type: BitFlip, Component: Multiplier, IdNeuron: 14, Modified_bit: 52
 input 0 : [1, 1, 1, 1, 0]
@@ -354,10 +355,11 @@ ERROR IN THIS SIMULATION!!!!
 
 ...
 
+
 ```
 
 Come ultima cosa vengono mostrate le percentuali della resilienza:
-``` json
+``` text
 resilience1: 99%, with errors: 2
 resilience2: 99%, with errors: 4
 ```
