@@ -292,7 +292,7 @@ fn get_error_component() -> Vec<ErrorComponent> {
     println!("5. Weights");
     println!("6. Multiplier");
     println!("7. Adder");
-    println!("8. Stop");
+    println!("8. Stop\n");
 
     loop {
         let mut input = String::new();
