@@ -125,8 +125,8 @@ fn main() {
 
 
     }
-    println!("resilience1: {:.2}, with errors: {}", (num_inferences-count_err1)*100/num_inferences, count_err1);
-    println!("resilience2: {:.2}, with errors: {}", (num_inferences*(outputs_no_err[0].len() * outputs_no_err.len())-count_err2)*100/(outputs_no_err[0].len() * outputs_no_err.len() * num_inferences), count_err2);
+    println!("resilience1: {:.2}%, with errors: {}", (num_inferences-count_err1)*100/num_inferences, count_err1);
+    println!("resilience2: {:.2}%, with errors: {}", (num_inferences*(outputs_no_err[0].len() * outputs_no_err.len())-count_err2)*100/(outputs_no_err[0].len() * outputs_no_err.len() * num_inferences), count_err2);
 
 }
 
