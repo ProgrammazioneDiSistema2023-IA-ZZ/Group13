@@ -76,7 +76,7 @@ fn main() {
         false => {
             for i in 0..n_inputs{
                 println!("Filling inputs instant {}:", i);
-                inputs.push(get_array_input_i32(network_test.network_conf[0] as usize));
+                inputs.push(get_array_input_u8(network_test.network_conf[0] as usize));
             }
         }
     }
@@ -131,7 +131,7 @@ fn main() {
 }
 
 
-pub fn lif(neuron :&mut Neuron, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, error: &ConfErr, time: i32) -> i32{
+pub fn lif(neuron :&mut Neuron, inputs_prec_layer: &Vec<u8>, inputs_same_layer: &Vec<u8>, error: &ConfErr, time: i32) -> u8{
 
     let mut flag_error = false;
     if error.id_neuron == neuron.id && ((error.err_type == Type::BitFlip && error.t_start == time) || (error.err_type == Type::Stuck0 || error.err_type == Type::Stuck1) ){
@@ -163,7 +163,7 @@ pub fn lif(neuron :&mut Neuron, inputs_prec_layer: &Vec<i32>, inputs_same_layer:
 }
 
 
-pub fn compute_differences1(right: &Vec<Vec<i32>>, output: &Vec<Vec<i32>>) -> usize{
+pub fn compute_differences1(right: &Vec<Vec<u8>>, output: &Vec<Vec<u8>>) -> usize{
     for i in 0..output.len(){
         for j in 0..output[i].len(){
             if right[i][j] != output[i][j]{
@@ -174,7 +174,7 @@ pub fn compute_differences1(right: &Vec<Vec<i32>>, output: &Vec<Vec<i32>>) -> us
     0
 }
 
-pub fn compute_differences2(right: &Vec<Vec<i32>>, output: &Vec<Vec<i32>>) -> usize{
+pub fn compute_differences2(right: &Vec<Vec<u8>>, output: &Vec<Vec<u8>>) -> usize{
     let mut count = 0;
     for i in 0..output.len(){
         for j in 0..output[i].len(){
@@ -186,11 +186,11 @@ pub fn compute_differences2(right: &Vec<Vec<i32>>, output: &Vec<Vec<i32>>) -> us
     count
 }
 
-pub fn gen_inputs( n_input: usize)-> Vec<i32>{
+pub fn gen_inputs( n_input: usize)-> Vec<u8>{
     let mut rnd = rand::thread_rng();
     let mut input = Vec::new();
     for _ in 0..n_input{
-        input.push((rnd.gen_range(0..10) as i32)%2);
+        input.push((rnd.gen_range(0..10) as u8)%2);
     }
     input
 }
@@ -244,7 +244,7 @@ fn get_yes_or_no(prompt: &str) -> bool {
     }
 }
 
-fn get_binary_input(prompt: &str) -> i32 {
+fn get_binary_input(prompt: &str) -> u8 {
     loop {
         println!("{} (1/0)", prompt);
 
@@ -325,12 +325,12 @@ fn get_array_input(size: usize) -> Vec<f64> {
     numbers
 }
 
-fn get_array_input_i32(size: usize) -> Vec<i32> {
+fn get_array_input_u8(size: usize) -> Vec<u8> {
     let mut numbers = Vec::new();
 
     for i in 0..size {
         let number = get_binary_input(&format!("Enter input for neuron {} (first layer):", i + 1));
-        numbers.push(number as i32);
+        numbers.push(number as u8);
     }
 
     numbers

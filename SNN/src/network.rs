@@ -37,7 +37,7 @@ impl Network{
         }
     }
 
-    pub fn add_random_neurons(&mut self, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>,&ConfErr,i32)->i32){ // [3 2 3]  [0 3 5]
+    pub fn add_random_neurons(&mut self, funzione: fn(&mut Neuron,&Vec<u8>,&Vec<u8>,&ConfErr,i32)->u8){ // [3 2 3]  [0 3 5]
         let mut rnd = rand::thread_rng();
         let mut id=0;
         for (index, layer) in self.layers.iter_mut().enumerate(){
@@ -48,7 +48,7 @@ impl Network{
         }
     }
 
-    pub fn add_neurons_from_input(&mut self, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>,&ConfErr,i32)->i32){
+    pub fn add_neurons_from_input(&mut self, funzione: fn(&mut Neuron,&Vec<u8>,&Vec<u8>,&ConfErr,i32)->u8){
         let mut id=0;
         for (index, layer) in self.layers.iter_mut().enumerate(){
             for _ in 0..self.network_conf[index]{
@@ -103,11 +103,11 @@ impl Network{
 
 /***********************************************************************************************/
 
-    pub fn simulation_without_errors(&mut self, inputs: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+    pub fn simulation_without_errors(&mut self, inputs: Vec<Vec<u8>>) -> Vec<Vec<u8>> {
         self.simulation(inputs,ConfErr::no_errors())
     }
 
-    pub fn simulation(&mut self, inputs: Vec<Vec<i32>>,error : ConfErr) -> Vec<Vec<i32>> {
+    pub fn simulation(&mut self, inputs: Vec<Vec<u8>>,error : ConfErr) -> Vec<Vec<u8>> {
 
         let tot_time = inputs.len();
         let n_layers = self.n_layers;
@@ -115,11 +115,11 @@ impl Network{
         let mut sender = Vec::new();
         let mut receiver = Vec::new();
         for _ in 0..n_layers{
-            let (s, r) = mpsc::channel::<Vec<i32>>();
+            let (s, r) = mpsc::channel::<Vec<u8>>();
             sender.push(s);
             receiver.push(r);
         }
-        let (sender_output, receiver_output) = mpsc::channel::<Vec<i32>>();
+        let (sender_output, receiver_output) = mpsc::channel::<Vec<u8>>();
 
         for i in 0..tot_time{
             sender[0].send(inputs[i].clone()).unwrap();

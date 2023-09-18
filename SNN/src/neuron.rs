@@ -10,14 +10,14 @@ pub struct Neuron {
     pub v_reset: f64,
     pub connections_same_layer: Vec<f64>,
     pub connections_prec_layer: Vec<f64>,
-    pub funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>,&ConfErr,i32)->i32,
+    pub funzione: fn(&mut Neuron,&Vec<u8>,&Vec<u8>,&ConfErr,i32)->u8,
     pub delta_t : f64,
 }
 
 
 impl Neuron{
 
-    pub fn new(id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64, connections_same_layer: Vec<f64>, connections_prec_layer: Vec<f64>,funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>,&ConfErr,i32)->i32) -> Self{
+    pub fn new(id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64, connections_same_layer: Vec<f64>, connections_prec_layer: Vec<f64>,funzione: fn(&mut Neuron,&Vec<u8>,&Vec<u8>,&ConfErr,i32)->u8) -> Self{
         let delta_t = 1.0;
         Neuron {
             id,
@@ -33,7 +33,7 @@ impl Neuron{
     }
 
 
-    pub fn new_without_weights(id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64, funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>,&ConfErr,i32)->i32) -> Self{
+    pub fn new_without_weights(id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64, funzione: fn(&mut Neuron,&Vec<u8>,&Vec<u8>,&ConfErr,i32)->u8) -> Self{
         let connections_same_layer = vec![];
         let connections_prec_layer = vec![];
         let delta_t = 1.0;
@@ -62,7 +62,7 @@ impl Neuron{
     }
 
 
-    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, error: &ConfErr, time: i32) -> i32{ //sarà chiamata dalla rete grande
+    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<u8>, inputs_same_layer: &Vec<u8>, error: &ConfErr, time: i32) -> u8{ //sarà chiamata dalla rete grande
         if inputs_prec_layer.contains(&1) || inputs_same_layer.contains(&1) {
 
             (self.funzione)(self, inputs_prec_layer, inputs_same_layer, error, time)

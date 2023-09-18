@@ -17,7 +17,7 @@ impl Layer{
         }
     }
 
-    pub fn add_neuron(&mut self, id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64,funzione: fn(&mut Neuron,&Vec<i32>,&Vec<i32>,&ConfErr,i32)->i32){
+    pub fn add_neuron(&mut self, id: i32, v_threshold: f64, v_rest: f64, v_mem: f64, v_reset: f64,funzione: fn(&mut Neuron,&Vec<u8>,&Vec<u8>,&ConfErr,i32)->u8){
         self.neurons.push( Neuron::new_without_weights(id,v_threshold,v_rest,v_mem,v_reset,funzione));
     }
 
@@ -29,7 +29,7 @@ impl Layer{
         self.neurons[id_in_layer].add_weights_prec_layer(connections_prec_layer);
     }
 
-    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<i32>, inputs_same_layer: &Vec<i32>, error: &ConfErr, time: usize) -> Vec<i32>{
+    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<u8>, inputs_same_layer: &Vec<u8>, error: &ConfErr, time: usize) -> Vec<u8>{
         let mut output = Vec::new();
         let mut i = 0;
 
