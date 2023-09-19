@@ -80,6 +80,7 @@ impl ConfErr{
                 index = rng.gen_range(0..len) as usize;
             }else {//same
                 let len = network.layers[layer].neurons[index_layer].connections_same_layer.len();
+                if len==0 { return ConfErr::no_errors(); }
                 index = rng.gen_range(0..len) as usize;
             }
         }else{index = 0}
@@ -117,14 +118,6 @@ impl ConfErr{
         f64::from_bits(bits)
     }
 
-    // pub fn check_mult_and_add(&self, id: i32, component: ErrorComponent, time: i32, pos: i32, i: usize) -> bool {
-    //     if self.id_neuron == id && self.err_comp == component {
-    //         if (self.err_type == Type::BitFlip && self.t_start == time && self.w_pos.0 == pos && self.w_pos.1 == i) || (self.err_type == Type::Stuck0 || self.err_type == Type::Stuck1) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
 }
 
 impl fmt::Display for ConfErr {

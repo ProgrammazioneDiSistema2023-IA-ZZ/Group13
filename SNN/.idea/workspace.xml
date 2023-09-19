@@ -34,11 +34,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1a1e5f37-387d-4765-b1a7-d625a447373d" name="Default Changelist" comment="matteo10">
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layer.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/layer.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/network.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/network.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neuron.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/neuron.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,11 +73,18 @@
     <option name="sortByType" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
   </component>
   <component name="RunManager">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command" nameIsGenerated="true">
       <option name="command" value="run" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -91,11 +98,6 @@
       <option name="redirectInputPath" value="" />
       <method v="2">
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
   </component>
@@ -126,6 +128,7 @@
       <workItem from="1692302221984" duration="9825000" />
       <workItem from="1692467636242" duration="1000" />
       <workItem from="1692536378457" duration="27445000" />
+      <workItem from="1695151813304" duration="1829000" />
     </task>
     <task id="LOCAL-00001" summary="matteo2">
       <created>1691769064064</created>
@@ -227,5 +230,23 @@
     <MESSAGE value="resolved warnings" />
     <MESSAGE value="fixed position add/mult" />
     <option name="LAST_COMMIT_MESSAGE" value="fixed position add/mult" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1356" height="854" key="GridCell.Tab.0.bottom" timestamp="1695153360816">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1356" height="854" key="GridCell.Tab.0.bottom/0.0.1920.1032@0.0.1920.1032" timestamp="1695153360816" />
+    <state width="1356" height="854" key="GridCell.Tab.0.center" timestamp="1695153360815">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1356" height="854" key="GridCell.Tab.0.center/0.0.1920.1032@0.0.1920.1032" timestamp="1695153360815" />
+    <state width="1356" height="854" key="GridCell.Tab.0.left" timestamp="1695153360814">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1356" height="854" key="GridCell.Tab.0.left/0.0.1920.1032@0.0.1920.1032" timestamp="1695153360814" />
+    <state width="1356" height="854" key="GridCell.Tab.0.right" timestamp="1695153360815">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state width="1356" height="854" key="GridCell.Tab.0.right/0.0.1920.1032@0.0.1920.1032" timestamp="1695153360815" />
   </component>
 </project>

@@ -47,13 +47,13 @@ impl Layer{
         let mult = 16.5;
         let mut weights_same = Vec::new();
         for _ in 0..n_neurons-1{
-            weights_same.push(  rng.gen::<f64>()*mult );
+            weights_same.push(  -rng.gen::<f64>()*mult );
         }
 
         let mut weights_prec = Vec::new();
         if n_neurons_pre == -1{
             for j in 0..n_neurons{
-                weights_prec.push(   if j == id { rng.gen::<f64>()*mult }else{ 0.0 });
+                weights_prec.push( if j == id { rng.gen::<f64>()*mult }else{ 0.0 });
             }
         }
         else {

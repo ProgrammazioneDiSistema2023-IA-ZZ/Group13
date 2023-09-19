@@ -19,7 +19,7 @@ pub struct Network {
 
 impl Network{
 
-    pub fn new_empty(network_conf: Vec<i32>) -> Self{// [3 2 3] [0-2 3-4 5-7]
+    pub fn new_empty(network_conf: Vec<i32>) -> Self{
         let n_layers = network_conf.len();
         let mut layers = Vec::new();
         let mut start_id = 0;
@@ -37,7 +37,7 @@ impl Network{
         }
     }
 
-    pub fn add_random_neurons(&mut self, funzione: fn(&mut Neuron,&Vec<u8>,&Vec<u8>,&ConfErr,i32)->u8){ // [3 2 3]  [0 3 5]
+    pub fn add_random_neurons(&mut self, funzione: fn(&mut Neuron,&Vec<u8>,&Vec<u8>,&ConfErr,i32)->u8){
         let mut rnd = rand::thread_rng();
         let mut id=0;
         for (index, layer) in self.layers.iter_mut().enumerate(){

@@ -62,7 +62,7 @@ impl Neuron{
     }
 
 
-    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<u8>, inputs_same_layer: &Vec<u8>, error: &ConfErr, time: i32) -> u8{ //sarà chiamata dalla rete grande
+    pub fn compute_output(&mut self, inputs_prec_layer: &Vec<u8>, inputs_same_layer: &Vec<u8>, error: &ConfErr, time: i32) -> u8{
         if inputs_prec_layer.contains(&1) || inputs_same_layer.contains(&1) {
 
             (self.funzione)(self, inputs_prec_layer, inputs_same_layer, error, time)
